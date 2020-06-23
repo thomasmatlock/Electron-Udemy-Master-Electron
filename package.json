@@ -1,23 +1,32 @@
 {
-  "name": "master-electron",
-  "version": "1.0.0",
-  "description": "Master Electron Course Code",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron .",
-    "watch": "nodemon --exec 'electron .'",
-    "reset": "git reset --hard"
-  },
-  "keywords": [
-    "Electron",
-    "Master Electron",
-    "demo"
-  ],
-  "author": "GitHub, Stackacademytv",
-  "license": "CC0-1.0",
-  "devDependencies": {
-    "electron": "^5.0.10",
-    "nodemon": "^1.19.2"
-  },
-  "dependencies": {}
+    "name": "master-electron",
+    "version": "1.0.0",
+    "description": "Master Electron Course Code",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "watch": "nodemon --exec 'electron .'",
+        "reset": "git reset --hard"
+    },
+    "keywords": [
+        "Electron",
+        "Master Electron",
+        "demo"
+    ],
+    "author": "GitHub, Stackacademytv",
+    "license": "CC0-1.0",
+    "devDependencies": {
+        "electron": "^5.0.10",
+        "nodemon": "^1.19.2",
+        "eslint": "^6.8.0",
+        "eslint-config-airbnb": "^18.1.0",
+        "eslint-config-prettier": "^6.10.1",
+        "eslint-plugin-import": "^2.20.2",
+        "eslint-plugin-jsx-a11y": "^6.2.3",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-prettier": "^3.1.2",
+        "eslint-plugin-react": "^7.19.0",
+        "prettier": "^1.19.1"
+    },
+    "dependencies": {}
 }
