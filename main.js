@@ -1,6 +1,18 @@
 // Modules
 // pull some modules off the electron package: app is the app itself(nodejs main process, and BrowserWindow is the Renderer)
-const { app, BrowserWindow } = require('electron');
+const {
+    app,
+    BrowserWindow
+} = require('electron');
+const test = require('./test')
+console.log(test.module.testName);
+
+const Nav = require('./renderer');
+// console.log(Nav.updateActiveNav_A);
+
+const navController = new Nav();
+console.log(navController);
+navController.updateActiveNav_A(1)
 
 // this checks if its ready after 2 secs
 // setTimeout(() => {
@@ -48,14 +60,14 @@ app.on('browser-window-blur', () => {
     }, 500);
 });
 app.on('browser-window-focus', () => {
-    console.log('App focused');
+    // console.log('App focused');
 });
 
 // Electron `app` is ready
 app.on('ready', () => {
     console.log('App is ready');
-    console.log(app.getPath('home')); // https://www.electronjs.org/docs/api/app#appgetpathname for more
-    console.log(app.getPath('userData')); // default storage location for all user stored data, json files, etc. you have a consistent path and wont run into permission issues
+    // console.log(app.getPath('home')); // https://www.electronjs.org/docs/api/app#appgetpathname for more
+    // console.log(app.getPath('userData')); // default storage location for all user stored data, json files, etc. you have a consistent path and wont run into permission issues
     createWindow();
 }); // this is app/nodejs main process listening for the app to ready event, then creates a window (renderer) instance
 
