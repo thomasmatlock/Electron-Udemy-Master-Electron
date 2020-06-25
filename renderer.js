@@ -87,4 +87,6 @@ class Nav {
         console.log(`Its ${this.nav_B[nav_A_active][id]} now`);
     };
 }
+
+
 module.exports = Nav;

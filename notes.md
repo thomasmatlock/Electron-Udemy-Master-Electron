@@ -32,6 +32,8 @@ Section 3: Main Process API
         - events:
             - 'ready' event. emitted when electron has finished initializing
             - browserWindowBlur and browserWindowFocus
+    - 3.8
+        - in our createWindow
 
 Section 4: Renderer Process API
 Section 5: IPC Communication
@@ -39,5 +41,20 @@ Section 6: Shared API
 Section 7: Features & Techniques
 Section 8: Project
 Section 9: Application Distribution
+
+    9.47, Distribution (https://www.electron.build/cli)
+        - see https://www.electron.build/cli for more docs
+        - install electron-builder globally
+        - command electron-builder --help
+        - install it as devDependency
+        - https://www.appveyor.com/ to build for mac/win/lin, otherwise windows only builds for win/lin, but you could try appveyor out, and if need be, run a virtual machine here locally https://www.makeuseof.com/tag/macos-windows-10-virtual-machine/
+        - commands
+            - electron-builder -w zip // build is the default command, -w flag is build for windows only, and arg2 is filetype, zip in this case
+        - app name comes from package.json file name,
+        - ICONS
+            - https://cloudconvert.com/ converts a icon into 200+ formats for every platform you want
+            - convert png to icns, ico, apple/win img formats
+            - create a folder called build in your project directory, place icons in there
+
 Section 10: MacOS Touch Bar
 Section 11: Outro
