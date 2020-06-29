@@ -1,9 +1,7 @@
+/* eslint-disable one-var */
 // Modules
 // pull some modules off the electron package: app is the app itself(nodejs main process, and BrowserWindow is the Renderer)
-const {
-    app,
-    BrowserWindow
-} = require('electron');
+const { app, BrowserWindow } = require('electron');
 
 ///////////////////////////
 // const test = require('./test');
@@ -30,12 +28,16 @@ let mainWindow, secondaryWindow; // Keep a global reference of the window object
 function createWindow() {
     // console.log('creating window...again');
 
+    // see https://www.electronjs.org/docs/api/browser-window#new-browserwindowoptions for all the options you can add to the window
     // some of the frame stuff needed for dragging window around, while still retaining input element interactivity and so, you need to add <style=" -webkit-app-region: no-drag;"> into the html to each element to prevent them being included in the dragibility
     mainWindow = new BrowserWindow({
         width: 1200,
+        minWidth: 640, // min width so you cant shrink window too small
+        minHeight: 480,
         height: 800,
         x: 3000,
         y: 400,
+        darkTheme: true,
         // frame: false, // this eliminates frame around window, like min,max,close etc. however, this makes it difficult to drag the window arouind. however putting         <body style="user-select: none; -webkit-app-region: drag;"> in the html, makes nothing in the html selectable. before you just tried to drag and the stuff got highlighted
         // titleBarStyle: 'hidden', // if we dont want to remove everything of the window frame, we could just remove the titlebar
         webPreferences: {
@@ -65,20 +67,33 @@ function createWindow() {
     secondaryWindow.loadFile('secondary.html'); // Load index.html into the new BrowserWindow
     // mainWindow.loadURL('https://youtube.com'); // Load index.html into the new BrowserWindow
 
+    // close secondary window after a brief wait
     setTimeout(() => {
         secondaryWindow.show();
         setTimeout(() => {
             // secondaryWindow.hide(); // hides window without destroying it
             secondaryWindow.close(); // closes window and destroys it
             secondaryWindow = null;
-        }, 2000)
-    }, 1000)
+        }, 2000);
+    }, 1000);
 
     // mainWindow.webContents.openDevTools(); // Open DevTools - Remove for PRODUCTION!
 
     // mainWindow.once('ready-to-show', mainWindow.show); // displays window once html loads and is ready to show. prevents any blank jutter displaying before html is fully loaded
 
-    // Listen for window being closed
+    mainWindow.on('focus', () => {
+        console.log('MainWindow focused');
+    });
+
+    secondaryWindow.on('focus', () => {
+        console.log('secondaryWindow focused');
+    });
+
+    app.on('browser-window-focus', () => {
+        console.log('App focused');
+    });
+
+    // Listen for window being closed and garbage collects it
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
