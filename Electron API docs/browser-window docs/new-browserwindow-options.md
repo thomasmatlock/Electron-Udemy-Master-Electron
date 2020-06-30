@@ -25,7 +25,7 @@ It creates a new BrowserWindow with native properties as set by the options.
 - simpleFullscreen Boolean (optional) - Use pre-Lion fullscreen on macOS. Default is false.
 - skipTaskbar Boolean (optional) - Whether to show the window in taskbar. Default is false.
 - kiosk Boolean (optional) - Whether the window is in kiosk mode. Default is false.
-- "title String (optional) - Default window title. Default is ""Electron"". If the HTML tag <title> is defined in the HTML file loaded by loadURL(), this property will be ignored."
+- title String (optional) - Default window title. Default is ""Electron"". If the HTML tag <title> is defined in the HTML file loaded by loadURL(), this property will be ignored."
 - icon (NativeImage | String) (optional) - The window icon. On Windows it is recommended to use ICO icons to get best visual effects, you can also leave it undefined so the executable's icon will be used.
 - show Boolean (optional) - Whether window should be shown when created. Default is true.
 - paintWhenInitiallyHidden Boolean (optional) - Whether the renderer should be active when show is false and it has just been created.  In order for document.visibilityState to work correctly on first load with show: false you should set this to false.  Setting this to false will cause the ready-to-show event to not fire.  Default is true.

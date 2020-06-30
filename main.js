@@ -101,7 +101,7 @@ function createWindow() {
 
 app.on('before-quit', event => {
     console.log('Preventing app from quitting');
-    // event.preventDefault(); // if you wanna save a users work, check out section 8 of class. this is supposed to make the thing not close but Ctrl Q doesn't seem to work
+    event.preventDefault(); // if you wanna save a users work, check out section 8 of class. this is supposed to make the thing not close but Ctrl Q doesn't seem to work
 });
 // app.on('browser-window-blur', () => {
 //     console.log('App unfocused');
