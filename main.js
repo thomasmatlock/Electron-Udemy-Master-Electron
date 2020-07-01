@@ -2,6 +2,7 @@
 // Modules
 // pull some modules off the electron package: app is the app itself(nodejs main process, and BrowserWindow is the Renderer)
 const { app, BrowserWindow } = require('electron');
+const windowStateKeeper = require('electron-window-state'); // our browser-window always reopens in same position/size unless we manage it by this simple package, we can save past positions or sizes and use them. it applies only for active sessions, unless you persist elsewhere through local storage
 
 ///////////////////////////
 // const test = require('./test');
@@ -26,17 +27,22 @@ let mainWindow, secondaryWindow; // Keep a global reference of the window object
 // in this function, we assign a new electron browser window (chromium) to the main window variable which has been initialized but never declared
 
 function createWindow() {
-    // console.log('creating window...again');
+    const winState = windowStateKeeper({
+        defaultWidth: 1000,
+        defaultHeight: 800
+    });
 
     // see https://www.electronjs.org/docs/api/browser-window#new-browserwindowoptions for all the options you can add to the window
     // some of the frame stuff needed for dragging window around, while still retaining input element interactivity and so, you need to add <style=" -webkit-app-region: no-drag;"> into the html to each element to prevent them being included in the dragibility
     mainWindow = new BrowserWindow({
-        width: 1200,
+        width: winState.defaultWidth,
+        height: winState.defaultHeight,
         minWidth: 640, // min width so you cant shrink window too small
         minHeight: 480,
-        height: 800,
-        x: 3000,
-        y: 400,
+        // x: 3200,
+        // y: 400,
+        x: winState.x,
+        y: winState.y,
         darkTheme: true,
         // frame: false, // this eliminates frame around window, like min,max,close etc. however, this makes it difficult to drag the window arouind. however putting         <body style="user-select: none; -webkit-app-region: drag;"> in the html, makes nothing in the html selectable. before you just tried to drag and the stuff got highlighted
         // titleBarStyle: 'hidden', // if we dont want to remove everything of the window frame, we could just remove the titlebar
@@ -46,34 +52,37 @@ function createWindow() {
         // backgroundColor: '#ff8500' // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
         // show: false // this holds showing the window instance until the html file is loaded and ready-to-show event fires
     });
-    secondaryWindow = new BrowserWindow({
-        width: 640,
-        height: 480,
-        x: 4200,
-        y: 400,
-        webPreferences: {
-            nodeIntegration: true
-        },
-        parent: mainWindow, // this sets this as a child of the main window, ie, close the main window, and the child closes too
-        modal: true, // this makes the parent window unusable until the child window is dealt with
-        show: false,
-        backgroundColor: '#ff8500' // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
-        // show: false // this holds showing the window instance until the html file is loaded and ready-to-show event fires
-    });
+    // secondaryWindow = new BrowserWindow({
+    //     width: 640,
+    //     height: 480,
+    //     x: 4200,
+    //     y: 400,
+    //     webPreferences: {
+    //         nodeIntegration: true
+    //     },
+    //     parent: mainWindow, // this sets this as a child of the main window, ie, close the main window, and the child closes too
+    //     modal: true, // this makes the parent window unusable until the child window is dealt with
+    //     show: false,
+    //     backgroundColor: '#ff8500' // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
+    //     // show: false // this holds showing the window instance until the html file is loaded and ready-to-show event fires
+    // });
 
     // do not use loadURL because its outdated, loadFile is the newer correct version
     // loadFile is used for any content that is local to our app, ie an html file, however, because the browser instance is in fact, still a webbrowser, were not limited to local content
     mainWindow.loadFile('index.html'); // Load index.html into the new BrowserWindow
-    secondaryWindow.loadFile('secondary.html'); // Load index.html into the new BrowserWindow
+    // secondaryWindow.loadFile('secondary.html'); // Load index.html into the new BrowserWindow
     // mainWindow.loadURL('https://youtube.com'); // Load index.html into the new BrowserWindow
+
+    winState.manage(mainWindow);
+    console.log(winState);
 
     // close secondary window after a brief wait
     setTimeout(() => {
-        secondaryWindow.show();
+        // secondaryWindow.show();
         setTimeout(() => {
             // secondaryWindow.hide(); // hides window without destroying it
-            secondaryWindow.close(); // closes window and destroys it
-            secondaryWindow = null;
+            // secondaryWindow.close(); // closes window and destroys it
+            // secondaryWindow = null;
         }, 2000);
     }, 1000);
 
@@ -84,14 +93,29 @@ function createWindow() {
     mainWindow.on('focus', () => {
         console.log('MainWindow focused');
     });
-
-    secondaryWindow.on('focus', () => {
-        console.log('secondaryWindow focused');
+    mainWindow.on('maximize', () => {
+        console.log('MainWindow maximized');
+    });
+    mainWindow.on('minimize', () => {
+        console.log('MainWindow minimized');
     });
 
+    // secondary window playing around
+    // secondaryWindow.on('focus', () => {
+    //     console.log('secondaryWindow focused');
+    // });
+    // secondaryWindow.on('closed', () => {
+    //     // mainWindow.maximize();
+    // });
     app.on('browser-window-focus', () => {
         console.log('App focused');
     });
+    app.on('maximize', () => {
+        console.log('App maximized');
+    });
+
+    // console.log(BrowserWindow.getAllWindows());
+    // console.log(`This is mainWindow id: ${mainWindow.id}`);
 
     // Listen for window being closed and garbage collects it
     mainWindow.on('closed', () => {
@@ -100,8 +124,8 @@ function createWindow() {
 }
 
 app.on('before-quit', event => {
-    console.log('Preventing app from quitting');
-    event.preventDefault(); // if you wanna save a users work, check out section 8 of class. this is supposed to make the thing not close but Ctrl Q doesn't seem to work
+    // console.log('Preventing app from quitting');
+    // event.preventDefault(); // if you wanna save a users work, check out section 8 of class. this is supposed to make the thing not close but Ctrl Q doesn't seem to work
 });
 // app.on('browser-window-blur', () => {
 //     console.log('App unfocused');
