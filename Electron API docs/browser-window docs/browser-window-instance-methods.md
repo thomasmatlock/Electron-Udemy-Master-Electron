@@ -116,8 +116,8 @@ Objects created with new BrowserWindow have the following instance methods: Note
 - win.setAutoHideCursor(autoHide) macOS autoHide Boolean Controls whether to hide cursor when typing.
 - win.selectPreviousTab() macOS Selects the previous tab when native tabs are enabled and there are other tabs in the window.
 - win.selectNextTab() macOS Selects the next tab when native tabs are enabled and there are other tabs in the window.
-- win.mergeAllWindows() macOS Merges all windows into one window with multiple tabs when native tabs are enabled and there is more than one open window.
-- win.moveTabToNewWindow() macOS Moves the current tab into a new window if native tabs are enabled and there is more than one tab in the current window.
+- win.mergeAllWindows(), macOS Merges all open windows into one window with multiple tabs when native tabs are enabled
+- win.moveTabToNewWindow(),  macOS Moves the current tab into a new window if native tabs are enabled and there is more than one tab in the current window.
 - win.toggleTabBar() macOS Toggles the visibility of the tab bar if native tabs are enabled and there is only one tab in the current window.
 - win.addTabbedWindow(browserWindow) macOS browserWindow BrowserWindow Adds a window as a tab on this window, after the tab for the window instance.
 - win.setVibrancy(type) macOS type String | null - <https://www.electronjs.org/docs/api/browser-window#winsetvibrancytype-macos>
