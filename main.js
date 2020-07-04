@@ -2,6 +2,7 @@
 // Modules
 // pull some modules off the electron package: app is the app itself(nodejs main process, and BrowserWindow is the Renderer)
 const { app, BrowserWindow } = require('electron');
+const { webContents } = require('electron');
 const windowStateKeeper = require('electron-window-state'); // our browser-window always reopens in same position/size unless we manage it by this simple package, we can save past positions or sizes and use them. it applies only for active sessions, unless you persist elsewhere through local storage
 
 ///////////////////////////
@@ -25,6 +26,8 @@ let mainWindow, secondaryWindow; // Keep a global reference of the window object
 // with node integration, we can also set node js to run in the browser window, through scripts, using nodes require function in the html document
 // we require in renderer.js, which allows JS to run in browser window, which is no different from standard JS in a standard browser, except for having access to node.js
 // in this function, we assign a new electron browser window (chromium) to the main window variable which has been initialized but never declared
+
+// webContents is what gets loaded into our window, or Chromium browser instance (browserWindow.webContents)
 
 function createWindow() {
     const winState = windowStateKeeper({
@@ -74,7 +77,7 @@ function createWindow() {
     // mainWindow.loadURL('https://youtube.com'); // Load index.html into the new BrowserWindow
 
     winState.manage(mainWindow);
-    console.log(winState);
+    // console.log(winState);
 
     // close secondary window after a brief wait
     setTimeout(() => {
@@ -88,6 +91,10 @@ function createWindow() {
 
     // mainWindow.webContents.openDevTools(); // Open DevTools - Remove for PRODUCTION!
 
+    const wc = mainWindow.webContents;
+    console.log(webContents.getAllWebContents()); // instead of webcontents from an instance, it returns an array  of all webcontents of all instances
+    // console.log(wc.);
+
     // mainWindow.once('ready-to-show', mainWindow.show); // displays window once html loads and is ready to show. prevents any blank jutter displaying before html is fully loaded
 
     mainWindow.on('focus', () => {
@@ -98,6 +105,11 @@ function createWindow() {
     });
     mainWindow.on('minimize', () => {
         console.log('MainWindow minimized');
+    });
+
+    //  listening for webContents events firing
+    wc.on('dom-ready', () => {
+        console.log('MainWindow finished loading');
     });
 
     // secondary window playing around
