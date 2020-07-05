@@ -5,6 +5,99 @@ const { app, BrowserWindow } = require('electron');
 const { webContents } = require('electron');
 const windowStateKeeper = require('electron-window-state'); // our browser-window always reopens in same position/size unless we manage it by this simple package, we can save past positions or sizes and use them. it applies only for active sessions, unless you persist elsewhere through local storage
 
+let mainWindow; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
+
+function createWindow() {
+    const winState = windowStateKeeper({
+        defaultWidth: 1600,
+        defaultHeight: 900,
+        x: 3200,
+        y: 400
+    });
+
+    mainWindow = new BrowserWindow({
+        // width: winState.width,
+        // height: winState.height,
+        width: 1000,
+        height: 800,
+        minWidth: 640, // min width so you cant shrink window too small
+        minHeight: 480,
+        // x: 3200,
+        // y: 400,
+        x: winState.x,
+        y: winState.y,
+        darkTheme: true,
+        // frame: false, // this eliminates frame around window, like min,max,close etc. however, this makes it difficult to drag the window arouind. however putting         <body style="user-select: none; -webkit-app-region: drag;"> in the html, makes nothing in the html selectable. before you just tried to drag and the stuff got highlighted
+        // titleBarStyle: 'hidden', // if we dont want to remove everything of the window frame, we could just remove the titlebar
+        // backgroundColor: '#ff8500' // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
+        // show: false // this holds showing the window instance until the html file is loaded and ready-to-show event fires
+        webPreferences: {
+            nodeIntegration: true
+        }
+    });
+    mainWindow.loadFile('index.html'); // Load index.html into the new BrowserWindow
+    // mainWindow.loadURL('https://httpbin.org/basic-auth/user/passwd');
+    // mainWindow.webContents.openDevTools(); // Open DevTools - Remove for PRODUCTION!
+
+    winState.manage(mainWindow); // manages user set location/size of window
+
+    ////////////////////////////////////////////////////////////////////
+    //  browser-window-instance LISTENERS
+    mainWindow.on('ready', () => {
+        console.log('mainWindow ready');
+    });
+    mainWindow.on('focus', () => {
+        // console.log('MainWindow focused');
+    });
+    mainWindow.on('maximize', () => {
+        // console.log('MainWindow maximized');
+    });
+    mainWindow.on('minimize', () => {
+        // console.log('MainWindow minimized');
+    });
+    mainWindow.on('closed', () => {
+        mainWindow = null; // Listen for window being closed and garbage collects it
+    });
+
+    const wc = mainWindow.webContents;
+
+    wc.on('dom-ready', () => {
+        // console.log('MainWindow finished loading'); //  listening for webContents events firing
+    });
+    wc.on('before-input-event', (e, input) => {
+        // console.log(`${input.key} : ${input.type}`); // e.preventDefault();
+    });
+    wc.on('context-menu', (e, params) => {
+        // console.log(params.mediaFlags.isPaused); // damn, super cool
+        // console.log(`User selected text: ${params.selectionText}`);
+        // console.log(`Selection can be copied: ${params.editFlags.canCopy}`);
+        const selectedText = params.selectionText;
+        wc.executeJavaScript(`alert("${selectedText}")`); // executeJavaScript is actually super useful. you can use any frontend/browser javascript with this
+    });
+}
+
+////////////////////////////////////////////////////////////////////
+// APP LISTENERS (main node process)
+app.on('ready', () => {
+    console.log('App is ready'); // Electron `app` is ready
+    // console.log(app.getPath('home')); // https://www.electronjs.org/docs/api/app#appgetpathname for more
+    // console.log(app.getPath('userData')); // default storage location for all user stored data, json files, etc. you have a consistent path and wont run into permission issues
+    createWindow();
+}); // this is app/nodejs main process listening for the app to ready event, then creates a window (renderer) instance
+app.on('before-quit', event => {
+    // console.log('Preventing app from quitting');
+    // event.preventDefault(); // if you wanna save a users work, check out section 8 of class. this is supposed to make the thing not close but Ctrl Q doesn't seem to work
+});
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') app.quit(); // Quit when all windows are closed - (Not macOS - Darwin)
+});
+app.on('activate', () => {
+    if (mainWindow === null) createWindow(); // When app icon is clicked and app is running, (macOS) recreate the BrowserWindow
+});
+
+////////////////////////////////////////////////////////////////////
+// DEACTIVATED
+
 ///////////////////////////
 // const test = require('./test');
 // const Nav = require('./renderer');
@@ -20,7 +113,8 @@ const windowStateKeeper = require('electron-window-state'); // our browser-windo
 //     console.log(`Checking ready: ${app.isReady()}`); // logs whether app is ready or not
 // }, 2000);
 
-let mainWindow, secondaryWindow; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
+// see https://www.electronjs.org/docs/api/browser-window#new-browserwindowoptions for all the options you can add to the window
+// some of the frame stuff needed for dragging window around, while still retaining input element interactivity and so, you need to add <style=" -webkit-app-region: no-drag;"> into the html to each element to prevent them being included in the dragibility
 
 // Create a new BrowserWindow when `app` is ready // nodeIntegration set to true allows us to access nodejs process in renderer
 // with node integration, we can also set node js to run in the browser window, through scripts, using nodes require function in the html document
@@ -29,146 +123,83 @@ let mainWindow, secondaryWindow; // Keep a global reference of the window object
 
 // webContents is what gets loaded into our window, or Chromium browser instance (browserWindow.webContents)
 
-function createWindow() {
-    const winState = windowStateKeeper({
-        defaultWidth: 1000,
-        defaultHeight: 800
-    });
+// do not use outdated loadURL, loadFile is the newer correct version
 
-    // see https://www.electronjs.org/docs/api/browser-window#new-browserwindowoptions for all the options you can add to the window
-    // some of the frame stuff needed for dragging window around, while still retaining input element interactivity and so, you need to add <style=" -webkit-app-region: no-drag;"> into the html to each element to prevent them being included in the dragibility
-    mainWindow = new BrowserWindow({
-        width: winState.defaultWidth,
-        height: winState.defaultHeight,
-        minWidth: 640, // min width so you cant shrink window too small
-        minHeight: 480,
-        // x: 3200,
-        // y: 400,
-        x: winState.x,
-        y: winState.y,
-        darkTheme: true,
-        // frame: false, // this eliminates frame around window, like min,max,close etc. however, this makes it difficult to drag the window arouind. however putting         <body style="user-select: none; -webkit-app-region: drag;"> in the html, makes nothing in the html selectable. before you just tried to drag and the stuff got highlighted
-        // titleBarStyle: 'hidden', // if we dont want to remove everything of the window frame, we could just remove the titlebar
-        webPreferences: {
-            nodeIntegration: true
-        }
-        // backgroundColor: '#ff8500' // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
-        // show: false // this holds showing the window instance until the html file is loaded and ready-to-show event fires
-    });
-    // secondaryWindow = new BrowserWindow({
-    //     width: 640,
-    //     height: 480,
-    //     x: 4200,
-    //     y: 400,
-    //     webPreferences: {
-    //         nodeIntegration: true
-    //     },
-    //     parent: mainWindow, // this sets this as a child of the main window, ie, close the main window, and the child closes too
-    //     modal: true, // this makes the parent window unusable until the child window is dealt with
-    //     show: false,
-    //     backgroundColor: '#ff8500' // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
-    //     // show: false // this holds showing the window instance until the html file is loaded and ready-to-show event fires
-    // });
+// secondaryWindow = new BrowserWindow({
+//     width: 640,
+//     height: 480,
+//     x: 4200,
+//     y: 400,
+//     webPreferences: {
+//         nodeIntegration: true
+//     },
+//     parent: mainWindow, // this sets this as a child of the main window, ie, close the main window, and the child closes too
+//     modal: true, // this makes the parent window unusable until the child window is dealt with
+//     show: false,
+//     backgroundColor: '#ff8500' // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
+//     // show: false // this holds showing the window instance until the html file is loaded and ready-to-show event fires
+// });
 
-    // do not use loadURL because its outdated, loadFile is the newer correct version
-    // loadFile is used for any content that is local to our app, ie an html file, however, because the browser instance is in fact, still a webbrowser, were not limited to local content
-    mainWindow.loadFile('index.html'); // Load index.html into the new BrowserWindow
-    // secondaryWindow.loadFile('secondary.html'); // Load index.html into the new BrowserWindow
-    // mainWindow.loadURL('https://youtube.com'); // Load index.html into the new BrowserWindow
+// close secondary window after a brief wait
+// setTimeout(() => {
+//     // secondaryWindow.show();
+//     setTimeout(() => {
+//         // secondaryWindow.hide(); // hides window without destroying it
+//         // secondaryWindow.close(); // closes window and destroys it
+//         // secondaryWindow = null;
+//     }, 2000);
+// }, 1000);
 
-    winState.manage(mainWindow);
-    // console.log(winState);
-
-    // close secondary window after a brief wait
-    setTimeout(() => {
-        // secondaryWindow.show();
-        setTimeout(() => {
-            // secondaryWindow.hide(); // hides window without destroying it
-            // secondaryWindow.close(); // closes window and destroys it
-            // secondaryWindow = null;
-        }, 2000);
-    }, 1000);
-
-    // mainWindow.webContents.openDevTools(); // Open DevTools - Remove for PRODUCTION!
-
-    const wc = mainWindow.webContents;
-    console.log(webContents.getAllWebContents()); // instead of webcontents from an instance, it returns an array  of all webcontents of all instances
-    // console.log(wc.);
-
-    // mainWindow.once('ready-to-show', mainWindow.show); // displays window once html loads and is ready to show. prevents any blank jutter displaying before html is fully loaded
-
-    mainWindow.on('focus', () => {
-        console.log('MainWindow focused');
-    });
-    mainWindow.on('maximize', () => {
-        console.log('MainWindow maximized');
-    });
-    mainWindow.on('minimize', () => {
-        console.log('MainWindow minimized');
-    });
-
-    //  listening for webContents events firing
-    wc.on('dom-ready', () => {
-        console.log('MainWindow finished loading');
-    });
-
-    // secondary window playing around
-    // secondaryWindow.on('focus', () => {
-    //     console.log('secondaryWindow focused');
-    // });
-    // secondaryWindow.on('closed', () => {
-    //     // mainWindow.maximize();
-    // });
-    app.on('browser-window-focus', () => {
-        console.log('App focused');
-    });
-    app.on('maximize', () => {
-        console.log('App maximized');
-    });
-
-    // console.log(BrowserWindow.getAllWindows());
-    // console.log(`This is mainWindow id: ${mainWindow.id}`);
-
-    // Listen for window being closed and garbage collects it
-    mainWindow.on('closed', () => {
-        mainWindow = null;
-    });
-}
-
-app.on('before-quit', event => {
-    // console.log('Preventing app from quitting');
-    // event.preventDefault(); // if you wanna save a users work, check out section 8 of class. this is supposed to make the thing not close but Ctrl Q doesn't seem to work
-});
 // app.on('browser-window-blur', () => {
 //     console.log('App unfocused');
 // });
-// quits if unfocused
-app.on('browser-window-blur', () => {
-    // console.log('App unfocused');
-    // setTimeout(() => {
-    //     app.quit();
-    // }, 500);
-});
-app.on('browser-window-focus', () => {
-    // console.log('App focused');
-});
 
-// Electron `app` is ready
-app.on('ready', () => {
-    console.log('App is ready');
-    // console.log(app.getPath('home')); // https://www.electronjs.org/docs/api/app#appgetpathname for more
-    // console.log(app.getPath('userData')); // default storage location for all user stored data, json files, etc. you have a consistent path and wont run into permission issues
-    createWindow();
-}); // this is app/nodejs main process listening for the app to ready event, then creates a window (renderer) instance
+// mainWindow.once('ready-to-show', mainWindow.show); // displays window once html loads and is ready to show. prevents any blank jutter displaying before html is fully loaded
 
-// Quit when all windows are closed - (Not macOS - Darwin)
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit();
-});
+// secondary window playing around
+// secondaryWindow.on('focus', () => {
+//     console.log('secondaryWindow focused');
+// });
+// secondaryWindow.on('closed', () => {
+//     // mainWindow.maximize();
+// });
 
-// When app icon is clicked and app is running, (macOS) recreate the BrowserWindow
-app.on('activate', () => {
-    if (mainWindow === null) createWindow();
-});
+// app.on('browser-window-focus', () => {
+//     console.log('App focused');
+// });
+// app.on('maximize', () => {
+//     console.log('App maximized');
+// });
+// // quits if unfocused
+// app.on('browser-window-blur', () => {
+//     console.log('App unfocused');
+//     setTimeout(() => {
+//         app.quit();
+//     }, 500);
+// });
+// app.on('browser-window-focus', () => {
+//     console.log('App focused');
+// });
 
-// console.log(`hello`);
+// console.log(webContents.getAllWebContents()); // instead of webcontents from an instance, it returns an array  of all webcontents of all instances
+// this is cool, you can list for webcontents events to fire, here we do a simple new blank window event
+// wc.on('new-window', (e, url) => {
+//     console.log(`Preventing new window for ${url}`);
+//     e.preventDefault();
+// });
+// wc.on('login', (e, request, authInfo, callback) => {
+//     console.log('Logging in...');
+//     // this is great for basic auth if you want it, refer back to section 14, timestamp 13:35
+//     callback('user', 'passwd'); // invoke callback and pass 2 basic strings to login
+// });
+
+// wc.on('did-navigate', (e, url, statusCode, message) => {
+//     console.log(`Navigated to ${url}, with response code: ${statusCode}`);
+//     console.log(message);
+// });
+// wc.on('media-started-playing', () => {
+//     console.log('Video started.');
+// });
+// wc.on('media-paused', () => {
+//     console.log('Video paused.');
+// });

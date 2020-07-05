@@ -1,4 +1,4 @@
-https://www.electronjs.org/docs/api/web-contents#instance-events
+<https://www.electronjs.org/docs/api/web-contents#instance-events>
 Render and control the contents of a BrowserWindow instance.
 Process: Main
 
@@ -12,6 +12,15 @@ Process: Main
 - page-title-updated, Fired when page title is set during navigation. explicitSet is false when title is synthesized from file url.
 - page-favicon-updated, Emitted when page receives favicon urls.
 - new-window, Emitted when the page requests to open a new window for a url. It could be requested by window.open or an external link like <a target='_blank'>.
+    - <https://www.electronjs.org/docs/api/web-contents#event-new-window>
+    - Returns:
+        - event,  NewWindowEvent
+        - url,  String
+        - frameName,  String
+        - disposition,  String - Can be default, foreground-tab, background-tab, new-window, save-to-disk and other.
+        - options,  BrowserWindowConstructorOptions - The options which will be used for creating the new BrowserWindow.
+        - additionalFeatures,  String[] - The non-standard features (features not handled by Chromium or Electron) given to window.open().
+        - referrer,  Referrer - The referrer that will be passed to the new window. May or may not result in the Referer header being sent, depending on the referrer policy.
 - will-navigate, Emitted when a user or the page wants to start navigation. It can happen when the window.location object is changed or a user clicks a link in the page.
 - did-start-navigation, Emitted when any frame (including main) starts navigating. isInplace will be true for in-page navigations.
 - will-redirect, Emitted as a server side redirect occurs during navigation. For example a 302 redirect.
@@ -25,7 +34,7 @@ Process: Main
 - responsive, Emitted when the unresponsive web page becomes responsive again.
 - plugin-crashed, Emitted when a plugin process has crashed.
 - destroyed, Emitted when webContents is destroyed.
-- before-input-event, Emitted before dispatching the keydown and keyup events in the page. Calling event.preventDefault will prevent the page keydown/keyup events and the menu shortcuts.
+- before-input-event, Emitted before dispatching the keydown and keyup events in the page. Calling event.preventDefault will prevent the page keydown/keyup events and the menu shortcuts. 
 - enter-html-full-screen, Emitted when the window enters a full-screen state triggered by HTML API.
 - leave-html-full-screen, Emitted when the window leaves a full-screen state triggered by HTML API.
 - zoom-changed, Emitted when the user is requesting to change the zoom level using the mouse wheel.
@@ -41,7 +50,7 @@ Process: Main
 - did-change-theme-color, Emitted when a page's theme color changes. This is usually due to encountering a meta tag:
 - update-target-url, Emitted when mouse moves over a link or the keyboard moves the focus to a link.
 - cursor-changed, Emitted when the cursor's type changes.
-- context-menu, Emitted when there is a new context menu that needs to be handled.
+- context-menu, Emitted when there is a new context menu that needs to be handled. <https://www.electronjs.org/docs/api/web-contents#event-context-menu>
 - select-bluetooth-device, Emitted when bluetooth device needs to be selected on call to navigator.bluetooth.requestDevice. To use navigator.bluetooth api webBluetooth should be enabled. If event.preventDefault is not called, first available device will be selected. callback should be called with deviceId to be selected, passing empty string to callback will cancel the request.
 - paint, Emitted when a new frame is generated. Only the dirty area is passed in the buffer.
 - devtools-reload-page, Emitted when the devtools window instructs the webContents to reload
