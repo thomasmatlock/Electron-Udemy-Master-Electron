@@ -14,19 +14,9 @@ const windowStateKeeper = require('electron-window-state'); // our browser-windo
 let mainWindow;
 
 function createWindow() {
-    // const customSes = session.fromPartition('persist:part1'); // create custom session from session obj, pass it a name, and in browser window creation webPreferences: set session: customSes
     const ses = session.defaultSession; // this is default session
+    // const customSes = session.fromPartition('persist:part1'); // create custom session from session obj, pass it a name, and in browser window creation webPreferences: set session: customSes
     // const ses = mainWindow.webContents.session; // this is default session
-    // console.log(ses);
-
-    const getCookies = () => {
-        console.log('logging cookies');
-        ses.cookies.get({}, (err, cookies) => {
-            console.log(err);
-            console.log(cookies);
-        });
-    };
-
     const displays = screen.getAllDisplays();
     const screenArr = [displays[0], displays[1], displays[2]];
     const [screenC, screenR, screenL] = screenArr; // destructure screens pulled off screenArr
@@ -80,19 +70,46 @@ function createWindow() {
     //     }
     // });
 
-    // mainWindow.loadFile('index.html'); // Load index.html into the new BrowserWindow
+    mainWindow.loadFile('index.html'); // Load index.html into the new BrowserWindow
     // mainWindow.loadURL('https://httpbin.org/basic-auth/user/passwd');
-    mainWindow.loadURL('https://github.com');
+    // mainWindow.loadURL('https://github.com');
     // secWindow.loadFile('index.html'); // Load index.html into the new BrowserWindow
 
-    // getCookies()
+    // here we create a cookie obj with an expiration date to make it persist throughout sessions
+    const cookie = {
+        url: 'https://myappdomain.com',
+        name: 'cookie1',
+        value: 'electron',
+        expirationDate: 1625540817.817365
+    };
+    // set cookie - note, this doesn't persist throughout sessions without an expiration date, which you add to cookie creation object
+    ses.cookies.set(cookie, err => {
+        console.log('cookie1 set');
+    });
+    ses.cookies.remove('http://myappdomain.com', 'cookie1', err => {
+        console.log('Cookie removed');
+    }); // 2 args: url, name
+
+    // note, getCookies with an empty filter object passed to the get method, will return ALL cookies. pass a keyvalue pair to it to return a specific cookie
+    const getCookies = () => {
+        // console.log('logging cookies');
+        ses.cookies
+            // .get({ name: 'cookie1' })
+            .get({})
+            .then(cookies => {
+                console.log(cookies);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
 
     // winState.manage(mainWindow); // manages user set location/size of window
 
     ////////////////////////////////////////////////////////////////////
     //  browser-window-instance LISTENERS
     mainWindow.webContents.on('did-finish-load', e => {
-        console.log('Finished load, running getCookies()');
+        // console.log('Finished load, running getCookies()');
         getCookies();
     });
     mainWindow.on('ready-to-show', () => {
