@@ -14,9 +14,6 @@ const windowStateKeeper = require('electron-window-state'); // our browser-windo
 let mainWindow;
 
 function createWindow() {
-    const ses = session.defaultSession; // this is default session
-    // const customSes = session.fromPartition('persist:part1'); // create custom session from session obj, pass it a name, and in browser window creation webPreferences: set session: customSes
-    // const ses = mainWindow.webContents.session; // this is default session
     const displays = screen.getAllDisplays();
     const screenArr = [displays[0], displays[1], displays[2]];
     const [screenC, screenR, screenL] = screenArr; // destructure screens pulled off screenArr
@@ -54,64 +51,16 @@ function createWindow() {
             nodeIntegration: true
         }
     });
-    // secWindow = new BrowserWindow({
-    //     // width: winDefaults.widthMain,
-    //     width: winDefaults.widthByScreen,
-    //     height: winDefaults.height,
-    //     x: 4200,
-    //     y: 400,
-    //     parent: mainWindow, // this sets this as a child of the main window, ie, close the main window, and the child closes too
-    //     // modal: true, // this makes the parent window unusable until the child window is dealt with
-    //     // backgroundColor: '#ff8500', // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
-    //     // show: false // this holds showing the window instance until the html file is loaded and ready-to-show event fires
-    //     webPreferences: {
-    //         nodeIntegration: true,
-    //         partition: 'persist:part1' // this is step 2 to session persisting aka for syncing between devices. step 1 is creating it
-    //     }
-    // });
 
     mainWindow.loadFile('index.html'); // Load index.html into the new BrowserWindow
     // mainWindow.loadURL('https://httpbin.org/basic-auth/user/passwd');
     // mainWindow.loadURL('https://github.com');
-    // secWindow.loadFile('index.html'); // Load index.html into the new BrowserWindow
-
-    // here we create a cookie obj with an expiration date to make it persist throughout sessions
-    const cookie = {
-        url: 'https://myappdomain.com',
-        name: 'cookie1',
-        value: 'electron',
-        expirationDate: 1625540817.817365
-    };
-    // set cookie - note, this doesn't persist throughout sessions without an expiration date, which you add to cookie creation object
-    ses.cookies.set(cookie, err => {
-        console.log('cookie1 set');
-    });
-    ses.cookies.remove('http://myappdomain.com', 'cookie1', err => {
-        console.log('Cookie removed');
-    }); // 2 args: url, name
-
-    // note, getCookies with an empty filter object passed to the get method, will return ALL cookies. pass a keyvalue pair to it to return a specific cookie
-    const getCookies = () => {
-        // console.log('logging cookies');
-        ses.cookies
-            // .get({ name: 'cookie1' })
-            .get({})
-            .then(cookies => {
-                console.log(cookies);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    };
 
     // winState.manage(mainWindow); // manages user set location/size of window
 
     ////////////////////////////////////////////////////////////////////
     //  browser-window-instance LISTENERS
-    mainWindow.webContents.on('did-finish-load', e => {
-        // console.log('Finished load, running getCookies()');
-        getCookies();
-    });
+    mainWindow.webContents.on('did-finish-load', e => {});
     mainWindow.on('ready-to-show', () => {
         // console.log('mainWindow ready');
     });
@@ -127,18 +76,9 @@ function createWindow() {
     mainWindow.on('closed', () => {
         mainWindow = null; // Listen for window being closed and garbage collects it
     });
-    // secWindow.on('closed', () => {
-    //     secWindow = null; // Listen for window being closed and garbage collects it
-    // });
 
     mainWindow.webContents.openDevTools(); // Open DevTools - Remove for PRODUCTION!
     // secWindow.webContents.openDevTools(); // Open DevTools - Remove for PRODUCTION!
-
-    // const ses = mainWindow.webContents.session; // this persists throughout all browser instances
-    // const defaultSes = session.defaultSession; // basically just the default session
-    // console.log(Object.is(ses, customSes)); // checks if sessions between different browsers are same. Object.is = Returns true if the values are the same value, false otherwise. this shows that the session is the same
-    // ses.clearStorageData(); // clear session storage
-    // customSes.clearStorageData();
 
     const wc = mainWindow.webContents;
 
@@ -207,18 +147,19 @@ app.on('activate', () => {
 // do not use outdated loadURL, loadFile is the newer correct version
 
 // secWindow = new BrowserWindow({
-//     width: 640,
-//     height: 480,
+//     // width: winDefaults.widthMain,
+//     width: winDefaults.widthByScreen,
+//     height: winDefaults.height,
 //     x: 4200,
 //     y: 400,
-//     webPreferences: {
-//         nodeIntegration: true
-//     },
 //     parent: mainWindow, // this sets this as a child of the main window, ie, close the main window, and the child closes too
-//     modal: true, // this makes the parent window unusable until the child window is dealt with
-//     show: false,
-//     backgroundColor: '#ff8500' // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
+//     // modal: true, // this makes the parent window unusable until the child window is dealt with
+//     // backgroundColor: '#ff8500', // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
 //     // show: false // this holds showing the window instance until the html file is loaded and ready-to-show event fires
+//     webPreferences: {
+//         nodeIntegration: true,
+//         partition: 'persist:part1' // this is step 2 to session persisting aka for syncing between devices. step 1 is creating it
+//     }
 // });
 
 // close secondary window after a brief wait
@@ -243,6 +184,9 @@ app.on('activate', () => {
 // });
 // secWindow.on('closed', () => {
 //     // mainWindow.maximize();
+// });
+// secWindow.on('closed', () => {
+//     secWindow = null; // Listen for window being closed and garbage collects it
 // });
 
 // app.on('browser-window-focus', () => {
@@ -283,4 +227,50 @@ app.on('activate', () => {
 // });
 // wc.on('media-paused', () => {
 //     console.log('Video paused.');
+// });
+
+// SESSION
+// const ses = session.defaultSession; // this is default session
+// const customSes = session.fromPartition('persist:part1'); // create custom session from session obj, pass it a name, and in browser window creation webPreferences: set session: customSes
+// const ses = mainWindow.webContents.session; // this is default session
+// const ses = mainWindow.webContents.session; // this persists throughout all browser instances
+// const defaultSes = session.defaultSession; // basically just the default session
+// console.log(Object.is(ses, customSes)); // checks if sessions between different browsers are same. Object.is = Returns true if the values are the same value, false otherwise. this shows that the session is the same
+// ses.clearStorageData(); // clear session storage
+// customSes.clearStorageData();
+
+// COOKIES
+// // here we create a cookie obj with an expiration date to make it persist throughout sessions
+// const cookie = {
+//     url: 'https://myappdomain.com',
+//     name: 'cookie1',
+//     value: 'electron',
+//     expirationDate: 1625540817.817365
+// };
+
+// // set cookie - note, this doesn't persist throughout sessions without an expiration date, which you add to cookie creation object
+// ses.cookies.set(cookie, err => {
+//     console.log('cookie1 set');
+// });
+// ses.cookies.remove('http://myappdomain.com', 'cookie1', err => {
+//     console.log('Cookie removed');
+// }); // 2 args: url, name
+
+// // note, getCookies with an empty filter object passed to the get method, will return ALL cookies. pass a keyvalue pair to it to return a specific cookie
+// const getCookies = () => {
+//     // console.log('logging cookies');
+//     ses.cookies
+//         // .get({ name: 'cookie1' })
+//         .get({})
+//         .then(cookies => {
+//             console.log(cookies);
+//         })
+//         .catch(error => {
+//             console.log(error);
+//         });
+// };
+
+// mainWindow.webContents.on('did-finish-load', e => {
+//     // console.log('Finished load, running getCookies()');
+//     getCookies();
 // });
