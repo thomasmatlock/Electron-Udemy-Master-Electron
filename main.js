@@ -1,8 +1,13 @@
 /* eslint-disable one-var */
 // Modules
 // pull some modules off the electron package: app is the app itself(nodejs main process, and BrowserWindow is the Renderer)
-const { app, BrowserWindow, session, screen } = require('electron');
-const { webContents } = require('electron');
+const {
+    app,
+    BrowserWindow,
+    session,
+    screen,
+    webContents
+} = require('electron');
 const windowStateKeeper = require('electron-window-state'); // our browser-window always reopens in same position/size unless we manage it by this simple package, we can save past positions or sizes and use them. it applies only for active sessions, unless you persist elsewhere through local storage
 
 let mainWindow, secWindow; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
@@ -10,20 +15,15 @@ let mainWindow, secWindow; // Keep a global reference of the window object, if y
 function createWindow() {
     const customSes = session.fromPartition('persist:part1'); // create custom session from session obj, pass it a name, and in browser window creation webPreferences: set session: customSes
     const ses = session.defaultSession; // this is default session
-
     const displays = screen.getAllDisplays();
     const screenArr = [displays[0], displays[1], displays[2]];
     const [screenC, screenR, screenL] = screenArr; // destructure screens off screenArr
-    // const devScreen = screenR;
-    // console.log(screenR);
-
     const winState = windowStateKeeper({
         defaultWidth: 1600,
         defaultHeight: 900,
         x: 4000,
         y: 400
     });
-
     const winDefaults = {
         height: 800,
         widthMain: 1000,
