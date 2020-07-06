@@ -13,8 +13,15 @@ const windowStateKeeper = require('electron-window-state'); // our browser-windo
 let mainWindow, secWindow; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
 
 function createWindow() {
-    const customSes = session.fromPartition('persist:part1'); // create custom session from session obj, pass it a name, and in browser window creation webPreferences: set session: customSes
+    // const customSes = session.fromPartition('persist:part1'); // create custom session from session obj, pass it a name, and in browser window creation webPreferences: set session: customSes
     const ses = session.defaultSession; // this is default session
+
+    const getCookies = () => {
+        ses.cookies.get({}, (err, cookies) => {
+            console.log(cookies);
+        });
+    };
+
     const displays = screen.getAllDisplays();
     const screenArr = [displays[0], displays[1], displays[2]];
     const [screenC, screenR, screenL] = screenArr; // destructure screens off screenArr
@@ -28,7 +35,7 @@ function createWindow() {
         height: 800,
         widthMain: 1000,
         widthSec: 800,
-        widthByScreen: screenR.bounds.width * 0.35
+        widthByScreen: screenR.bounds.width * 0.6
     };
 
     mainWindow = new BrowserWindow({
@@ -52,35 +59,43 @@ function createWindow() {
             nodeIntegration: true
         }
     });
-    secWindow = new BrowserWindow({
-        // width: winDefaults.widthMain,
-        width: winDefaults.widthByScreen,
-        height: winDefaults.height,
-        x: 4200,
-        y: 400,
-        parent: mainWindow, // this sets this as a child of the main window, ie, close the main window, and the child closes too
-        // modal: true, // this makes the parent window unusable until the child window is dealt with
-        // backgroundColor: '#ff8500', // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
-        // show: false // this holds showing the window instance until the html file is loaded and ready-to-show event fires
-        webPreferences: {
-            nodeIntegration: true,
-            partition: 'persist:part1' // this is step 2 to session persisting aka for syncing between devices. step 1 is creating it
-        }
-    });
+    // secWindow = new BrowserWindow({
+    //     // width: winDefaults.widthMain,
+    //     width: winDefaults.widthByScreen,
+    //     height: winDefaults.height,
+    //     x: 4200,
+    //     y: 400,
+    //     parent: mainWindow, // this sets this as a child of the main window, ie, close the main window, and the child closes too
+    //     // modal: true, // this makes the parent window unusable until the child window is dealt with
+    //     // backgroundColor: '#ff8500', // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
+    //     // show: false // this holds showing the window instance until the html file is loaded and ready-to-show event fires
+    //     webPreferences: {
+    //         nodeIntegration: true,
+    //         partition: 'persist:part1' // this is step 2 to session persisting aka for syncing between devices. step 1 is creating it
+    //     }
+    // });
 
-    mainWindow.loadFile('index.html'); // Load index.html into the new BrowserWindow
-    secWindow.loadFile('index.html'); // Load index.html into the new BrowserWindow
+    // mainWindow.loadFile('index.html'); // Load index.html into the new BrowserWindow
     // mainWindow.loadURL('https://httpbin.org/basic-auth/user/passwd');
+    mainWindow.loadURL('https://github.com');
+    // secWindow.loadFile('index.html'); // Load index.html into the new BrowserWindow
 
-    mainWindow.webContents.openDevTools(); // Open DevTools - Remove for PRODUCTION!
-    secWindow.webContents.openDevTools(); // Open DevTools - Remove for PRODUCTION!
+    // getCookies()
 
-    winState.manage(mainWindow); // manages user set location/size of window
+    // winState.manage(mainWindow); // manages user set location/size of window
 
     ////////////////////////////////////////////////////////////////////
     //  browser-window-instance LISTENERS
-    mainWindow.on('ready', () => {
-        console.log('mainWindow ready');
+    // mainWindow.on('did-finish-load', e => {
+    //     console.log('Running getCookies()');
+    //     getCookies(e);
+    // });
+    mainWindow.webContents.on('did-finish-load', e => {
+        console.log('Running getCookies()');
+        getCookies();
+    });
+    mainWindow.on('ready-to-show', () => {
+        // console.log('mainWindow ready');
     });
     mainWindow.on('focus', () => {
         // console.log('MainWindow focused');
@@ -94,9 +109,12 @@ function createWindow() {
     mainWindow.on('closed', () => {
         mainWindow = null; // Listen for window being closed and garbage collects it
     });
-    secWindow.on('closed', () => {
-        secWindow = null; // Listen for window being closed and garbage collects it
-    });
+    // secWindow.on('closed', () => {
+    //     secWindow = null; // Listen for window being closed and garbage collects it
+    // });
+
+    mainWindow.webContents.openDevTools(); // Open DevTools - Remove for PRODUCTION!
+    // secWindow.webContents.openDevTools(); // Open DevTools - Remove for PRODUCTION!
 
     // const ses = mainWindow.webContents.session; // this persists throughout all browser instances
     // const defaultSes = session.defaultSession; // basically just the default session
