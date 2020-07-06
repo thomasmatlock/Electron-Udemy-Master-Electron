@@ -10,21 +10,26 @@ const {
 } = require('electron');
 const windowStateKeeper = require('electron-window-state'); // our browser-window always reopens in same position/size unless we manage it by this simple package, we can save past positions or sizes and use them. it applies only for active sessions, unless you persist elsewhere through local storage
 
-let mainWindow, secWindow; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
+// let mainWindow, secWindow; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
+let mainWindow;
 
 function createWindow() {
     // const customSes = session.fromPartition('persist:part1'); // create custom session from session obj, pass it a name, and in browser window creation webPreferences: set session: customSes
     const ses = session.defaultSession; // this is default session
+    // const ses = mainWindow.webContents.session; // this is default session
+    // console.log(ses);
 
     const getCookies = () => {
+        console.log('logging cookies');
         ses.cookies.get({}, (err, cookies) => {
+            console.log(err);
             console.log(cookies);
         });
     };
 
     const displays = screen.getAllDisplays();
     const screenArr = [displays[0], displays[1], displays[2]];
-    const [screenC, screenR, screenL] = screenArr; // destructure screens off screenArr
+    const [screenC, screenR, screenL] = screenArr; // destructure screens pulled off screenArr
     const winState = windowStateKeeper({
         defaultWidth: 1600,
         defaultHeight: 900,
@@ -86,12 +91,8 @@ function createWindow() {
 
     ////////////////////////////////////////////////////////////////////
     //  browser-window-instance LISTENERS
-    // mainWindow.on('did-finish-load', e => {
-    //     console.log('Running getCookies()');
-    //     getCookies(e);
-    // });
     mainWindow.webContents.on('did-finish-load', e => {
-        console.log('Running getCookies()');
+        console.log('Finished load, running getCookies()');
         getCookies();
     });
     mainWindow.on('ready-to-show', () => {
