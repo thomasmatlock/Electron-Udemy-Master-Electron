@@ -9,7 +9,7 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
-https: //www.w3schools.com/jsref/jsref_statements.asp
+https://www.w3schools.com/jsref/jsref_statements.asp
     // JavaScript statements often start with a statement identifier to identify the JavaScript action to be performed.
     // Statement identifiers are reserved words and cannot be used as variable names(or any other things).
     Statement // Description

@@ -9,7 +9,7 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
-https: //www.w3schools.com/jsref/jsref_obj_json.asp
+https://www.w3schools.com/jsref/jsref_obj_json.asp
 
 Method // Description
 JSON.parse() // Parses a JSON string and returns a JavaScript object

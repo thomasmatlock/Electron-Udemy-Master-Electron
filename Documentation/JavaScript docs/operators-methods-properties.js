@@ -9,4 +9,4 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
-https: //www.w3schools.com/jsref/jsref_operators.asp
+https://www.w3schools.com/jsref/jsref_operators.asp

@@ -9,7 +9,7 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
-https: //www.w3schools.com/jsref/jsref_obj_number.asp
+https://www.w3schools.com/jsref/jsref_obj_number.asp
 
 Method // Description
 Number.isFinite() // Checks whether a value is a finite number

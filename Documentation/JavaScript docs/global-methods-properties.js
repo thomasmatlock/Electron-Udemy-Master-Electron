@@ -10,7 +10,7 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
-https: //www.w3schools.com/jsref/jsref_obj_global.asp
+https://www.w3schools.com/jsref/jsref_obj_global.asp
 
     Property // Description
 Infinity // A numeric value that represents positive/negative infinity

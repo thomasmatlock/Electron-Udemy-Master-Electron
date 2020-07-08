@@ -9,7 +9,7 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
-https: //www.w3schools.com/jsref/jsref_obj_array.asp
+https://www.w3schools.com/jsref/jsref_obj_array.asp
 
 Method; //  Description
 concat(); // Joins two or more arrays, and returns a copy of the joined arrays // https://www.w3schools.com/jsref/jsref_concat_array.asp

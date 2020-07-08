@@ -9,7 +9,7 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
-https: //www.w3schools.com/jsref/jsref_obj_error.asp
+https://www.w3schools.com/jsref/jsref_obj_error.asp
 
 Property // Description
 name // Sets or returns an error name

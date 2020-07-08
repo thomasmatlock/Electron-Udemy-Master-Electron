@@ -9,7 +9,7 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
-https: //www.w3schools.com/jsref/jsref_classes.asp
+https://www.w3schools.com/jsref/jsref_classes.asp
 
     Method // Description
 constructor() // A special method for creating and initializing objects created within a class
