@@ -24,23 +24,14 @@
         <a href="https://www.google.com">
             <h3>click here</h3>
         </a>
-        <video src="mgm.mp4" controls width="560"></video>
         <!-- All of the Node.js APIs are available in this renderer process. -->
-        We are using Node.js
-        <strong>
-            <script>
-                document.write(process.versions.node);
 
-            </script>
-        </strong>, and Electron
-        <strong>
-            <script>
-                document.write(process.versions.electron);
 
-            </script>
-        </strong>.
-
+        <h2><a href="https://github.com/electron/electron-api-demos/releases/download/v2.0.2/ElectronAPIDemosSetup.exe"
+                download>Download image</a></h2>
+        <progress value="0" max="100" id="progress" height="10"></progress>
         <script>
+            window.progress = document.getElementById('progress')
             // You can also require other files to run in this process
             require('./renderer.js');
 

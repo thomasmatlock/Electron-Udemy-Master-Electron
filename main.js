@@ -6,7 +6,9 @@ const {
     BrowserWindow,
     session,
     screen,
-    webContents
+    webContents,
+    DownloadItem,
+    dialog
 } = require('electron');
 const windowStateKeeper = require('electron-window-state'); // our browser-window always reopens in same position/size unless we manage it by this simple package, we can save past positions or sizes and use them. it applies only for active sessions, unless you persist elsewhere through local storage
 
@@ -17,12 +19,6 @@ function createWindow() {
     const displays = screen.getAllDisplays();
     const screenArr = [displays[0], displays[1], displays[2]];
     const [screenC, screenR, screenL] = screenArr; // destructure screens pulled off screenArr
-    const winState = windowStateKeeper({
-        defaultWidth: 1600,
-        defaultHeight: 900,
-        x: 4000,
-        y: 400
-    });
     const winDefaults = {
         height: 800,
         widthMain: 1000,
@@ -51,37 +47,19 @@ function createWindow() {
             nodeIntegration: true
         }
     });
-
     mainWindow.loadFile('index.html'); // Load index.html into the new BrowserWindow
-    // mainWindow.loadURL('https://httpbin.org/basic-auth/user/passwd');
-    // mainWindow.loadURL('https://github.com');
-
-    // winState.manage(mainWindow); // manages user set location/size of window
+    // mainWindow.loadURL('https://warpdownload.com'); //alternate: 'https://httpbin.org/basic-auth/user/passwd'
+    // mainWindow.loadURL('https://particle-love.com/'); //alternate: 'https://httpbin.org/basic-auth/user/passwd'
 
     ////////////////////////////////////////////////////////////////////
     //  browser-window-instance LISTENERS
-    mainWindow.webContents.on('did-finish-load', e => {});
     mainWindow.on('ready-to-show', () => {
         // console.log('mainWindow ready');
     });
-    mainWindow.on('focus', () => {
-        // console.log('MainWindow focused');
-    });
-    mainWindow.on('maximize', () => {
-        // console.log('MainWindow maximized');
-    });
-    mainWindow.on('minimize', () => {
-        // console.log('MainWindow minimized');
-    });
-    mainWindow.on('closed', () => {
-        mainWindow = null; // Listen for window being closed and garbage collects it
-    });
-
-    mainWindow.webContents.openDevTools(); // Open DevTools - Remove for PRODUCTION!
-    // secWindow.webContents.openDevTools(); // Open DevTools - Remove for PRODUCTION!
 
     const wc = mainWindow.webContents;
-
+    // wc.openDevTools(); // Open DevTools - Remove for PRODUCTION!
+    wc.on('did-finish-load', () => {});
     wc.on('dom-ready', () => {
         // console.log('MainWindow finished loading'); //  listening for webContents events firing
     });
@@ -129,6 +107,29 @@ app.on('activate', () => {
 // navController.updateActiveNav_A(1);
 ///////////////////////////
 
+// winState
+// const winState = windowStateKeeper({
+//     defaultWidth: 1600,
+//     defaultHeight: 900,
+//     x: 4000,
+//     y: 400
+// });
+// winState.manage(mainWindow); // manages user set location/size of window
+
+//  browser-window-instance LISTENERS
+// mainWindow.on('focus', () => {
+//     // console.log('MainWindow focused');
+// });
+// mainWindow.on('maximize', () => {
+//     // console.log('MainWindow maximized');
+// });
+// mainWindow.on('minimize', () => {
+//     // console.log('MainWindow minimized');
+// });
+// mainWindow.on('closed', () => {
+//     mainWindow = null; // Listen for window being closed and garbage collects it
+// });
+
 // this checks if its ready after 2 secs
 // setTimeout(() => {
 //     console.log(`Checking ready: ${app.isReady()}`); // logs whether app is ready or not
@@ -172,6 +173,8 @@ app.on('activate', () => {
 //     }, 2000);
 // }, 1000);
 
+////////////////////////////////////////////////////////////////////
+// APP LISTENERS (main node process)
 // app.on('browser-window-blur', () => {
 //     console.log('App unfocused');
 // });
@@ -274,3 +277,30 @@ app.on('activate', () => {
 //     // console.log('Finished load, running getCookies()');
 //     getCookies();
 // });
+
+// session:DownloadItem
+// // this uses session to listen for download initializes
+// ses.on('will-download', (e, downloadItem, webContents) => {
+//     console.log('Download started...');
+//     const fileName = downloadItem.getFilename();
+//     const fileSize = downloadItem.getTotalBytes();
+//     downloadItem.setSavePath(`${app.getPath('desktop')}\\${fileName}`); // set save dir to desktop
+//     // downloadItem.setSaveDialogOptions(options);
+//     // downloadItem.cancel();
+//     // console.log(downloadItem.getState());
+//     // PROGRESS FOR DOWNLOADS
+//     downloadItem.on('updated', (e, state) => {
+//         const received = downloadItem.getReceivedBytes();
+//         // console.log(received);
+//         if (state === 'progressing' && received) {
+//             // if received is true AND state is 'progressing' it will log the download progress
+//             const progress = Math.round((received / fileSize) * 100); // received / fileSize is percentage, rounded, multipled
+//             // here we make make a progress visual, so cool!
+//             webContents.executeJavaScript(
+//                 `window.progress.value = ${progress}`
+//             );
+//             // console.log(progress);
+//         }
+//     });
+// });
+// ses = session.defaultSession;
