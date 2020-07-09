@@ -1,0 +1,663 @@
+Node
+
+- Jonas Node - Node.js, Express, MongoDB & More: The Complete Bootcamp 2019 (jonas) #copy
+
+  - Welcome
+  - Intro to Nodejs and NPM
+
+    - Section Intro
+    - What Is Node.js and Why Use It?
+
+      - runtime: basically a container or environment that js can be run in, or executed inside
+      - Pros
+        - nodejs is single-threaded, non blocking, event driven, I/O model
+      - Use cases
+        - API w database behind it, preferably noSQL
+        - Data streaming (youtube, twitch)
+        - realtime chat apps
+        - server side web apps
+
+    - Running Javascript Outside the Browser
+      - Ctrl + L // clears the console while in node
+      - Ctrl + D // exits node, just like .exit
+      - Hit Tab twice // displays all global variables
+        - You will see some new modules, like https, fs, crypto, etc
+      - Underscore = include previous results
+        - Example:
+          - 2+2
+          - 4
+          - \_+2
+          - 6 // it includes the previous result, without having to type it
+      - Tab twice on a a property or module, you can see all the functions available to it
+        - example:
+          - String.<TabTab> // displays a few dozen or so methods we use on it
+    - Using Modules 1: Core Modules
+      - So, we made an index.js file and logged 'hello world'
+      - instead of entering 'node', then hitting enter, instead we follow 'node' w filename, ie:
+        - node index.js
+      - also, for help later, goto nodejs site/docs/ and versions are on left nav column, choose version you are using
+    - Reading and Writing Files
+    - Blocking and Non-Blocking: Asynchronous Nature of Node.js
+      - Synchronous = processed in order, line by line
+      - Synchronous code = blocking code, asynchronous code = non blocking. Async is faster, optimized
+      - each line has to wait for execution of previous line
+      - this can be a problem for slow code, like an API request
+    - Reading and Writing Files Asynchronously
+    - Creating a Simple Web Server
+      - a
+    - Routing
+      - url = host:port/subpage
+      - without routing, no matter what the subpage, it will always display host:port
+      - routing changes that to serve different response based on request
+    - Building a (Very) Simple API
+    - HTML Templating: Building the Templates
+    - HTML Templating: Filling the Templates
+    - Parsing Variables from URLs
+    - Using Modules 2: Our Own Modules
+    - Introduction to NPM and the package.json File
+    - Types of Packages and Installs
+    - Using Modules 3: 3rd Party Modules
+    - Package Versioning and Updating
+    - Setting up Prettier in VS Code
+    - Recap and What's Next
+
+  - Intro to Backend Web Development
+
+    - Section Intro
+
+      - Part 1 (DNS lookup)
+        - client/browser sends request to server
+        - server sends backa a response
+          - this is called the request/response model, also the client/server architecture
+        - google.com, for example is not the actual address of what we want, its just an easy name to memorize
+        - domain name are converted to the actual address, ie the IP, by DNS, or domain name server
+          - dns is the phonebook of the internet, you have a domain, it will find you the matching domain name
+            - so in order
+              - protocol (https/http)
+              - domain name/IP address
+              - resource (domain sub page)/port (https default is 443, http is 80
+                - ports are basically sub-addresses)
+      - Part 2
+
+        - TCP/IP socket connection is established between the client and server
+          - connection is kept alive for entire time it takes to transfer
+            - TCP is transmission control protocol
+            - IP is internet protocol
+
+      - Part 3
+        - HTTP request
+          - HTTP is just a protocol that allows two or more parties to communicate
+            - example:
+              - GET /maps HTTP/1.1 // this is the start line, HTTP method,request target,HTTP version
+              - HTTP request headers //Host,User-Agent, etc
+              - BODY // bodies are only used in use cases of sending data, like POST
+      - Part 4
+
+        - HTTP response
+
+          - looks similar to the request
+
+            - start line //HTTP1.1 200 OK // http version + status code + status message
+            - headers
+            - body, we already used this earlier with res.end, its usually html or files of some kind coming back
+
+      - Step 5
+
+        - files are rendered
+        - html first, then css, js, images etc
+
+      - job of TCP is to break up request into hundreds of chunks called packets before they are sent
+      - once it arrives at destination, it will reassemble all packets into their original format
+
+    - An Overview of How the Web Works
+    - HTTP in Action
+    - Front-End vs. Back-End Web Development
+      - server is just a computer that has the website files, and is running an HTTP server (basically a bridge) to receive and respond to browser requests
+      - static servers just hold files and respond to requests
+      - dynamic servers are ones that also talk to databases, etc, you need a 3rd piece, kind of like we just wrote in the node farm thing
+      - this makes it dynamic, and rather serving, it interacts and updates, stores user data, etc
+        - handle payments
+        - send emails
+        - create user profiles
+        - perform logins
+        -
+    - Static vs Dynamic vs API
+
+- How Nodejs Works, A Look behind the scenes
+
+  - Section Intro
+  - Node, V8, Libuv and C++
+  - Processes, Threads and the Thread Pool
+
+    - when we use use node.js it means that there is a node process running on the computer
+    - node runs in a single thread, which is basically just a sequence of instructions
+    - single thread poses a problem, because its blockable, and 1 user is fine, but 10 or 10000 is a problem
+    - Flow:
+
+      - initialize program
+      - execute top level code
+      - require modules
+      - register event callbacks
+      - start event loop
+        - the event loop is where pretty much everything happens
+      - however, some events are too heavy to be handled by event loop, so we use thread pooling
+      - thread pool gives us +4 threads, configurable up to 128 threads
+      - event loop automatically offloads events to thread pool, its not us developers who decide what goes to thread pool
+        - thread pool handles heavy tasks like:
+          - cryptography
+          - compression
+          - DNS lookups
+          - file system APIs
+
+  - The Node.js Event Loop
+
+    - event loop is heart of node.js
+    - runs all code inside callback functions (non toplevel code)
+    - nodejs is built around callback functions, functions that are called as soon as some work is finished
+    - Event driven architecture
+      - Events are emitted
+      - Event loops pick them up
+      - callbacks are called
+        - Event examples
+          - new http request
+          - timer expired
+          - finished file read
+    - event loop does orchestration
+    - Event Loop in detail
+
+      - EL has multiple phases
+      - each phase in the event loop has its own callback queue
+      - phases
+        - expired timers
+        - IO polling and callbacks, when the previous phase is done, it returns to polling for new IO
+          - in nodejs context, IO generally means networking and file access
+        - setImmediateCallbacks
+          - something to use in more advanced cases
+        - close callbacks
+      - after each phase, if there are any callbacks, those will be executed immediately
+      - a tick in an event loop is just one cycle
+      - before with nodemon, we were basically running an IO task, so it never exited the event loop. it just kept listening for http input
+      - event loop is what makes nodejs awesome and unique, you only need event loop and thread pool, its pretty cool
+
+    - TIPS to not block the event loop
+      - Dont use sync versions of function is fs, crypto, and zlib (compression) modules in your callback functions
+      - dont perform complex calculations (loops inside loops)
+        -be careful w JSON in large objects
+        - Dont use too highly nested regular expressions, eg nested quantifiers
+
+* The Event Loop in Practice
+* Events and Event-Driven Architecture
+  - in node there are things called event emitters, that emit an event, things like a timer expiring, or a file finished reading
+  - these event emitters trigger event listeners, which we set up
+  - the event listeners we set up fire off callback functions that are attached to each listener
+  - Example, using the http module we already used
+    - we create server
+    - using server.on, we actually are creating a listener, and the arg is the type of event to listen for, in http, usually a request
+    - the server we created acts as an emitter, and automatically emits an event, each time a request hits the server, it performs the callback function we attached to it, which in a test log we res.end "Message received"
+    - it works this way because the server is an instance of the nodejs emitter class
+      - it inherits all this event emitting functionality and logic from the nodejs emitter class
+    - this entire logic pattern is called the "observer pattern"
+      - simply, we have an event listener, aka the "observer", which observes the event emitter, waiting for it to emit, so it can run the callback function
+      - this is different from what we're used to, which so far has been synchronous, just one function calling another, line by line, no emitters, no listeners, and not really any callbacks
+      - the observer pattern is designed to 'react' rather than call, because the benefits to using this architecture are huge
+        - for example, everything is more decoupled. ie, we dont modules from the filesystem calling http module. everything is nicely self contained
+        - also event driven architecture, the observer pattern, makes it far easier to react to multiple events, just by setting up multiple listeners
+* Events in Practice
+* Introduction to Streams
+  - streams are used to process (read and write) data, piece by piece (chunks), without completing the whole read/write operation, therefore without keeping all the data in memory
+    - perfect for handling large volumes of data
+    - more efficient data processing in terms of memory (no need to keep all data in memory), and time (we dont have to wait until all the data is available)
+  - 4 different types of streams
+    - streams are actually instances of the emitter class
+    - readable stream
+      - stream which we read/consume
+      - example: http requests, fs read streams
+      - important events: data, end (end is emitted once no more data is available to consume)
+      - important functions: pipe(), read() // pipe() is extremely important, it allows us to plug data from one stream to another, not much worrying about events
+    - writeable stream
+      - streams we can write data to
+      - example: http responses, fs write streams
+      - important events: drain, finish
+      - important functions: write(), end()
+    - duplex stream
+      - basically hybrid of read and write streams, they readable and writable at same time
+      - example: net web socket
+    - transform stream
+      - basically a duplex stream that transforms data as it is written or read
+      - example: zlib Gzip creation
+    - please note all the important events and functions are useable only once the examples of each of these 4 types is running.
+* Streams in Practice
+* How Requiring Modules Really Works
+  - each js file is treated as a module
+    - nodejs uses the commonJS module system: require(), exports, or module.exports
+    - native ES module system is what is used in browsers, import/export
+    - there have been attempts to bring native ES modules into node.js,, such as using filenames like (.mjs)
+    - require() and how it works
+      - resolving, loading, it finds file path and loads it
+        - since it can 3 module types (core like http, dev modules, and 3rd party modules), it needs to know which modules are which
+          - starts with core modules
+          - if begins with './' or '../', it tries to load dev modules
+          - if no file found, look for folder containing index.js
+          - else, go to node_modules/ and look for module there
+          - we dont need to write the relvative path of core and npm modules, only dev modules
+      - wrapping, after its found the module
+        - wrapping take the module and wraps into a couple of special objects
+        - each module has a private scope
+        - References:
+          - require, function to require modules
+          - module, reference to the current module
+          - exports, reference to module.exports, used to export object from module
+          - \_\_filename, absolute path of the current module's file
+          - \_\_dirname, dir name of the current module
+      - execution
+        - nothing fancy here, just all the code in the wrapper gets executed
+      - returning exports
+        - require function returns exports of the required module
+        - module.exports is the returned object
+        - use module.exports to export one single variable, eg one class or function, (module.exports = Calculator)
+        - use exports to export multiple named variables, (exports.add = (a, b) => a + b)
+        - basically require means you request everything a module is exporting, and it gets wrapped up and saved in your 1st requiring file
+      - caching is the final step, entire module gets cached
+* Requiring Modules in Practice
+
+- [Optional] Async JS: Promises and Async/Await
+  - Section Intro
+  - The Problem with Callbacks: Callback Hell
+    - o
+  - From Callback Hell to Promises
+  - Building Promises
+  - Consuming Promises with Async/Await
+  - Returning Values from Async Functions
+  - Waiting for Multiple Promises Simultaneously
+- Express: Start Building the Natours API
+  - Section Intro
+  - What is Express?
+  - Installing Postman
+  - cool that we can use the couple dozen http requests other than get
+  - Setting up Express and Basic Routing
+  - APIs and RESTful API Design
+    - API building, 2 principles
+      - Separate API resources into logical resources
+        - Resource: an object or representation of something, which has data associated to it. Any information that can be named can be a resource
+        - ie, tours / users / reviews
+      - expose structured, resource-based URLS
+        - www.natours.com/addNewTour // entire URL, and the stuff following the / is the endpoint
+      - use HTTP methods to send and receive (verbs) // its a conventions to name resources in plural, ie 'tours', not 'tour'; to get specific tour, it can be GET/tours/[insertIDHere]
+        - a good example is the endpoint for something is the same, but different methods used on it, ie, get/post /tours
+        - /addNewTour === POST /tour // create
+          - POST creates new resource
+        - /getTour === GET /tours/7 // read
+        - /updateTour === PUT or PATCH /tours/7 // update
+          - PUT/PATCH update existing resource
+          - PUT sends entire object to replace obj on server with
+          - PATCH sends partial object to replace obj on server with, its piecemeal, rather than wholesale
+        - /deleteTour === DELETE /tours/7 // Delete
+          - to successfully perform a delete, user must be authenticated
+        - examples:
+          - /getUsersByTour === GET /users/3/tours
+          - /deleteUsersByTour === DELETE /users/3/tours/9
+        - These 5 methods, are CRUD, Create, Read, Update, Delete
+      - send data as JSON (usually)
+        - keys must be strings
+        - values usually are strings, but can be other types, bools, numbers, or even arrays
+        - JSend, we use it to do some formatting before sending back to client
+          - includes:
+            - status (200, 400)
+            - data
+      - must be stateless ()
+        - stateless restful API: all state is handled by the client. This means that the client request must contain all the information necessary to process a certain request. The server should NOT have to remember previous requests
+        - examples of state:
+          - loggedIn, currentPage, etc...
+          - BAD stateless: client sends GET/tours/nextPage => server then does current page + 1, not good
+          - GOOD stateless: clients send GET/tours/page/6 => server then does send(page6)
+  - Starting Our API: Handling GET Requests
+  - Handling POST Requests
+  - Responding to URL Parameters
+  - Handling PATCH Requests
+  - Handling DELETE Requests
+  - Refactoring Our Routes
+  - Middleware and the Request-Response Cycle
+    - client hits the server with a request
+    - app/server creates both a request and response object
+    - server processes both to generate meaningful response to send back to client
+    - we often use middleware to manipulate res or req objects
+    - middleware isnt always about the res or req obj but usually about the req
+    - we use express.json to get access to the req body on the req object
+    - its called middleware because its used in the middle of receiving the req and sending the res
+      - everything is middleware in express, pretty much, even routers
+    - all our MW we use is called our "MW stack"
+    - the order of MW in the stack is actually defined by the order they are defined in the code
+      - ie MW that appears first in code is executed before MW that appears after it
+    - req/res objects get processed by MW in order, and every MW method has the next() method, which hands it off to the next MW method
+    - MW is a pipeline we send our data/req/res objects through to be manip into meaningful res
+    - usually last MW is router, in which we dont next() to next MW, but in fact send res back to client
+  - Creating Our Own Middleware
+  - Using 3rd-Party Middleware
+  - "Implementing the ""Users"" Routes  "
+  - Creating and Mounting Multiple Routers
+  - A Better File Structure
+  - Param Middleware
+  - Chaining Multiple Middleware Functions
+  - Serving Static Files
+  - Environment Variables
+  - Setting up ESLint + Prettier in VS Code
+    - npm i eslint-config-prettier (disables eslint from doing prettiers job formatting code)
+    - eslint-plugin-prettier, allows eslint to show formatting errors
+    - eslint-config-airbnb, formats JS, airbnb is a popular formatting style
+    - eslint-plugin-node, node specific error finder for when we write node code
+    - eslint-plugin-import and eslint-plugin-jsx-a11y
+    - www.eslint.org/docs/rules
+- Intro to MongoDB
+
+  - Section Intro
+  - What is MongoDB?
+  - Installing MongoDB on macOS
+  - Installing MongoDB on Windows
+    - install complete version, create dir 'C:\data\db', open powershell, run mongod.exe inside 'C:\program files\MongoDB\Server\4.2\bin\mongod.exe'
+      - it will load server listening 127.0.0.1:27017
+    - open terminal 2, cd to 'C:\program files\MongoDB\Server\4.2\bin\', run mongo.exe (not mongod.exe)
+      - this connects to the listening server/port, and we can now access the database
+    - run 'db' command, should return 'test' if its working
+    - so mongod.exe starts listening server, mongo.exe connects to server
+    - to run mongod from other directory outside its current working directory:
+      - add 'C:\Program Files\MongoDB\Server\4.2\bin' (or wherever mongod.exe is located) to system env variables, path.
+        - this gives powershell know where to look when you run mongod.exe
+  - Creating a Local Database
+    - 'use' command switches to db in question, and if nonexistent, creates one and moves to it
+    - each database has collections, and collections contain documents
+    - to insdert a document, you must specify the collection it is in, ie
+      - db.tours.insertOne({name: "The Forest Hiker", price: 297, rating: 4.7}) (db = current db, tours = chosen collection to place document, insertMany is method, then just pass a JS object, it converts it to BSON, or JSON, not sure which yet)
+    - use help for other commands, then quit() to exit
+  - CRUD: Creating Documents
+    - db.collection.insertMany([{}, {}]) // accepts an array of js objects
+  - CRUD: Querying (Reading) Documents
+    - db.collection.find({key: value}) // ie, key value object might be: name: "The Sea Explorer", it returns anything that matches property values you put in
+      - the object you pass to this is the just the "filter" object, you give it a property, then a value to find any matches for
+    - Advanced search (SPECIAL QUERY OPERATORS)
+      - BASIC EXAMPLES
+        - db.collection.find({price: {$lte: 500}}) property 1st, then object containing operator, ie: {$lte: 500} finds anything less than/equal to 500
+        - db.collection.find({property: {$gte: 500}}) // $gte is greater than, \$lte is less than. Searches for db entries with a price greater than 500
+      - OPERATORS
+        - the '\$' symbol in MongoDB is reserved for the operators
+        - \$lt=less than
+        - \$lte=less than or equal to
+        - \$gt=greater than
+        - \$gt=greater than
+        - \$gte=greater than or equal to
+      - MULTIPLE FILTER EXAMPLES (using AND/OR to find docs)
+        - AND example (finds matches that fit ALL filter criteria):
+          - db.tours.find({price: {$gt: 300}, rating: {$lte: 4.9}}) // searches for matches w price greater than 300, rating less than or equal to 4.9
+            - basically just pass it a filter object in curlies, then for each criteria, the operator needs to be in an object also
+        - OR example (finds matches that match ANY of the filter criteria)
+          - db.tours.find({ $or: [{price: {$lt: 500}}, {rating: {\$gte: 4.8}} ] }) // find db items that match price less than 500, OR rating greater than 4.8
+            - takes an object, which starts with \$or:
+            - \$or: takes an array of filter objects, in which the above example we have 2 filter objects to check db items against
+      - PROJECTION EXAMPLES (returns only chosen properties of the matched db items to be displayed) ie, dont want entire object, just the name
+        - db.tours.find({ $or: [{price: {$gt: 500}}, {rating: {\$gte: 4.8}} ] }, {name: 1}), insert a 2nd obj completely outside and after the OR operator obj
+          - above, the projection object {name: 1}, simply states we want all matches but display name property only, not entire obj w/ all its properties
+  - CRUD: Updating Documents
+    - EXAMPLES
+      - db.collection.updateOne({ name: "The Snow Adventurer"}, { \$set: { price: 597}})
+        - obj1 = filter obj to specify document to update
+        - obj1, what property to update of that document
+          - obj2 operator is \$set (like post or patch)
+          - obj2 arg is obj containing property to update, with value to update it to
+        - note: if we want to update 1 doc, use updateOne, but if we know update will match multiple docs, use updateMany
+      - db.collection.updateMany({price: {$gt: 500}, rating: {$gte: 4.8}}, {\$set: {premium: true}})
+        - obj1 = filter obj, to specify docs to update
+        - obj2 = what property to update - in this case premium is a property that doesnt exist, so it will add it to the matching docs
+      - db.collection.replaceOne() // same as updateOne, but replaces.
+      - db.collection.replaceMany() // same as updateMany, but replaces.
+  - CRUD: Deleting Documents
+    - EXAMPLES
+      - db.tours.deleteOne({rating: {\$lt: 4.8}}) // removes 1st doc that matches filter obj
+      - db.tours.deleteMany({rating: {\$lt: 4.8}}) // removes all docs that match filter obj
+      - db.tours.deleteMany({}) // removes all docs, filter obj is empty
+  - Using Compass App for CRUD Operations
+    - ensure mongod server is running
+    - launch compass > new connection > ensure hostname/port are correct (usually 127.0.0.1:27017) > click connect
+    - to insert a doc into a collection
+      - insert document > select listview, not obj view > use tab to jump from property to value, etc
+        - for integers, change var type from string to int32, for decimals, change from string to double
+    - update docs
+      - hover over doc, click edit, insert new values, click update doc
+    - filter docs
+      - enter into filter filed same filter objects like in terminal, ie:
+        - {price: {\$lt: 700}}
+      - you can also use projection with filter options, ie return only names of objects
+  - Creating a Hosted Database with Atlas
+
+    - for development, we wont use local database, we will use a remote database hosted by Atlas, which is created by MongoDB
+      - huge advantage is having a cloud db that we can access from any machine, rather than figuring out Dropbox syncing between my machines lol
+    - go to mongodb site/products/cloud/atlas
+    - signin, use shared free cluster
+    - create new project > give yourself project owner access > wait for it to be provisioned > create cluster (a cluster is an instance)
+
+  - Connecting to Our Hosted Database
+    - click connect to cluster > whitelist your current IP address > enter un/pw (show/copy pw) > paste pw into config.env file
+      - DATABASE_PASSWORD=uYuTyJ8706koiXJS
+      - choose connection method > connect with MongoDB Compass method
+      - copy the connection string
+      - open Compass > new connection > paste connection string, toggle "enter fields manually" to paste pw > hit connect
+      - create new database, name it, name 1st collection (in this case its natours/tours)
+      - insert 1st doc, give it some properties, change value data type to bools, doubles or w/
+      - check db in Brave, hit cluster0, bunch of tabs across top, including "collections" click it, should have db.collection.doc in it
+      - if you wanna whitelist all IPS, you can, you will still need un/pw to access it, but whitelist everything skips having to whitelist every login
+        - goto clouddb/cluster/security/network access/IP whitelist > add IP address > allow access from anywhere (should my IP and show 0.0.0.0/0)
+      - lastly, connect mongo shell, click cluster > connect > mongo shell > copy connection string > switch to terminal > quit() to exit mongo shell > paste string, enter pw also >
+        - !IMPORTANT (terminal doesnt seem to take a pasted password, it actually prevents any entry) so add a password flag, like so:
+          - mongo "mongodb+srv://cluster0-gjwbd.mongodb.net/test" --username tommy --password uYuTyJ8706koiXJS
+          - show dbs, show collections, db.collection.find() // run these to test it returns docs correctly
+      - Done! Congrats, you have mongo shell AND compass connected to our hosted db
+
+- Using MongoDB w Mongoose
+  - Section Intro
+  - Connecting Our Database with the Express App
+    - mongo site > database > connect> connect to application > copy string
+      - copy to your project config.env file:
+        - mongodb+srv://tommy:<PASSWORD>@cluster0-gjwbd.mongodb.net/natours?retryWrites=true&w=majority
+          - 3 THINGS TO REMEMBER
+            - save password into variables
+            - save host into variable, in this case is "cluster0-gjwbd.mongodb.net"
+            - replace "/test?" with "/myActualDatabase?" otherwise it tries to write to the test db
+        - lastly, save a local mongo variable ie:
+          - DATABASE_LOCAL=mongodb://localhost:27017/natours
+        - lastly mongo npm driver that allows our code to talk to the db
+          - npm i mongoose@5 --save
+  - What Is Mongoose?
+    - key features
+      - document based. MongoDB stores data in documents (field value pair data structures, NoSQL)
+      - scalable, very easy to distribute data across multiple machines, as your users and data grows
+      - flexible, no document data schema required, so each document can have different number and type of fields
+      - performant, embedded data models, indexing, sharding,flexible documents, native duplication
+      - free, open source
+    - uses BSON
+      - basically JSON, but all values have a type: string, boolean, number, etc.
+      - contains embedded documents like fields that have array values, ie post author, post text, or whatever, makes it performant
+  - ## Creating a Simple Tour Model
+  - Creating Documents and Testing the Model
+  - Intro to Back-End Architecture: MVC, Types of Logic, and More
+    - Overview
+      - model(business logic)
+        - concerned with application data, business logic
+      - view(presentation logic)
+        - necessary if we have a GUI layer in our app. ie, if we're building a server-side rendered site
+      - controller(application logic)
+        - handle application requests, interact with models, and send back responses to client
+    - flowchart
+      - request >
+      - hits router (we have multiple routers, for users/routes, etc) >
+      - router delegates request to correct controller (again we have one controller handling each routers delegation) >
+      - controller may need to interact with certain modules aka model (business logic), ie retrive/create a document >
+      - there is one model file for each resources >
+      - after getting data from model, controller might be ready to send the data back to client >
+        - if we are using serverside rendering as an extra step, we may select a template, inject the data, and send it back to the client
+        - in an express app, there is usually 1 view template for each page, ie:
+          - overview.pug, tour.pug, login.pug
+    - MVC detailed look
+      - one goal of MVC is to separate business logic from application logic
+        - application logic
+          - only concerned with the application's implementation, not the underlying business problem we're trying to solve, ie:
+            - showing/selling tours
+          - a big part of application logic is managing requests and responses
+          - application logic is more about technical stuff
+          - also if we have views, application logic serves as a bridge between model and view layers, so we dont mix business logic w presentation logic
+        - business logic
+          - actually solves the business problem we set out to solve, ie:
+            - sell tours and sell them to customers
+          - its directly related to how the business works, and business needs
+            - Examples:
+              - creating new tours in the database
+              - checking if user's password is correct
+              - validating user input data
+              - ensuring only users who bought a tour can reivew it
+          - keep in mind, its impossible to keep business and application logic completely separate, there will be some overlap
+            - try keeping application logic in controllers
+            - try keeping business logic in models
+            - PHILOSOPHY: fat models/thin controllers: offload as much logic as possible into the models, and keep controllers simple/lean
+  - Refactoring for MVC
+  - Another Way of Creating Documents
+  - Reading Documents
+  - Updating Documents
+  - Deleting Documents
+  - Modelling the Tours
+  - Importing Development Data
+  - Making the API Better: Filtering
+  - Making the API Better: Advanced Filtering
+  - Making the API Better: Sorting
+  - Making the API Better: Limiting Fields
+  - Making the API Better: Pagination
+  - Making the API Better: Aliasing
+  - Refactoring API Features
+  - Aggregation Pipeline: Matching and Grouping
+  - Aggregation Pipeline: Unwinding and Projecting
+  - Virtual Properties
+  - Document Middleware
+  - Query Middleware
+  - Aggregation Middleware
+  - Data Validation: Built-In Validators
+  - Data Validation: Custom Validators
+- Error Handling w Express
+  - Section Intro
+  - Debugging Node.js with ndb
+  - Handling Unhandled Routes
+  - An Overview of Error Handling
+  - Implementing a Global Error Handling Middleware
+  - Better Errors and Refactoring
+  - Catching Errors in Async Functions
+  - Adding 404 Not Found Errors
+  - Errors During Development vs Production
+  - Handling Invalid Database IDs
+  - Handling Duplicate Database Fields
+  - Handling Mongoose Validation Errors
+  - Errors Outside Express: Unhandled Rejections
+  - Catching Uncaught Exceptions
+- Authentication Authorization and Security
+  - Section Intro
+  - Modelling Users
+  - Creating New Users
+  - Managing Passwords
+  - How Authentication with JWT Works
+  - Signing up Users
+  - Logging in Users
+  - Protecting Tour Routes - Part 1
+  - Protecting Tour Routes - Part 2
+  - Advanced Postman Setup
+  - Authorization: User Roles and Permissions
+  - Password Reset Functionality: Reset Token
+  - Sending Emails with Nodemailer
+  - Password Reset Functionality: Setting New Password
+  - Updating the Current User: Password
+  - Updating the Current User: Data
+  - Deleting the Current User
+  - Security Best Practices
+  - Sending JWT via Cookie
+  - Implementing Rate Limiting
+  - Setting Security HTTP Headers
+  - Data Sanitization
+  - Preventing Parameter Pollution
+- Modelling Data and Advanced Mongoose
+  - Section Intro
+  - MongoDB Data Modelling
+  - Designing Our Data Model
+  - Modelling Locations (Geospatial Data)
+  - Modelling Tour Guides: Embedding
+  - Modelling Tour Guides: Child Referencing
+  - Populating Tour Guides
+  - Modelling Reviews: Parent Referencing
+  - Creating and Getting Reviews
+  - Populating Reviews
+  - Virtual Populate: Tours and Reviews
+  - Implementing Simple Nested Routes
+  - Nested Routes with Express
+  - Adding a Nested GET Endpoint
+  - Building Handler Factory Functions: Delete
+  - Factory Functions: Update and Create
+  - Factory Functions: Reading
+  - Adding a /me Endpoint
+  - Adding Missing Authentication and Authorization
+  - Importing Review and User Data
+  - Improving Read Performance with Indexes
+  - Calculating Average Rating on Tours - Part 1
+  - Calculating Average Rating on Tours - Part 2
+  - Preventing Duplicate Reviews
+  - Geospatial Queries: Finding Tours Within Radius
+  - Geospatial Aggregation: Calculating Distances
+  - Creating API Documentation Using Postman
+- Server-Side Rendering w Pug Templates
+  - Section Intro
+  - Recap: Server-Side vs Client-Side Rendering
+  - Setting up Pug in Express
+  - First Steps with Pug
+  - Creating Our Base Template
+  - Including Files into Pug Templates
+  - Extending Our Base Template with Blocks
+  - Setting up the Project Structure
+  - Building the Tour Overview - Part 1
+  - Building the Tour Overview - Part 2
+  - Building the Tour Page - Part 1
+  - Building the Tour Page - Part 2
+  - Including a Map with Mapbox - Part 1
+  - Including a Map with Mapbox - Part 2
+  - Building the Login Screen
+  - Logging in Users with Our API - Part 1
+  - Logging in Users with Our API - Part 2
+  - Logging in Users with Our API - Part 3
+  - Logging out Users
+  - Rendering Error Pages
+  - Building the User Account Page
+  - Updating User Data
+  - Updating User Data with Our API
+  - Updating User Password with Our API
+- Advanced Features Payments Email File Uploads
+  - Section Intro
+  - Image Uploads Using Multer: Users
+  - Configuring Multer
+  - Saving Image Name to Database
+  - Resizing Images
+  - Adding Image Uploads to Form
+  - Uploading Multiple Images: Tours
+  - Processing Multiple Images
+  - Building a Complex Email Handler
+  - Email Templates with Pug: Welcome Emails
+  - Sending Password Reset Emails
+  - "Using Sendgrid for ""Real"" Emails  "
+  - Credit Card Payments with Stripe
+  - Integrating Stripe into the Back-End
+  - Processing Payments on the Front-End
+  - Modelling the Bookings
+  - Creating New Bookings on Checkout Success
+  - Rendering a User's Booked Tours
+  - Finishing the Bookings API
+  - Final Considerations
+- Setting Up Git and Deployment
+  - Section Intro
+  - Setting Up Git and GitHub
+  - Git Fundamentals
+  - Pushing to GitHub
+  - Preparing Our App for Deployment
+  - Deploying Our App to Heroku
+  - Testing for Secure HTTPS Connections
+  - Responding to a SIGTERM Signal
+  - Implementing CORS
+  - Finishing Payments with Stripe Webhooks

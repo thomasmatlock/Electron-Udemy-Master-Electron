@@ -12,9 +12,5 @@
 https://www.w3schools.com/jsref/jsref_obj_boolean.asp
 
     Method // Description
-toString() // Converts a boolean value to a string, and returns the result
-valueOf() // Returns the primitive value of a boolean
-
-Method // Description
-toString() // Converts a boolean value to a string, and returns the result
-valueOf() // Returns the primitive value of a boolean
+bool.toString() // Converts a boolean value to a string, and returns the result
+bool.valueOf() // Returns the primitive value of a boolean

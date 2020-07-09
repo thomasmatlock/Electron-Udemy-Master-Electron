@@ -1,4 +1,0 @@
-- class on Udemy = laptop
-- backend work = laptop
-- front end design = desktop
-- Refactor = desktop
