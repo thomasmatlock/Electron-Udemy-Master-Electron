@@ -1,0 +1,3 @@
+- git
+- require
+  - core, 3rd party, mine

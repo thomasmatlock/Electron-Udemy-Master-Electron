@@ -1,0 +1,425 @@
+Jonas CSS - Advanced CSS and Sass: Flexbox, Grid, Animations and More! #copy
+
+- Natours Project Setup First Steps
+  - Section Intro
+  - Project Overview
+  - Building the Header - Part 1
+    - best way to perform basic reset using universal selector
+    - how to set prokect wide font definitions
+    - how to clip parts of elements using clip-path
+    - notes
+      - all text inside elements so far goes between opening/closing tags
+  - Building the Header - Part 2
+    - I notice Jonas does this:
+      - creates section
+        - fiddles with css for general padding, spacing margin, etc
+      - back to html creates elements one by one, putting each inside a div, giving the div a classname
+      - also, i notice he does a lot of the positioning before the fine tuning like font weight, etc
+  - Creating Cool CSS Animations
+  - Building a Complex Animated Button - Part 1
+  - Building a Complex Animated Button - Part 2
+- How CSS works A Look Behind the Scenes
+  - Three Pillars of Writing Good HTML and CSS (Never Forget Them!)
+    - Responsive Design
+      - Fluid layouts
+      - media queries
+      - responsive images
+      - correct units (px or rem, em)
+      - Desktop-first vs mobile first
+    - Maintainable and scalable code
+      - Clean
+      - Easy to understand
+      - Growth
+      - Reusable
+      - How to organize files
+      - How to name classes
+      - How to structure HTML
+    - Web performance
+      - Less HTTP requests
+      - Less code
+      - Compress code
+      - Use a CSS preprocessor
+      - Less images
+      - Compress images
+  - How CSS Works Behind the Scenes: An Overview
+    - what happens to css when we load a webpage
+      - Load HTML
+      - Parse HTML
+        - Load in CSS from HTML header links
+        - Parse CSS
+          - Resolve conflicting CSS declarations (cascade)
+          - Process final css values ie converting percentage values into px
+          - CSS Object Model (CSS version of DOM) called the CSSOM
+      - Compiles the DOM
+  - How CSS is Parsed, Part 1: The Cascade and Specificity
+    - CSS Rule is always 2 parts
+      - selector (.my-class) or (#my-id) or whatever
+      - Declaration block
+        - just a bunch of properties and values
+    - CASCADE:
+      - process of combining different stylesheets and resolving conflicts between different CSS rules and declarations, when more than one rule applies to a certain element
+      - order of importance for cascade compiling of authors
+        - User !important declarations
+        - Author ~important declarations
+        - Author declarations
+        - User declarations
+        - Default browser declarations
+      - order of selector specifity importance for declarations (declarations ranked important to least)
+        - Inline styles (not really a problem, I don't plan ever using CSS directly written in HTMl file
+        - IDs
+        - Classes, pseudo-classes, attribute
+        - Basic HTML elements, pseudo elements
+      - lastly, if there is a tie in these 4, the final declaration will supercede tying/competing declarations preceding it
+      - PPS, always put your author stylesheets last in your header to overwrite any 3rd aparty vendor CSS sheets
+  - Specificity in Practice
+  - How CSS is Parsed, Part 2: Value Processing ( all relativer units of m,easurement, like rem and % etc, not absolute units like px)
+    - rems use root value, while ems use parent element they are child of. so rem is seems more reliable unless you have something specific you want a child of a parent to do
+  - How CSS is Parsed, Part 3: Inheritance
+  - Converting px to rem: An Effective Workflow
+    - rem is in relation to root font size
+      - by changing rem, we can dynamically adjust everything else on the page
+      - we change it in the html element:
+        - html {
+          - font-size: 10px;
+          - /_ 1 rem = exactly 10px. Very useful for scaling everything else on page in rem_/
+        - }
+  - How CSS Renders a Website: The Visual Formatting Model REVIEW
+    - Definition:
+      - The algo that calcs boxes and determines the layout of these boxes, for each element in the render tree, in order to determine the final layout of the page
+    - Includes several things:
+      - DIMENSIONS OF BOXES: the box model
+        - Comprised of
+          - height, width of content
+          - padding between content and border
+          - margin outside element, outside border, separating it from nearby element
+        - What each one is about
+          - Content: text, images, etc
+          - padding: transparent area around the content, inside the box
+          - border goes around padding,
+          - margin is space between boxes, its outside the border
+          - Fill area: area that gets filled with the background color or background image
+        - Height and widths
+          - total width = right border + right padding + specified width + left padding + left border
+          - total height = top border + top padding + specified height + bottom padding + bottom border
+        - Basically IMPORTANT, if we specify height at say 100px, and padding top/bottom at 20px, total height is 140px
+        - To get around this, we use box-sizing: border-box, this will include content and padding, instead of adding padding on seperately, creating additional visual bloat/spacing
+      - BOX TYPE: inline, block and inline-block
+        - Block-level blocks
+          - elements formatted visually as blocks
+          - 100% of parent's width
+          - Vertically, one after another
+          - most divs are whatever html els are set to display: block by default
+          - block level always occupies as much space as possible, usually the full width of its parent, and creates linebreaks before and after it, which hence the verticality of this type of display
+          - DISPLAY: BLOCK;
+          - DISPLAY: FLEX;
+          - DISPLAY: LIST-ITEM;
+          - DISPLAY: TABLE;
+        - Inline boxes (basically opposite of block-level boxes)
+          - Content is distributed in lines
+          - OCCUPIES ONLY CONTENT'S SPACE
+          - no line breaks
+          - no heights, no widths
+          - paddings and margins only horizontal \*left and right
+          - DISPLAY: INLINE;
+        - Inline-block boxes (way to overcome limitations of inline boxes)
+          - A mix of block and inline
+          - Occupies only content's space
+          - No line-breaks
+          - Box-model applies as showed
+          - DISPLAY: INLINE-BLOCK;
+      - POSITIONING SCHEME: floats and positioning
+        - Normal flow
+          - Default positioning scheme
+          - NOT floated
+          - NOT absolutely positioned
+          - elements laid out according to their source order
+          - Default, (position: relative;)
+        - Floats
+          - ELEMENT IS REMOVED FROM THE NORMAL FLOW
+          - Text and inline elements will wrap around the floated element
+          - The container will not adjust its height to the element
+          - float: left;, float: right;
+        - Absolute positioning
+          - Element ALSO REMOVED from the normal flow
+          - No impact on surrounding content or elements
+          - We use top, bottom, left and right to offset the element from its relatively positioned container
+          - position: absolute;, position: fixed;
+      - STACKING CONTEXTS: determines whic order elements are rendered on page
+      - Other elements in the render tree
+      - Viewport size, dimensions of images, etc.
+      - vIEWPORT SIZE, DIMENSIONS OF IMAGES, ETC
+  - CSS Architecture, Components and BEM
+    - The Think Build Architect Mindset
+    - Think
+      - Think about the layout of your webpage or web app before writing code
+        - Component-driven design
+          - Modular building blocks that make up interfaces
+          - We can think of our interface as a collection of components
+          - Held together by the layout of the page
+          - Re-usable across a project, and between different projects
+          - Independant, allowing us to use components anywhere on the page
+            - this means components should not be dependant on their parent els
+          - Basically designing Legos, to be used at will forever
+    - Build
+      - Build your layout in HTML/CSS with a consistent naming structure for naming classes
+        - BEM
+          - Block Element Modifier
+          - BLOCK: standalone component that is meaningful on its own
+            - something that contain multiple elements, that you can re-use the whole block
+          - ELEMENT: part of a block that has no standalone meaning
+            - used without the rest of the block, its not useful, and kind of meaningless
+          - MODIFIER: a different version of a block or an element
+    - Architect
+      - Create a logical architecture for your CSS with files and folders
+        - The 7-1 Pattern
+          - 7 different folders for partial Sass files, and 1 main Sass file to import all other files into a compiled CSS stylesheet
+          - The 7 folders:
+            - base/
+            - components/
+            - layout/
+            - pages/
+            - themes/
+            - abstracts/
+              - doesn't necessarily contain code, but a place to put colors, variables, etc
+            - vendors/
+              - 3rd party css goes here
+  - Implementing BEM in the Natours Project
+    - basically run through your html file, say the header block, run through all your elements inside your header block, and preface them with [header__] your block name and 2 underscores
+      - also change css selectors to reflect updated naming in your html file
+    - one caveat, if you plan on using any elements anywhere else in your project, you shouldnt prefix them with that block name
+    - also, for say our heading-primary, it contains
+      - "heading-primary-main"
+      - "headign-primary-sub"
+      - These are modifiers of the block, so we should change them to:
+        - "heading-primary--main"
+        - "headign-primary--sub"
+      - this double dash allows us to identify them as modified versions of their parent
+      - the difference between double underscore and double dash:
+        - double underscore is flag to indicate non standalone supporting element of parent block
+        - double dash is flag to indicate just a different, modified version of parent
+- Intro to Sass and NPM
+  - What is Sass?
+    - Sass is jsut a css preprocessor, an extension of CSs that adds power and elegance to the basic language
+    - sass basically fixes a bunch of problems we have with css
+      - css gets messy very quickly even on small projects, never mind big projects
+      - we will start writing sass, run a compiler, and it shits out css
+    - Sass features
+      - Variables, for reusable values such as colors, font-sizes, spacing etc
+      - nesting, to nest selectors inside of one another, allowing us to write less code
+      - Operators, for math ops right inside of css
+      - Partials and imports, to write css in different files and importing them all into onie single file
+      - Mixins, to write reusable pieces of css
+      - Functions, similiar to mixins, with the difference that they produce a value that can be used
+      - Extends, to make different selectors inherit declarations that are common to all of them
+      - Control directives, for writing complex code using conditionals and loops
+    - Sass syntax skips semi-colons and curly brackets entirely, interesting, Jonas prefers Scss, sassy css, because it keeps those intact, whereas straight sass is purely indent-based, Jonas thinks thats confusing, so I agree obv
+  - First Steps with Sass: Variables and Nesting
+    - https://codepen.io/thomasmatlock/pen/dybpZZG?editors=1100
+  - First Steps with Sass: Mixins, Extends and Functions I PREFER MIXINS https://codepen.io/thomasmatlock/pen/dybpZZG?editors=1100
+    - Mixin:
+      - its like a huge variable that contains multiple lines of code
+      - a reusable piece of code
+      - whenever we use that peice of code, that piece is put into whatever larger block of code we insert it into
+    - Extends
+      - ONLY USE when the elements you're selecting are very similar or very related
+      - kind of like JS classes, we create the base, and other components we can have inherit and extend that base/class
+    - Functions
+  - A Brief Introduction to the Command Line
+    - Basic commands
+      - create folder, mkdir
+      - create file, type NUL > filename.extension
+        - ie: type NUL > main.js
+      - copy file
+        - cp filename.extension directory
+          - ie: cp index.js .. (moves index.js to parent dir)
+      - Move file
+        - mv filename.extension directory
+          - ie: mv index.js .. (moves index.js to parent dir)
+          - ie move to child dir:
+            - mv .\script.js ./childfolder
+  - NPM Packages: Let's Install Sass Locally
+    - node-sass dev dependancy
+    - npm install to update whatever packages we need based on package.json, like if we removed node_modules folder
+  - NPM Scripts: Let's Write and Compile Sass Locally
+    - we used terminal to make a sass folder
+    - created a main.scss file
+    - copied over all our style.css data to main.scss
+    - refactor any css you need to as scss, ie replacing colors with variables or whatever
+    - to use it, include a script in package file
+      - "compile:sass": "node-sass sass/main.scss css/style.css -w"
+        - above, its the sass package we call first
+        - then the input file we compile (sass)
+        - and 3rd, our output file (css/style.css)
+          - it overwrites whatever is in the output css file
+          - 4th, very important, the "-w" flag, to monitor file for changes so we dont need to run compile script every time
+  - The Easiest Way of Automatically Reloading a Page on File Changes
+    - npm install live-server -g
+      - -g is global
+    - yeehaw!!! anytime you're in your project root folder type 'live-server' BAM
+      - open in port8080 ready to autoreload!!!
+    - IMPORTANT
+      - you gotta open 2 terminals, one thread for scss autocompile on filechange
+      - the other is live-server
+- Natours Project - Using Advanced Css and Sass Part 2
+  - Converting Our CSS Code to Sass: Variables and Nesting
+    - save all the colors you want as variables then replace the old css hex or rgba values with the new variable name
+    - also, instead of tons of class selectors ie
+      - header
+      - header\_\_logo
+      - header\_\_logo-box
+      - header\_\_text-box
+    - You simply start with the class base ie
+      - .header {}
+      - then inside that you just add its nested children, ie
+      - &**logo (which translates to .header**logo)
+      - GODDAMN I LOVE SCSS
+    - you can nest them all with & ampersand symbol, which basically is a copy/paste substitude for the parent class you are nesting children inside
+  - Implementing the 7-1 CSS Architecture with Sass REVIEW THIS IS AMAZING
+    - sass
+      - base
+        - \_base.scss
+          - for lowlevel stuff like
+            - resets
+            - styles for html, as well as body element selectors
+          - this is a partial file, which always start with an underscore
+        - also, \_animations, \_utilities, \_typography
+      - abstracts (does output anything)
+        - functions
+        - mixins
+        - variables
+      - components
+  - Review: Basic Principles of Responsive Design and Layout Types
+    - three principles
+      - fluid grids and layouts
+        - allow content to easily adapt to current viewport width to browse the website
+        - uses % rather than px for all layout related lengths
+      - Flexible responsive images
+        - images behave differently than text content, and so we need to ensure that they also adapt nicely to the current viewport
+        - we define their dimensions in percentages, rather than fixed px
+      - media queries
+        - allows us to change styles on certain viewport widths (breakpoints) allowing us to create different versions of our website for different widths
+    - Layout types
+      - Float layout (supported on all browsers)
+      - Flexbox (modern)
+      - CSS Grid (modern)
+  - Building a Custom Grid with Floats
+    - How to architect and build a simple grid system
+      - if you want 2/3 grid its 2 of 3
+      - or if you 3/4, its 3 of 4, or w/e
+    - how the attribute selector works
+    - how the :not pseudo-class works
+    - How calc() works, and what the difference between calc() and simple Sass ops
+  - Building the About Section - Part 1
+    - overview
+      - tihnking about components
+      - how and why to use utility classes
+      - how to use background-clip property
+      - how to transform multiple properties simultaneously
+      - how to use the out;ine-offset property together with outline
+      - how to style elements that are not hovered while others are
+    - Wow html tips
+      - with emmet you wanna make a div? just write .(dot)yourclassname, and
+      - want something besides div?
+        - section.section-about (you write the element name, dot, classname)
+      - write 'lorem' to autofill some blank filler text
+  - Building the About Section - Part 2
+  - Building the About Section - Part 3
+  - Building the Features Section
+  - Building the Tours Section - Part 1
+  - Building the Tours Section - Part 2
+  - Building the Tours Section - Part 3
+  - Building the Stories Section - Part 1
+  - Building the Stories Section - Part 2
+  - Building the Stories Section - Part 3
+  - Building the Booking Section - Part 1
+  - Building the Booking Section - Part 2
+  - Building the Booking Section - Part 3
+  - Building the Footer
+  - Building the Navigation - Part 1
+  - Building the Navigation - Part 2
+  - Building the Navigation - Part 3
+  - Building a Pure CSS Popup - Part 1
+  - Building a Pure CSS Popup - Part 2
+- Natours Project - Advanced Responsive Design Part 3
+  - Section Intro
+  - Mobile-First vs Desktop-First and Breakpoints
+  - Let's Use the Power of Sass Mixins to Write Media Queries
+  - Writing Media Queries - Base, Typography and Layout
+  - Writing Media Queries - Layout, About and Features Sections
+  - Writing Media Queries - Tours, Stories and Booking Sections
+  - An Overview of Responsive Images
+  - Responsive Images in HTML - Art Direction and Density Switching
+  - Responsive Images in HTML - Density and Resolution Switching
+  - Responsive Images in CSS
+  - Testing for Browser Support with @supports
+  - Setting up a Simple Build Process with NPM Scripts
+  - Wrapping up the Natours Project: Final Considerations
+- Trillo Project Master Flexbox
+  - Text
+  - Section Intro
+  - Why Flexbox: An Overview of the Philosophy Behind Flexbox
+  - A Basic Intro to Flexbox: The Flex Container
+  - A Basic Intro to Flexbox: Flex Items
+  - A Basic Intro to Flexbox: Adding More Flex Items
+  - Project Overview
+  - Defining Project Settings and Custom Properties
+  - Building the Overall Layout
+  - Building the Header - Part 1
+  - Building the Header - Part 2
+  - Building the Header - Part 3
+  - Building the Navigation - Part 1
+  - Building the Navigation - Part 2
+  - Building the Hotel Overview - Part 1
+  - Building the Hotel Overview - Part 2
+  - Building the Description Section - Part 1
+  - Building the Description Section - Part 2
+  - Building the User Reviews Section
+  - Building the CTA Section
+  - Writing Media Queries - Part 1
+  - Writing Media Queries - Part 2
+  - Wrapping up the Trillo Project: Final Considerations
+- A Quick Intro to Css Grid Layouts
+  - Text
+  - Section Intro
+  - Why Flexbox: An Overview of the Philosophy Behind Flexbox
+  - A Basic Intro to Flexbox: The Flex Container
+  - A Basic Intro to Flexbox: Flex Items
+  - A Basic Intro to Flexbox: Adding More Flex Items
+  - Project Overview
+  - Defining Project Settings and Custom Properties
+  - Building the Overall Layout
+  - Building the Header - Part 1
+  - Building the Header - Part 2
+  - Building the Header - Part 3
+  - Building the Navigation - Part 1
+  - Building the Navigation - Part 2
+  - Building the Hotel Overview - Part 1
+  - Building the Hotel Overview - Part 2
+  - Building the Description Section - Part 1
+  - Building the Description Section - Part 2
+  - Building the User Reviews Section
+  - Building the CTA Section
+  - Writing Media Queries - Part 1
+  - Writing Media Queries - Part 2
+  - Wrapping up the Trillo Project: Final Considerations
+- Nexter Project Master Css Grid Layouts
+  - Project Overview and Setup
+  - Building the Overall Layout - Part 1
+  - Building the Overall Layout - Part 2
+  - Building the Features Section - Part 1
+  - Building the Features Section - Part 2
+  - Building the Story Section - Part 1
+  - Building the Story Section - Part 2
+  - Building the Homes Section - Part 1
+  - Building the Homes Section - Part 2
+  - Building the Gallery - Part 1
+  - Building the Gallery - Part 2
+  - Building the Footer
+  - Building the Sidebar
+  - Building the Header - Part 1
+  - Building the Header - Part 2
+  - Building the Realtors Section
+  - Writing Media Queries - Part 1
+  - Writing Media Queries - Part 2
+  - Browser Support for CSS Grid
+  - Wrapping up the Nexter Project: Final Considerations
