@@ -18,7 +18,7 @@ beforeunload; // The event occurs before the document is about to be unloaded //
 blur; // The event occurs when an element loses focus // Belongs To: FocusEvent // https://www.w3schools.com/jsref/event_onblur.asp
 canplay; // The event occurs when the browser can start playing the media (when it has buffered enough to begin) // Belongs To: Event // https://www.w3schools.com/jsref/event_oncanplay.asp
 canplaythrough; // The event occurs when the browser can play through the media without stopping for buffering // Belongs To: Event // https://www.w3schools.com/jsref/event_oncanplaythrough.asp
-change; // The event occurs when the content of a form element, the selection, or the checked state have changed (for <input>, <select>, and <textarea>) // Belongs To: Event // https://www.w3schools.com/jsref/event_onchange.asp
+onchange; // The event occurs when the content of a form element, the selection, or the checked state have changed (for <input>, <select>, and <textarea>) // Belongs To: Event // https://www.w3schools.com/jsref/event_onchange.asp
 click; // The event occurs when the user clicks on an element // Belongs To: MouseEvent // https://www.w3schools.com/jsref/event_onclick.asp
 contextmenu; // The event occurs when the user right-clicks on an element to open a context menu // Belongs To: MouseEvent // https://www.w3schools.com/jsref/event_oncontextmenu.asp
 copy; // The event occurs when the user copies the content of an element // Belongs To: ClipboardEvent // https://www.w3schools.com/jsref/event_oncopy.asp
@@ -95,7 +95,7 @@ waiting; // The event occurs when the media has paused but is expected to resume
 wheel; // The event occurs when the mouse wheel rolls up or down over an element // Belongs To: WheelEvent // https://www.w3schools.com/jsref/event_onwheel.asp
 
 // HTML DOM Event Properties and Methods
-Property / Method // Description // Belongs To // URL
+// Property / Method // Description // Belongs To // URL
 altKey // Returns whether the "ALT" key was pressed when the mouse event was triggered // MouseEvent // https://www.w3schools.com/jsref/event_altkey.asp
 altKey // Returns whether the "ALT" key was pressed when the key event was triggered // KeyboardEvent , TouchEvent // https://www.w3schools.com/jsref/event_key_altkey.asp
 animationName // Returns the name of the animation // AnimationEvent // https://www.w3schools.com/jsref/event_animation_animationName.asp

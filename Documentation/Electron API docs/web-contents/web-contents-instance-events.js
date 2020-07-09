@@ -1,6 +1,6 @@
 <https://www.electronjs.org/docs/api/web-contents#instance-events>
-Render and control the contents of a BrowserWindow instance.
-Process: Main
+// Render and control the contents of a BrowserWindow instance.
+// Process: Main
 
  'did-finish-load' //, Emitted when the navigation is done' //, i.e. the spinner of the tab has stopped spinning' //, and the onload event was dispatched.
 'did-fail-load' //, This event is like did-finish-load but emitted when the load failed. The full list of error codes and their meaning is available here.
