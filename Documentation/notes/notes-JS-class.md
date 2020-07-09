@@ -1,0 +1,1551 @@
+Javascript
+
+- Udemy: The Complete JavaScript Course 2018
+  - Course Introduction
+    - // downloaded resources in the Coding\JS folder
+  - JavaScript Language Basics
+    - Section Intro
+    - Let's start coding!
+    - A Brief Introduction to JavaScript
+      - 3 Cores of Web applications
+        - HTML (content)
+          - nouns (what you see)
+          - <p></p>
+          - means paragraph
+        - CSS (presentation)
+          - adjectives (how it looks)
+          - p {color: red;}
+          - means "the paragraph is red"
+        - JS (dynamic effects + programming)
+          - Verbs (what happens)
+          - p.hide();
+          - means "hide the paragraph"
+    - Variables and Data Types
+      - strings, ints, bools
+      - Null: means 'non-existent'
+      - undefined: 'data type of a variable that does not have a value yet'
+        - e1
+          - var variableName; //assigned no value, returns undefined
+      - JS has dynamic typing: data types are automatically assigned to variables, (unlike Java it seems)
+      - Variable naming rules
+        - no numbers or symbols starting the var name
+          - Exception: $ symbol and _ underscore symbol can start var names
+        - no keywords, like 'function'
+    - Variable Mutation and Type Coercion
+      - Type coercion occurs when you combine different data types (eg strings +floats), it coerces one data type into another. There is a precedence, like floats get converted to strings in a string expression. Also, bools get converted to a string
+        - E1:
+          - var age = 30;
+          - var name = 'Tom';
+          - console.log(name + ' ' + age)
+          - Tom 30
+      - Declaring many variables in a single line
+        - e1
+          - var job, isMarried;
+          - job = 'teacher';
+          - isMarried = false;
+        - Variable mutation (re-assigning a variable containing one data type, to a value of another datatype)
+          - e1, mutate bool to string
+            - isMarried = false;
+            - isMarried = 'totally';
+      - Functions
+        - ALERT function (deploy popup modal window instead of using console.log
+          - alert(isMarried); //returns the value of 'isMarried' in a alert modal window
+        - Prompt(), is basically Pythons input()
+          - userAnswer = prompt('what is the answer?'); 
+          - alert(userAnswer);
+            - //I assigned the value of prompt to 'userAnswer' here and used it next in an alert
+    - Basic Operators
+      - Get the type of a variable (similar to type() in Python)
+        - e1, typeof
+          - console.log(typeof variableHere)
+    - Operator Precedence
+      - You can create multiple variables in the same line, without assigning any value
+        - e1
+          - var x, y, z;
+      - You can also assign the same value to multiple variables in the same line, same time
+        - e1
+          - var x,y;
+          - x = y = (8 * 2) / 15 + 3;
+          - console.log(x,y); //x and y are identical values
+            - //this is because the = symbol, aka assignment operator works from right to left, instead of the usual left to right
+            - // the math expression on the right gets assigned to y on the left, then the value of y gets assigned to x, on it's left
+      - Increment/decrement a number
+        - We've used stuff like x *= 2;, which multiples x by and assigns the result back to x, but to increment and decrement by one whole number
+          - var x,y;
+          - x = y = (8 * 2);
+          - x++;
+          - y--;
+          - console.log(x,y);
+          - // returns 17 15, it added 1 to x, decremented y by 1
+    - Coding Challenge 1
+    - Coding Challenge 1: Solution
+    - If / else Statements
+      -  if statements, you just do if, followed by the expression in () parenes:
+        - e1, parens expression, then curlies syntax
+          - put semis at the end of every statement within the if, elif, else statements
+          - if (BMIMark > BMIJohn) {
+            - console.log('Mark\'s BMI is higher than John\'s.');
+          - } else {
+            - console.log('John\'s BMI is higher than Marks\'s.');
+          - }
+      - else if's exist here, not elifs!
+    - Boolean Logic
+      - var age = 16;
+      - age >= 20; //=> false
+      - age < 30; // => true
+      - !(age < 30); //false
+        - IMPORTANT SYNTAX FOR THE ! not operator here, it's outside the parens, not != anymore
+    - The Ternary Operator and Switch Statements
+      - Ternary Operator (alternative way of writing if/else conditional statements) (ternary means has 3 blocks of code, the if, the if action, then the else statement)
+        - e1, full if/else statement, line 4, using logical expression, question mark, action, colon (as the else statement) then the action that else executes
+          - var firstName = 'John';
+          - var age = 14;
+          - // Ternary operator
+          - age >= 18 ? console.log(firstName + ' drinks beer.') : console.log(firstName + ' drinks juice.');
+          - var drink = age >= 18 ? 'beer' : 'juice';
+          - console.log(drink);
+          - (if (age >= 18) {
+            - var drink = 'beer';
+          - } else {
+            - var drink = 'juice';
+          - }
+        - e1.1, SEE ABOVE for full contexty
+          - age >= 18 //conditional "if" statement
+          - ? console.log(firstName + ' drinks beer.') //QUESTION MARK, then action to execute if above expression is true
+          - : //colon is the else statement indicator here
+          - console.log(firstName + ' drinks juice.'); //COLON above is followed by this, the statement to execute
+        - e2, assigning a value that is conditional, based on a pre-existing variable value
+          - var age = 14;
+          - var drink = age >= 18 ? 'beer' : 'juice';
+            - //the value assigned to drink is conditional here, the expression true or false, followed with the 2 options is can assigned basically on the bool true or false value.
+            - in this case, the 1st option is for true, 2nd option is the 'else' option if false
+        - e2.1, the long if else verson of the above single line expression
+          - if (age >= 18) {
+            - var drink = 'beer';
+          - } else {
+            - var drink = 'juice';
+          - }
+      - Switch Statements (huge if/else statement that has multiple 'else if' clauses) (this is great for if you want to eliminate tons of syntax and => symbols, etc, you use the switch statement instead
+        - e1 using strings ["switch": "if", "case": "else if", "default": "else"] (please note to use and OR statement, put expression 1, followed by 
+          - var job = 'teacher';
+          - switch (job) { //switch means 'if' indicates we're starting the if/else if conditional test, using the arg (job), it will use the word 'case'. 'case' means 'else if' case is followed by various args, here they are strings. The 'default' conditional is the 'else' statement. They also have 'break' in each case/else if statement
+            - case 'teacher': //this is an OR statement, put nothing here to have it tie into the next statement: it's essentially testing if 'teacher' OR 'instructor' is true, THEN it prints teaches kids how to code.
+            - case 'instructor':
+              - console.log(firstName + ' teaches kids how to code.');
+              - break;
+            - case 'driver':
+              - console.log(firstName + ' drives an uber in Lisbon.');
+              - break;
+            - case 'designer':
+              - console.log(firstName + ' designs beautiful websites.');
+              - break;
+            - default:
+              - console.log(firstName + ' does something else.');
+          - }
+        - e2, another switch statement like above, but no strings, just && AND statements, also true/boolean integer tests
+          - age = 56;
+          - switch (true) {
+            - case age < 13:
+              - console.log(firstName + ' is a boy.');
+              - break;
+            - case age >= 13 && age < 20:
+              - console.log(firstName + ' is a teenager.');
+              - break;
+            - case age >= 20 && age < 30:
+              - console.log(firstName + ' is a young man.');
+              - break;
+            - default:
+              - console.log(firstName + ' is a man.');
+          - }
+    - Truthy and Falsy Values and Equality Operators
+      - == can evalute integer 23 as string '23'
+        - == uses type coercion, which converts data types into another. It's relaxed
+      - === is a strict equals evaluator, it will not equate the integer 23 to the string '23'
+        - best practice is to use the tripe equals ===, so there will be no ' relaxed' errors with the double == sign
+    - Coding Challenge 2
+    - Coding Challenge 2: Solution
+    - Functions
+      - Python vs JS defining functions and calling them
+        - Define them
+          - Py: def functionName(argName):
+          - JS: function functionName(argName){}
+        - Call them (JS just ends w a semi-colon)
+          - pyFunctionName()
+          - JSFunctionName();
+      - D.R.Y. principle: Don't Repeat Yourself
+        - This is why functions rock, you can perform endless functions and write the code once
+    - Function Statements and Expressions
+      - Multiple ways to define a function
+        - 1, declaration, similar to Py
+          - function functionName(argsHere) {}
+            - e1
+              - function whatDoYouDo(job, firstName) {};
+        - 2, expression, assigning the function to a variable name
+          - var variableName = function(argsHere){}
+            - e1
+              - var whatDoYouDo = function(job, firstName) {
+                - switch(job) {
+                  - case 'teacher':
+                    - return firstName + ' teaches kids how to code';
+                  - case 'driver':
+                    - return firstName + ' drives a cab in Lisbon.'
+                  - case 'designer':
+                    - return firstName + ' designs beautiful websites';
+                  - default:
+                    - return firstName + ' does something else';
+                - }
+              - }
+      - Difference betweens statements and expressions
+        - Expressions are pieces of code that ALWAYS PRODUCE A VALUE
+          - Doesn't matter how long it is, as long as it produces a single value at the end of the it
+        - Statements perform actions. They do not produce immediate results/values
+          - EG, if else statements, while loops, 
+            - e1 
+              - if (true) {console.log(23)}
+              - 23
+              - undefined
+              - //23 is not a return statement, it's just undefined and a arbitrary arg we gave to console.log
+              - An expression produces a results eg (82 > randomNumber)
+              - Statement executes an action, but doesn't produce a return
+    - Arrays
+      - 2 ways to create arrays
+        - var names = ['John', 'Mark', 'Jane'];
+        - var years = new Array(1990, 1969, 1948);
+          - //uses the Array() function, preceded by 'new'
+      - Mutate array data (array functions)
+        - names[1] = 'Ben'; //changes names[1] to Ben
+        - names[names.length] = 'Mary'; //gets the length of names, then appends 'Mary' to the end of the array
+        - john.push('blue'); //appends 'blue' to end of array
+        - john.unshift('Mr.'); //inserts 'Mr.' as item 0, then moves every array item up 1 index position
+        - john.pop(); //removes end element
+        - john.shift();//removes first element
+        - john.indexOf(23) //returns the index position of the arg passed to it if the arg is present
+          - IMPORTANT if arg is not present, it returns '-1'
+          - IMPORTANT 2: this is very useful for testing if an element you want is in an array or not
+        - IF ELSE test to discover if an item is on a list or not
+          - var john = ['John', 'Smith', 1990, 'designer', false]; //creates the array and values
+          - var isDesigner = john.indexOf('designer') === -1 ? 'John is NOT a designer' : 'John IS a designer';
+            - var isDesigner = 
+              - //creating and naming the test to discover if the word designer is present in the array
+            - john.indexOf('designer') === -1 ?
+              - //uses indexOf, passes 'designer' as the string to check it it's present, and if returns '-1', then it's true, 'designer' is not present in the string. It's using the '-1' to 
+            - 'John is NOT a designer' : 'John IS a designer';
+              - //true option first, false option second
+    - Coding Challenge 3
+    - Coding Challenge 3: Solution
+    - Objects and Properties
+      - Difference between arrays and objects
+        - Arrays can be accessed by index, while objects can contain names (keys) for each value, and access via the name (key), pretty awesome, you don't have to know the index for each value you might want, you just need to know the key to return the value
+        - Also, the order in arrays matters a lot, but in objects the order does not matter at all
+        - arrays are surrounded by brackets [], while objects use {} curlies
+        - accessing 
+          - array values are accesses thus: array[1], square brackets w index number
+          - object values are accessed using 2 methods:
+            - the . dot method thus: object.keyName
+            - the brackets method thus: object[keyName]
+      - Objects notes
+        - contain properties, composed of key:value pairs, surrounded by curlies
+          - var john = {
+            - firstName: 'John',
+            - lastName: 'Smith',
+            - birthYear: 1990,
+            - family: ['Jane', 'Mark', 'Bob', 'Emily'],
+            - job: 'teacher',
+            - isMarried: false
+          - };
+        - Objects contain many data types, including functions as well as key value pairs
+          - strings, integers, arrays, other objects, and functions
+      - Accessing using pre-assigned variables, instead of the . dot or brackets method
+        - console.log(john.firstName);
+        - console.log(john['lastName']);
+        - var x = 'birthYear';
+        - console.log(john[x]);
+      - Object mutation (object functions)
+        - john.job = 'designer'; //updates the value of the 'job' key to 'designer'
+        - john['isMarried'] = true; //updates the value of the 'isMarried' key to 'true'
+      - Creating objects (2 ways)
+        - e1, all in one, all at once method, using curlies
+          - var john = {
+            - firstName: 'John',
+            - lastName: 'Smith',
+            - birthYear: 1990,
+            - family: ['Jane', 'Mark', 'Bob', 'Emily'],
+            - job: 'teacher',
+            - isMarried: false
+          - };
+        - e2, using the new Object() method, then appending values on demand
+          - var jane = new Object(); //creates the 'jane' obj with no key value pairs yet
+          - jane.firstName = 'Jane'; // appends the firstName  key with 'Jane' as value
+          - jane.birthYear = 1969; // appends again
+          - jane['lastName'] = 'Smith'; // appends again
+      - Functions within objects
+        - e1, using a function, also using the word 'this'.' to reference this objects key
+          - var john = {
+            - firstName: 'John',
+            - lastName: 'Smith',
+            - birthYear: 1992,
+            - family: ['Jane', 'Mark', 'Bob', 'Emily'],
+            - job: 'teacher',
+            - isMarried: false,
+            - calcAge: function() {
+              - this.age = 2018 - this.birthYear;
+            - }
+          - };
+          - john.calcAge();
+          - console.log(john);
+        - e1.1
+          - Above, order of execution explanation (creates the age value, uses math to assign a value to it, all referencing properties within the 'john' object)
+            - john.calcAge(); //runs this
+            - this.age = 2018 - this.birthYear; //creates the key 'age' using 'this.age' which means 'john.age', then assigns the value of the expression:
+            - '2018 - this.birthYear' //this.birthYear is equal to 'john.birthYear' which is 1992
+            - its '2018 - 1992' and assigns that to 'this.age' aka 'john.age'
+          - arrays have things have push, unshift, and pop to mutate them 
+          - objects have functions to mutate their own data,  but can be much more powerful
+    - Objects and Methods
+    - Coding Challenge 4
+    - Coding Challenge 4: Solution
+    - Loops and Iteration
+      - For loop syntax
+        - For Loop Arguments
+          - Arg1: the counter, usually 'i'
+            - var i = 0 (or 1)
+          - Arg2: the condition, to decide when to stop looping, aka whether to execute the next loop
+          - Arg3: the amount to increment the counter ('i')
+            -  i++ (adds 1 to i each loop)
+        - For loops
+          - e1 
+            - for (var i = 1; i <= 20; i += 2) {
+              - console.log(i);
+            - }
+          - e2, for looping on a list, passing list.length as arg 2, (start at zero for arg1, arrays start at 0)
+            - var john = ['John', 'Smith', 1990, 'designer', false, 'blue'];
+            - for (var i = 0; i < john.length; i++) {
+              - console.log(john[i]);
+            - }
+          - e3 (continue statement as a filter to continue to the next iteration of the loop,. instead of continued to execute the code below the continue statement)
+            - var john = ['John', 'Smith', 1990, 'designer', false, 'blue'];
+            - for (var i = 0; i < john.length; i++) {
+              - if (typeof john[i] !== 'string') continue; //uses if statement only allow strings to be printed out
+              - console.log(john[i]);
+            - }
+          - e4 (break statement to completely break out the loop)
+            - var john = ['John', 'Smith', 1990, 'designer', false, 'blue'];
+            - for (var i = 0; i < john.length; i++) {
+              - if (typeof john[i] !== 'string') break; //uses if statement to break out of the loop once it encounters a non-string type
+              - console.log(john[i]);
+            - }
+          - e5, looping backwards
+            - var john = ['John', 'Smith', 1990, 'designer', false, 'blue'];
+            - for (var i = john.length - 1; i >= 0; i--) {
+              - console.log(john[i]);
+            - }
+        - While loops (use different argument structure than for loops)
+          - (i must created outside the argument parens, it cannot be created inline like for loop args)
+          - arg3, the increment value is also done in the code block, not in the argument parens
+          - e1
+            - var i = 0;
+            - while(i < john.length) {
+              - console.log(john[i]);
+              - i++;
+            - }
+    - Coding Challenge 5
+    - Coding Challenge 5: Solution, Part 1
+    - Coding Challenge 5: Solution, Part 2
+    - JavaScript Versions: ES5, ES6 / ES2015 and ES6+
+      - History
+        - 1996: Changed from LiveScript to JS to attract Java devs, JS has nothing to do with Java
+        - 1997: ES1 (ECMAScript1) became the first version of the JS language standard:
+          - ECMAScript: the language standard
+          - JavaScript: the language in practice
+        - 2009: ES5 (ECMAScript 5) released with lots of new features
+        - 2015: ES6/ES2015 (ECMAScript 2015) released: the biggest update to the language ever!
+        - 2015: Changed to an annual release cycle
+        - 2016/2017/2018/2019...: Released as ES2016/ER2017/ES2018/ES2019...
+      - ES5
+        - full supported in all browsers
+        - Ready to be used today
+      - ES6/ES2015 + ES7/ES2016 + ES8/ES2017 
+        - Well supported in all modern browsers
+        - No support in older browsers
+        - Can use most features in production with transpiling and polyfilling (converting new features back to ES5 format)
+      - ES9/ES2018 + ES10/ES2019
+        - Future versions, together called ESNext
+        - Some features supported in modern browsers
+        - Can already use some features in production with transpiling and polyfilling
+      - 
+  - How JavaScript Works Behind the Scenes
+    - Section Intro
+    - Download the Code
+    - How Our Code Is Executed: JavaScript Parsers and Engines
+      - Our code is hosted in an environment, usually a browser
+      - Our code is fed into a JS engine (like Google's V8 engine) which does 3 things
+        - parses it, to verify the syntax and that it is executable
+        - Conversion to machine code
+        - Code runs as machine code
+    - Execution Contexts and the Execution Stack
+      - Execution Context
+        - A box, container, or wrapper which stores variables and in which a piece of our code is evaluated and executed
+        - Default Context: Global Execution Context
+          - Code that is not inside any function is executed
+          - Associated with the global object
+          - In the browser, that's the window object
+            - e1
+              - lastName === window.lastName
+                - //is the exact same thing. 
+              - //true
+        - Every time you call a function, whether from the global context, or from inside a function, you're adding another context to the execution stack, basically it "burrows" in as far as needed before returning from the deepest context stack, recursively, back to the previous stack level, and so on, until it returns to the global context again and resumes moving down the lines of code, executing them
+    - Execution Contexts in Detail: Creation and Execution Phases and Hoisting
+      - Execution Context Object
+        - Variable Object (VO) (basically a global body that scans for all arguments, function declarations, and variable declarations, and add them to the Variable Object, which is like a global manifest of everything that is on the "table" of the current code environment)
+          - The argument object is created (all the arguments total?), containing all the arguments that were passed into the function
+          - Code is scanned for function declarations: for each function, a property is created in the Variable Object, pointing to the function
+          - Code is scanned for variable declarations: for each variable, a property is createed in the Variable Object, and set to 'undefined'
+            - IMPORTANT: HOISTING, these last 2 that scan for function & variable declarations are called hoisting, which means they are available before the execution starts
+        - Scope Chain
+        - "This" variable
+      - 1) Creation phase
+        - Creation of Variable Object (VO)
+        - Creation of the scope chain
+        - Determine value of the 'this' variable
+      - 2) Execution phase
+        - The code of the function that generated the current execution context is ran line by line
+    - Hoisting in Practice
+      - Hoisting for functions
+        - Hoisting is useful because it grabs function declarations before execution, so the order in which you call function doesn't matter, whether the corresponding declaration either precedes the call, or follows it. 
+          - e1, in which the function call is written before the declaration, but it doesn't matter because the declaration was already "hoisted" to the Variable Object to ready it for execution
+            - calcAge(1988); //call precedes declaration
+            - function calcAge(year) {
+              - console.log(2018 - year);
+            - }
+        - Hoisting works for function declarations NOT for function expressions
+          - e1, call follows expression, which works
+            - var retirement = function(year) {
+              - console.log(65 - (2018 - year));
+            - }
+            - retirement(1988); // calls function after it's expressed
+          - e2, call precedes expression, which does NOT work
+            - retirement(1988); // calls function before it's expressed
+            - var retirement = function(year) {
+              - console.log(65 - (2018 - year));
+            - }
+      - Hoisting for Variables
+        - Variables are hoisted as undefined
+        - e1, in which we attempt var access before it is declared, which returns 'undefined'
+          - console.log(age); //attempts to use the 'age' var, but it's undefined
+          - var age = 30;
+        - e2, the correct way, which attempts var access following var declaration
+          - var age = 30; // 'age' declared
+          - console.log(age); 'age' accessed after declaration
+        - e3, attempting var access with no declaration anywhere, returns error
+          - console.log(age); //returns an error, 'age' is declared nowhere in the code
+    - Scoping and the Scope Chain
+      - Scoping answers the question "where can we access a certain variable?"
+      - Each new function creates a scope: the space/environment, in which the variables it defines are accessible
+        - In JS, the only way to create new scopes is writing a new function
+        - In  other languages, it is possible to create scopes using for/while loops, but not, presumably, in JS
+      - Lexical scoping: a function that is lexically within another function gets access to the scope of the outer function
+        - Basically functions within function get access to it's parent's scope
+        - If you are in a child function, access a value or var that is outside the current scope, it just goes out/up 1 level to it's parent's scope, checks for the value there, and so on until it arrives at global scope if need be to find the value or variable
+        - IMPORTANT, this child-to-parent scope inheritance does not work backwards!
+          - e1, global scope can never go into it's children scopes to find a value
+    - The 'this' Keyword
+      - Regular function call: the 'this' keyword points at the global object, (the window object, in the browser).
+        - e1, referencing the global 'window' object
+          - console.log(this); // prints every property of the 'window' object
+        - e2, referencing window again inside a function call
+          - calcAge(1950);
+          - function calcAge(year) {
+            - console.log(2018 - year);
+            - console.log(this); // again, prints the window properties because it's refering to the global scope
+          - }
+      - Method call: the 'this' variable points to the object that is calling the method
+        - e1, where the call refers to it's parent, in this case an object, not the global window
+          - var john = {
+            - name: 'john',
+            - yearOfBirth: 1990,
+            - calcAge: function() {
+              - console.log(this); // prints the properties the 'john' object
+            - }
+          - }
+          - john.calcAge();
+      - IMPORTANT: The 'this' keyword is NOT assigned a value until a function where it is defined is actually called
+    - The 'this' Keyword in Practice
+      - You can borrow methods
+        - e1
+          - mike.calcAge = john.calcAge
+            - // assigns john's calcAge method to mike object
+            - // notice there is no () to call the methods, it's just treated as variable
+  - JavaScript in the Browser: DOM Manipulation and Events
+    - The DOM and DOM Manipulation
+      - DOM manipulation is just technical term for making JS interact with the web page elements
+      - Definitions
+        - DOM: Document Object Model;
+        - DOM is a structured representation of an HTML doc
+        - DOM is used to connect webpages to scripts like JS
+        - For each HMTL box, there is an object in the DOM that we can access and interact with
+          - HTML box examples, with DOM accessible/interactable objects
+            - <body>
+              - <section>
+                - <p> A paragraph with a <a>link</a>.</p>
+                - <p>Another second paragraph.</p>
+              - </section>
+              - <section>
+                - <img src="x.png" alt="The DOM">
+              - </section>
+            - </body>
+      - JS and DOM are 2 DIFFERENT things
+        - So far, we've used JS without any webpage interaction
+        - Now we will use DOM specific methods to manipulate it
+    - 5-Minute HTML and CSS Crash Course
+      - HTML (content of the webpage, aka WHAT is on the webpage)
+        - HTML doc always holds the contents of our webpages
+        - each element is composes of opening tag, content, and closing tag
+        - Elements are in a nested structure
+        - Elements include links, images, paragraphs, sections, etc
+        - HTML elements have attributes that further define them
+          - class attributes
+          - id 
+          - scr
+          - alt
+        - Most used attribute is class 
+          - class allows us to give an element a name
+          - id also can give an element a name, but ids need to be unique
+          - while class names can be used over and over again
+        - HTML structure always has 2 parts
+          - Header, usually contains invisible content, ie additional info about the webpage
+            - title
+            - imported custom fonts
+            - imported icon fonts
+            - linked support files, like CSS stylesheet, script files like JS, etc
+          - Body, contains the visible content
+      - CSS (presentation of the content aka HOW it looks)
+        - contains rules that style the webpage
+        - We connect CSS to HTML elements using most commonly classnames, but also id's or other selectors
+        - "body" selector is a type selector, kind of a global selector that targets all HTML body elements
+        - * is a universal selector, which selects all webpage elements and applies the styles contained within the curlies
+          - e1
+            - * {
+              - margin: 0;
+              - padding: 0;
+              - box-sizing: border-box;
+            - }
+    - Project Setup and Details
+    - First DOM Access and Manipulation
+      - Functions (Check DOM pig game starter and final app.js files)
+        - Math.random() gens a random float, to a int, multiply
+          - e1
+            - Math.random() * 10
+        - Math.floor() removes decimals from a number you pass to it
+          - e1, pass it the Math.random multipled by 10
+            - Math.floor(Math.random() * 10)
+          - e2, * by 6 to replicate dice values, and add 1 to remove chance of rolling 0, which doesn't exist
+            - Math.floor((Math.random() * 6)+1) OR
+            - Math.floor(Math.random() * 6) + 1
+        - document.querySelector() //allows us to select HTML elements as easily as we do in CSS/CSS selectors
+          - e1, 
+            - document.querySelector('#current-0') //use single quotes, then # inside it precede element id
+        - Change text of an HMTL id to value of a variable using textContent
+          - IMPORTANT, this is only for plaintext, for styling also, use the innerHTML method below
+          - e1
+            - document.querySelector('#score-0').textContent = dice;
+            - //#score-0 is the thing we want to change
+            - .textContent is the method to change it 
+            - = dice // we assign the dice value to it
+            - // basically, target the element using id, then change it to something
+        - Change text of an HMTL id to value of a variable using innerHTML
+          - document.querySelector('#current-' + activePlayer).innerHTML = '<em>' + dice + '</em>';
+          - MORE USEFUL than the textContent method, because we can add styling
+    - Events and Event Handling: Rolling the Dice
+      - Events: Notifications that are sent to notify the code that something has happened on the webpage
+      - Event examples
+        - Clicking a button
+        - Resizing a window
+        - scrolling down
+        - pressing a key
+      - Event listener: a function that performs an action based on a certain event. it waits for a specific event to happen
+        - Basically a listener, sits and waits until the thing happens, then he executes his code
+      - Important, the event listener function can only be executed when the execution stack has completed, global, then local contexts, etc, and the stack has returned to the global context
+      - Message QUEUE (list of events waiting to be processed after execution stack returns to global)
+        - This is the stack of events that happen in the browser are placed into aka
+          - Click event, scroll event, etc
+        - Once execution stack is in global context, then queue are added to the execution stack, 
+          - e1, clickHandler()
+      - We are learning:
+        - how to setup an event handler
+          - Step 1, select the element that the action will cause the event, aka a button or whatever
+        - What a callback function is
+          - It's when a function is called by another function for us
+        - What an anonymous function is
+          - When you create event listener, and arg2 is the function that happens on the event, but it's not external elsewhere, it's composed entirely within the argument parens
+            - *anonymous functions seem overly messy
+          - anonymous function is also a function that simply does not have a name, so it can't be used
+          - e1
+            - document.querySelector(buttonRollDice).addEventListener('click', function() {
+              - //perform anonymous function actions here
+            - });
+        - Another way to select elements by ID
+        - How to change the image in an <img> element
+      - Event listener table
+        - https://developer.mozilla.org/en-US/docs/Web/Events#Mouse_events
+    - Updating Scores and Changing the Active Player
+      - Ternary expression/function: having 3 parts (if/else if/else)
+        - also: assigning a value to a new variable, using a conditional expression on the right side of the statement
+      - Programming #tip! Write out function objectives as comments first, then fill in the actual code
+      - != uses type coercion, !== does not, it is strict
+      - #tip use a space between blocks of code, chunk related blocks, use space to separate blocks of code with unrelated functions
+    - Implementing Our 'Hold' Function and the DRY Principle
+      - DRY = Dont Repeat Yourself
+        - Anytime you use a section of code more than once, write a new function for it
+      - Class creation allows you to set a style to anything once, globally, referring to the CSS rules for that class
+    - Creating a Game Initialization Function
+      - # symbol is only for querySelector, it's not needed for getElementById
+    - Finishing Touches: State Variables
+      - state variable simply tells us the condition of a system
+      - use a true/false, initialize as true, then encase every function you want to run in an "if(stateIsTrue), then continue"
+      - Every time you want the function to not continue, set the global state as false 
+    - Coding Challenge 6
+      - oh christ lol
+    - Coding Challenge 6: Solution, Part 1
+    - Coding Challenge 6: Solution, Part 2
+    - Coding Challenge 6: Solution, Part 3
+      - #IMPORTANT  
+        - css rules (dots refer to classes, # hashtags refer to ID's)
+          - the .whatever refers to class
+          - The #whatever refers to ID's
+  - Advanced JavaScript: Objects and Functions
+    - Section Intro
+    - Download the Code
+    - Everything Is an Object: Inheritance and the Prototype Chain
+      - Almost everything in JS is an object
+      - JS has 2 big types of values
+        - Primitives are only 5 things: (contain single, primitive values
+          - Numbers
+          - Strings
+          - Booleans
+          - Undefined 
+          - Nulls
+        - Everything else is Objects (contain several, many, hundreds, even thousands of values)
+          - Arrays
+          - Functions
+          - Objects
+          - Dates
+          - Wrappers for Numbers, Strings, Booleans
+      - OOP, more or less
+        - Objects interacting with one another through methods and properties
+        - Used to store data, structure applications into modules, and keeping code clean
+      - Contructors (Blueprint, template, or prototype) allow us to construct as many instances of something as we want, rather than tediously, manually
+        - e1, person constructor
+          - name
+          - yearOfBirth
+          - job
+          - calculateAge()
+        - e2, athlete constructor
+          - olympics
+          - olympicMedals
+          - allowedOlympics()
+      - Inheritance
+        - it is when one object is based on another objects, aka its constructor. 
+        - It has access to all the abilities the original constructor has
+          - e1, using the athlete constructor, but also inheriting all the properties/methods from the person  constructor
+            - Athlete then has the above 7 properties outlined in the e1/e2 above
+      - JS is a prototype based language, which means that inheritance works by something called prototypes
+      - Every JS object has a prototype property, which makes them all inheritable to other objects
+      - Person prototype -> John is one instance of that
+      - If you have a method in an instance, JS will search that object for that method, then if it doesn't find it, it moves up to the constructor prototype, then up to the master prototype, the object constructor itself
+      - RECAP/SUMMARY
+        - Every JS object has a prototype property, which makes inheritance possible
+        - The prototype property of an object is where we put methods and properties that we want other  objects to inherit
+        - The Constructor's prototype property is NOT the prototype of the Constructor itself, it's the prototype of ALL instances that are created through it
+        - When a certain method (or property) is called, the search starts in the object itself, and if it cannot be found, the search moves on to the object's prototype. This continues until the method is found: prototype chain
+    - Creating Objects: Function Constructors
+      - e1, regular object
+        - var john = {
+          - name: 'John';
+          - yearOfBirth: 1990;
+          - job: 'teacher';
+        - }
+      - e2, function constructor 
+        - var Person = function(name, yearOfBirth, job) {
+          - this.name = name;
+          - this.yearOfBirth = yearOfBirth;
+          - this.job = job;
+        - }
+        - NOTES
+          - (var name is always capitalized)
+          - function arguments are the property names you want to construct)
+          - uses this. to refer to itself
+          - uses semi-colonis instead of commas per property
+      - e3, create new instance of the constructor
+        - var john = new Person('john', 1990, 'teacher');
+        - NOTES
+          - use 'new' to create a new empty objection
+          - then call the Constructor function, called 'Person' in this case
+          - pass the values of the properties you want assigned as arguments
+      - e4, prototyping a method to be inherited by instances
+        - e4.1, creating the method
+          - var Person = function(name, yearOfBirth, job) {
+            - this.name = name;
+            - this.yearOfBirth = yearOfBirth;
+            - this.job = job;
+            - this.calculateAge = function() {
+              - console.log(2018 - this.yearOfBirth);
+            - }
+          - }
+        - e4.2, calling the method
+          - john.calculateAge();
+      - MOVING METHODS AND PROPERTIES OUTSIDE THE CONSTRUCTOR INTO THE PROTOTYPE
+        - e5, adding a inheritable METHOD: moving the inheritable method from the constructor, to a global prototype?
+          - e5.1, removing method from the Person constructor
+            - var Person = function(name, yearOfBirth, job) {
+              - this.name = name;
+              - this.yearOfBirth = yearOfBirth;
+              - this.job = job;
+            - }
+          - e5.2, adding it to the prototype property of Person instead, and naming it as a variable
+            - Person.prototype.calculateAge = function() {
+              - console.log(2018 - this.yearOfBirth);
+            - }
+            - NOTES
+              - Basically, Constructor name, dot, prototype, dot, function name
+              - Then you just assign it the function you want.
+              - Result, anytime you create an instance then access it via "instanceName.functionName"
+                - You will get the same result
+                - Although I don't understand what the benefit is to removing it from the constructor, and moving entirely outside
+                - I think I just figured it out, there's just BOTH ways of doing this
+                  - Inside the constructor, but also outside using the 
+                    - constructorName, dot, prototype, dot, functionName
+        - e6, creating an inheritable prototype property
+          - Person.prototype.lastName = 'Smith';
+          - NOTES: constructorName, dot, prototype, dot, propertyName = valueHere
+    - The Prototype Chain in the Console
+      - So the following function and property
+        - Person.prototype.calculateAge = function() {
+          - console.log(2018 - this.yearOfBirth);
+        - }
+        - Person.prototype.lastName = 'Smith';
+      - These 2 basically add stuff to the prototype, for the instances to inherit
+      - Test if an instance proto is the same as the constructor prototype
+        - tom.__proto__ === Person.prototype
+        - true
+      - The prototype chain (inheriting functions all the way up to the object prototype) gives us access to all the functions, all the 
+      - Object class functions (viewable through the inheritance chain, one up from __proto__
+        - constructor: ƒ Object()
+        - hasOwnProperty: ƒ hasOwnProperty()
+        - isPrototypeOf: ƒ isPrototypeOf()
+        - propertyIsEnumerable: ƒ propertyIsEnumerable()
+        - toLocaleString: ƒ toLocaleString()
+        - toString: ƒ toString()
+        - valueOf: ƒ valueOf()
+        - __defineGetter__: ƒ __defineGetter__()
+        - __defineSetter__: ƒ __defineSetter__()
+        - __lookupGetter__: ƒ __lookupGetter__()
+        - __lookupSetter__: ƒ __lookupSetter__()
+        - get __proto__: ƒ __proto__()
+        - set __proto__: ƒ __proto__()
+      - Using Object class function hasOwnProperty  (checks if a property belongs to an instance(true), or is inherited (false)
+        - e1, using the hasOwnProperty, and an argument for the property keyword to search for
+          - tom.hasOwnProperty('job')
+          - true
+        - e2, searching for a prototype-added property
+          - tom.hasOwnProperty('lastName')
+          - false
+      - More notes: so prototype properties can be used by the instances, but they don't own them
+        - They only own the stuff that is passed to them as arguments through the constructor
+        - They, like above, can use any prototype properties and functions as if they're they own
+          - e1
+            - tom.middleName
+            - //tom is the instance
+            - //middleName is a prototype property, usable, but not belonging to, the instance
+        - Prototype properties and functions are like universal, instance properties are unique to that instance
+      - instanceOf
+        - e1
+          - tom instanceof Person
+          - true
+          - //tom is the instance created by the constructor Person
+          - // instanceOf , self explanatory
+          - //Person, the constructor you want to check if it is the creator/originator of the instance
+      - isPrototypeOf
+        - e1
+          - Person.__proto__.isPrototypeOf(Object)
+          - true
+          - //Person is the constructor
+          - //__proto__ is prototype property
+          - //isPrototypeOf(Object) the argument is Object, which is totally true, because Object is the parent constructor
+      - Array.prototype functions list (copied from window)
+        - concat: ƒ concat()
+        - constructor: ƒ Array()
+        - copyWithin: ƒ copyWithin()
+        - entries: ƒ entries()
+        - every: ƒ every()
+        - fill: ƒ fill()
+        - filter: ƒ filter()
+        - find: ƒ find()
+        - findIndex: ƒ findIndex()
+        - flat: ƒ flat()
+        - flatMap: ƒ flatMap()
+        - forEach: ƒ forEach()
+        - includes: ƒ includes()
+        - indexOf: ƒ indexOf()
+        - join: ƒ join()
+        - keys: ƒ keys()
+        - lastIndexOf: ƒ lastIndexOf()
+        - length: 0
+        - map: ƒ map()
+        - pop: ƒ pop()
+        - push: ƒ push()
+        - reduce: ƒ reduce()
+        - reduceRight: ƒ reduceRight()
+        - reverse: ƒ reverse()
+        - shift: ƒ shift()
+        - slice: ƒ slice()
+        - some: ƒ some()
+        - sort: ƒ sort()
+        - splice: ƒ splice()
+        - toLocaleString: ƒ toLocaleString()
+        - toString: ƒ toString()
+        - unshift: ƒ unshift()
+        - values: ƒ values()
+        - Symbol(Symbol.iterator): ƒ values()
+        - Symbol(Symbol.unscopables): {copyWithin: true, entries: true, fill: true, find: true, findIndex: true, …}
+      - Array.prototype functions a few example
+    - Creating Objects: Object.create
+      - Another way to create objects that inherit from a prototype using *drumroll* object.create
+      - object.create
+      - So last lesson, we created a function and property outside the constructor
+      - Steps
+        - Step 1, write the prototype as simple object
+      - Difference between Object.create and function constructor pattern
+        - Object.create builds an object that inherits directly from the one (prototype) that we passed into the 1st argument
+        - On the other hand, the function constructor (1st way we used in lesson before this), the newly created object inherits from the constructor's prototype property
+        - One of biggest benefits of Object.create is allows us to make really complex inheritance structures, easier than function constructors, it allows to specifiy which objects are prototypes
+        - Does this mean Object.create gets the methods/properties directly from the prototype, instead of the objects prototype, thereby skipping one link of the inheritance chain?
+        - Object.create also is the most common when searching tutorials on the web
+    - Primitives vs. Objects
+      - Variables that store primitives, actually store that data inside the variable
+        - they store 
+          - Numbers
+          - Strings
+          - Booleans
+          - Undefined 
+          - Nulls
+      - Variables storing objects, is totally different
+        - They don't actually store the object, instead they store a reference to the place in memory where the object is actually stored
+        - Vars that store objects, don't store it, they just point to the object
+      - Quick note: storing object properties, end with properties
+      - storing function statements, end with semis
+    - First Class Functions: Passing Functions as Arguments
+      - functions are OBJECTS, who knew!
+      - Stuff to know
+        - A function is an instance of the Object type
+        - A function behaves like any other object
+        - We can store functions in a variable (so fucking cool)
+          - // so fucking cool
+          - //set object as variable, then 2 properties are functions
+          - var randomFunction = {
+            - func1: function() {
+              - console.log('this is func1');
+            - },
+            - func2: function() {
+              - console.log('this is func2');
+            - },
+          - };
+          - //call 1st method in the randomFunction variable (so fucking cool)
+          - randomFunction.func1();
+        - We can pass a function as an argument as an argument to another function
+        - We can also return a function from a function
+          - Because of all this, we say JS has 1st class functions
+      - Nice to assign a variable to a function, in order to print it afterwards, see what's going on
+        - e1
+          - var ages = arrayCalc(years, isFullAge);
+    - First Class Functions: Functions Returning Functions
+      - We just learned about functions accepting functions as input args, so let's learn about functions returning functions
+    - Immediately Invoked Function Expressions (IIFE)
+      - IIFE way writing an anonymous function that invokes immediately, keeps it's data/variables private, and cannot be called.
+      - I call it the "flashbang function" you call it, it performs it's own set of internal shit, returns/spits something back out, and is gone forever
+        - You can feed it endlessly, and none of it's internal variables are stored, but you can save it's return value once it returns
+      - It's not meant to be re-used, simply used once for data privacy
+      - Also, as it's not assigned a name, it is invoked/called immediately, and never used again
+      - A main reason we use this is to have a way to store variables, safely away from the public scope
+      - we can use it to not interfere w global variables in the global execution context
+      - encase the entire function inside parens
+      - write function inside it
+      - it's anonymous (without a name)
+      - follow the entire thing that is encased in parens with another parens set to invoke it
+      - When you write 'function' JS thinks you're declaring a function, but without a name, it throws an error
+      - To trick it, you wrap the entire thing in parens, to make it think it's an expression, then you follow it with a parens set to invoke it.
+      - That's clever.
+      - IN, JS, what is inside parens, cannot be a statement, it must be an expression
+      - It's not meant to be re-used, simply used once for data privacy
+      - Also, as it's not assigned a name, it is invoked/called immediately, and never used again
+      - A main reason we use this is to have a way to store variables, safely away from the public scope
+      - we can use it to not interfere w global variables in the global execution context
+      - encase the entire function inside parens
+      - write function inside it
+      - it's anonymous (without a name)
+      - follow the entire thing that is encased in parens with another parens set to invoke it
+      - When you write 'function' JS thinks you're declaring a function, but without a name, it throws an error
+      - To trick it, you wrap the entire thing in parens, to make it think it's an expression, then you follow it with a parens set to invoke it.
+      - That's clever.
+      - IN, JS, what is inside parens, cannot be a statement, it must be an expression
+    - Closures
+      - Closure definition 
+        - When the current execution context has "closed in" on the outer variable object, so that it can use it. Basically saying the if you save a fn to a, the inner fn's still have access to the outer fn's variables, scope, etc
+      - when you save an outer function to a variable, and invoke it, you can still access inner anon functions, even though those declared variables were private and should have been popped off the execution stack
+      - Closures SUMMARY
+        - An inner function always has access to the variables and parameters of its outer function even after the outer function has returned
+        - * my note: this is great news! It works how I expected, 
+      - How closures work
+        - EXECUTION STACK
+          - Global Execution Context
+            - Execution Context of our fn called retirement()
+        - SCOPE CHAIN
+          - Global scope
+            - Scope of our fn retirement()
+        - After our fn returns, it's kicked off the Execution Stack. It should also be kicked of the scope chain right? Wrong. The variable still sits there, waiting to be access again
+          - Which means because the outer fn is saved to the var, the fn's inner fn remains intact and able to access the outer fn's scope
+          - Pretty sure this whole thing doesn't work if the fn is simply invoked, and not saved to a var
+        - Scope chain always stays intact
+        - We don't create closures manually, they are built in to JS
+      - Closures SUMMARY 2 (BEST DEFINITION RIGHT HERE)
+        - An inner function has always access to the variables and parameters of its's outer function, even after the outer function has returned
+      - A great way to think about writing closures, is write one, then consider the variables, or what may change from case to case,
+        - You usually have 2 variables
+          - You start with a defining, separating variable for the argument to the outer fn
+            - ie, (job) in the interview question, or 
+            - retirementAge in the retirement fn
+          - You follow with a specific or less generic variable as argument for the inner fn
+            - ie, a name, or DOB
+        - OR, just setup a basic function that you know can use a argument to differentiate decision paths
+          - Then figure out the second, tailored argument for the inner function
+      - Setup summary:
+        - Outer function: Use a argument that can when used to differentiate immediately. 
+          - think about what inputs will be fed into this, and decide what the differentiating characteristic is, THEN  it's all downhill gravy from there
+        - Inner function, can be a tailored input, like name or date of birth
+      - Also, notice, you try and let the inner function do most of the of the heavy lifting, ie
+        - e1
+          - function interviewQuestion2(job) {
+            - return function(name) {
+              - if (job === 'designer') {
+                - console.log('Hello, ' + name + ', can you please explain what UX design is?');
+              - } else if (job === 'teacher') {
+                - console.log('What subject do you teach, ' + name + '?');
+              - } else if (job === 'default') {
+                - console.log('Hello, ' + name + ', what do you do?');
+              - }
+            - }
+          - }
+        - You don't want to be passing endlessly long args when you invoke, you want simple, short args when you invoke
+          - e1
+            - interviewQuestion2('designer')('Alex');
+            - interviewQuestion2('teacher')('Joseph');
+            - interviewQuestion2('default')('Nick');
+    - Bind, Call and Apply
+      - Bind, Call and Apply are objects special methods, similar to how array objects get special methods, like pop, push, unshift, etc
+        - They inherit them from the fn constructor object
+      - Call method (borrow another object's method with args that are comma-separated)
+        - Refer: C:\Coding\JavaScript\The Complete JS Course 2018\complete-javascript-course-master\5-advanced-JS\starter\script.js
+          - ///////////////////////////////////////////////////////////////////////////////
+          - // Bind, Call and Apply Methods
+        - E1.1, you have 2 objects, 
+          - object1 has a function, obj2 does not
+          - You want to use obj1's function with some of obj2's values
+        - E1.2, setup obj1 with function
+          - var john = {
+            - name: 'John',
+            - age: 26,
+            - job: 'teacher',
+            - presentation: function (style, timeOfDay) {
+              - if (style === 'formal') {
+                - console.log('Good ' + timeOfDay + ', ladies and gentlemen! I\'m a ' + this.job + ', and I\'m ' + this.age + ' years old.');
+              - } else if (style === 'friendly') {
+                - console.log('Hey! What\'s up! I\'m a ' + this.job + ', and I\'m ' + this.age + ' years old. Have a nice ' + timeOfDay + '!');
+              - }
+            - }
+          - }
+        - e1.3, setup obj2 without fn
+          - var emily = {
+            - name: 'Emily',
+            - age: 30,
+            - job: 'designer',
+          - }
+        - e1.4, call obj1 fn 
+          - john.presentation('formal', 'morning');
+          - john.presentation.call(emily,'formal', 'morning');
+        - e1.5, call obj1 fn and pass obj2 values to it
+          - john.presentation.call(emily,'formal', 'morning');
+        - Call method is 
+      - Apply method (borrow another object's method with args as an array)
+        - apply is the exact same as call, just uses an array for the method args, instead of csv
+          - E1, apply method
+            - john.presentation.apply(emily,['friendly', 'morning']);
+          - e2, call method, as a refresher 
+            - john.presentation.call(emily,'formal', 'morning');
+      - Bind method (copy and store another object's method for later use: basically copying a object method and saving it as a shortcut with a preset arg for later use)
+        - Like apply method, the bind method is also very similar to the original Call method which borrow's another object's method
+        - Difference is: bind method doesn't immediately use the borrowed method, it copies it and stores it somewhere
+          - It's very useful to create fn that has preset args
+    - Coding Challenge 7
+      - 
+    - Coding Challenge 7: Solution, Part 1
+    - Coding Challenge 7: Solution, Part 2
+  - Putting It All Together: The Budget App Project
+    - Section Intro
+    - Download the Code
+    - Project Setup and Details
+    - Project Planning and Architecture: Step 1
+      - Step 1 notes
+        - I am noticing some steps have to do with listening to/updating the UI, and others have to do with the backend calculations
+        - We start with
+          - UI module (read/write values, ie get/set values) (basica
+            - Get input values
+            - Add the new item to the UI
+            - Update the UI
+          - Data module (100% backend logic and data manipulation)
+            - Add the new item to our data structure
+            - Calculate budget
+          - Controller module (listen for events, then execute response)
+            - Add event handler, then specify response to event
+        - UI/Data/Controller module loop
+          - Controller listens for event
+          - Controller executes response
+          - UI gets values
+          - Data module calculates, updates, etc
+          - UI sets values
+      - Modules importance
+        - important aspect of any robust application's architecture
+        - Keep the units of code for a project both cleanly separated and organized
+        - Encapsulate some data into privacy and expose other data publicly
+        - All of the 3 things above get more and more important as an application gets bigger and bigger
+    - Implementing the Module Pattern
+      - Public interfaces/public scopes are sometimes called API's
+      - Module setup NOTES (RE-READ A MILLION TIMES)
+        - data encapsulation/privacy is becoming more and more important so no other functions or vars overwrite them mistakenly, causing an insane bug-hunting rabbithole
+        - Modules all get passed args, and return something.
+        - Modules are like lego bricks, and you set them to execute whatever you 
+        - Maybe modules are like factories, you feed them something, it gets processed, and produces something in return to you
+        - Modules should be as standalone, as independant as possible
+        - The goal is plug and play, after you have polished a module.
+        - Modules are entirely self-contained, in that they require no other modules to operate, just arguments passed to them
+        - This separation and independance of modules is called separation of concerns
+          - Each module is concerned with only doing one thing independantly
+        - Modules don't even know that other modules exist
+      -  Module Patterns (incredibly powerful, yet incredibly simple to implement)
+        - Need to know
+          - Closures
+          - IIFE's
+            - IIFE (immediately invoked function expression)
+              - Definition:
+                - simply an anonymous function (anon = unnamed)
+                - wrapped in parens
+                - then invoked at the end with more parens
+            - e1
+              - 
+        - Secret to the module Pattern
+          - It returns an object, containing all the function we want to be public
+      - Analyze what actually happens
+        - ANALYSIS
+          - Internal variables saved as values, are values
+            - e1
+              - var x = 23;
+          - However, internal vars saved as functions, are functions callable anywhere within the internal scope
+            - e1, set a function to a variable for calling it later privately within the scope
+              - var add = function(a) {
+                - return x + a;
+                - }
+            - e2, calling the above function privately within the internal scope of this
+              - return {
+                - 
+                  - publicTest: function(b) {
+                    - console.log(add(b));
+                  - }
+                - }
+            - e3, calling it elsewhere in the script, outside it's scope
+              - budgetController.publicTest(22);
+          - IMPORTANT NOTES: everything encased in the RETURN is public, and can be passed args
+          - Basically the budgetController variable is an object that contains the method called publicTest
+      - Modules can receive args
+        - So far we have 3 controllers
+          - budgetController (data)
+          - UIController (UI)
+          - controller (bridges the UI and data modules)
+      - Modules ALWAYS NEED A RETURN
+      - Summary
+        - We created the barebones architecture of our applicaiton which here has 3 modules, UIcontroller, budgetController, and the controller, which bridges the UI and budget controllers
+    - Setting up the First Event Listeners
+      - How to setup event listeners for keypress events
+        - 
+        - pick element
+        - get class name or id, hashtags are ID's, dots are class selectors
+          - keycode http://keycodes.atjayjo.com/#charcode
+        - So the addEventListener args
+          - arg1 is event type, ie click, keypress, etc
+          - arg2 is the function
+            - you can have anon function that executes whatever, o
+            - or pass it a standalone function that resides elsewhere, as the arg2 fn
+      - How to use event object
+    - Reading Input Data
+      - 
+    - Creating an Initialization Function
+      - I'm learning that structure is absolutely necessary. Visualize carefully, program sanely 
+      - Creating init function, we want it to be public, so we return it as an object
+    - Creating Income and Expense Function Constructors
+      - Here in the budget controller module, not the UI or controller, module, we want to create a way to store all the information the user enters
+        - We will use an object to do this, 
+        - Because we may want to create many object instances of user-entered data, we want to use a function constructor to do this
+      - Function constructor vs prototypes IMPORTANT
+        - Function constructor creates and saves the data, in a new instance, by passing it the info we want via args
+          - To create a new instance of a constructor, we must use the new keyword ie
+            - var exp = new Expense(1, 'description', 42);
+        - prototype creates methods available to all instances created by the constructor
+          - This is better because the methods are not attached to any particular obj instance, they just inherit the methods made available by the prototype
+          - 
+    - Adding a New Item to Our Budget Controller
+      - describe what you want, then code it
+      - strings, you can put double quotes inside single quotes, or vice versa
+    - Adding a New Item to the UI
+    - Clearing Our Input Fields
+      - How to clear HTML fields
+        - 
+      - How to use querySelectorAll
+      - How to convert a list to an array
+      - A better way to loop over an array then for loops: foreach.
+    - Updating the Budget: Controller
+      - How to convert fields input to numbers
+        - amount: parseFloat(document.querySelector(DOMstrings.inputAmount).value)
+      - How to prevent false inputs
+        - if(input.description !== '' && !isNaN(input.amount) && input.amount > 0)
+          - above line checks 3 conditions:
+            - description is not blank
+            - amount is not Not A Number (NaN)
+            - amount is greater than 0, because 0 does nothing to adjust budget
+    - Updating the Budget: Budget Controller
+      - remember when we call a method that returns something, we must store it in a variable
+        - method:
+          - getBudget: function() {
+            - return {
+              - budget: data.budget,
+              - totalInc: data.totals.inc,
+              - totalExp: data.totals.exp,
+              - percentage: data.percentage
+            - }
+        - Calling method and saving the returned results
+          - budgetCtrl.getBudget();
+    - Updating the Budget: UI Controller
+      - Practicing DOM manipulation by updating the budget and total values
+    - Project Planning and Architecture: Step 2
+    - Event Delegation
+      - Event bubbling (basically chain reaction from event element up through the DOM tree to root HTML)
+        - means when an event is triggered/fired on a DOM element, that exact same event is triggered on all the parent elements
+          - e1, when you click a button
+            - it then fires on it's containing paragraph
+            - fires on its containing section, then fires on the main parent container
+            - keeps firing, all the way up, going until HTML document, and then goes no further
+      - Target element
+        - The button or link, whatever element has a eventlistener tied to it to start the event bubble
+      - Event delegation
+        - we can attach an event handler to parent element of target element, and then do whatever we need to do
+        - This means we can attach event handler to parent container elements, rather than individually to many target elements, and then catch the event at the parent element, rather than at the target element level
+      - Use cases for event delegation
+        - 1. when we have an element with lots of child elements that we are interested in
+        - 2. when we want an event handler attached to an element that is not yet in the DOM when our page is loaded!!!
+          - This is often the case with any user-interactive pages, in which they use elements to manip the DOM to create new page data, then you can use event delegationi to handle events of the user-introduced/created elements
+    - Setting up the Delete Event Listener Using Event Delegation
+      - How to use event delegation in practice
+        - we must find the parent element that contains all the child elements that are going to be manipulated
+        - e1
+          - <div class="container clearfix">
+            - This contained encloses the entire income and expense div sections
+        - Note to self, don't include 'clearfix' in your DOM strings, it isn't part of the class name, it's just included because it's used in container that have float layouts where elements are stacked horizontally, and it is used to automatically clear child elements
+      - How to use ID's in HTML to connect the UI with the data model
+      - How to use the parentNode property for DOM traversing
+    - Deleting an Item from Our Budget Controller
+      - Another method to loop over an array: map
+      - How to remove elements from an array using the splice method=
+    - Deleting an Item from the UI
+      - we can only remove a child, we cant remove a parent element
+      - https://blog.garstasio.com/you-dont-need-jquery/dom-manipulation/ HUGE resource for adding, creating, removing etc DOM manip
+    - Project Planning and Architecture: Step 3
+      - Percentages in expense column TO-DO
+        - Calculate percentages
+        - Update percentages in UI
+        - Display current month and year instead of placeholder
+        - Number formatting
+        - Improve input field UX
+    - Updating the Percentages: Controller
+    - Updating the Percentages: Budget Controller
+    - Updating the Percentages: UI Controller
+    - Formatting Our Budget Numbers: String Manipulation
+    - Displaying the Current Month and Year
+    - Finishing Touches: Improving the UX
+      - How and when to use change events
+    - We’ve Made It! Final Considerations
+      - Additional feature ideas
+        - Calculate and display percentages for incomes, just like expense percentages
+        - ask for current month, use default month as placeholder, hide inputs until month has been set, then hide month input, and show inputs
+        - have the dollar signs included in the formatNumber method
+        - Possibly create a slightly opaque container fill in the inc and exp containers, 
+        - change the hero background
+        - change the fonts
+  - Next Generation JavaScript: Intro to ES6 / ES2015
+    - Section Intro
+    - Download the Code
+    - What's new in ES6 / ES2015
+    - Variable Declarations with let and const
+      - variables declared with var are function scoped
+      - variables declared with const and let are block scoped
+    - Blocks and IIFEs
+    - Strings in ES6 / ES2015
+    - Arrow Functions: Basics
+    - Arrow Functions: Lexical 'this' Keyword
+    - Destructuring
+      - destructuring is a very convenient way to extract data from a data structure, like an obj or array
+    - Arrays in ES6 / ES2015
+    - The Spread Operator
+    - Rest Parameters
+      - Allow us to pass arbitrary number of args into a fn
+    - Default Parameters
+    - Maps
+    - Classes
+    - Classes with Subclasses
+    - Coding Challenge 8
+    - Coding Challenge 8: Solution
+  - Asynchronous JavaScript: Promises, Async/Await and AJAX
+    - Section Intro
+    - An Example of Asynchronous JavaScript
+    - Understanding Asynchronous JavaScript: The Event Loop
+    - The Old Way: Asynchronous JavaScript with Callbacks
+    - From Callback Hell to Promises
+    - From Promises to Async/Await
+    - AJAX and APIs
+    - Making AJAX Calls with Fetch and Promises
+    - Making AJAX Calls with Fetch and Async/Await
+  - Modern JavaScript: Using ES6, NPM, Babel and Webpack
+    - Section Intro
+    - Project Overview
+      - 2 folders
+        - src (js, html, all the pre-deployed files go here)
+          - index.js
+          - index.html files
+        - dist folder (all final, deployable files go here to be deployed and served to client)
+          - css folder and file
+          - img folder
+            - includes all png, jpg, and svg files
+    - An Overview of Modern JavaScript
+      - modern js is not so much about the language itself, but more about the entire ecosystem and environment we write it in
+      - we still write js, but we use a set of tools to make it easier and better to work with
+      - the foundation of these tools is the node.js/npm ecosystem
+        - node/npm, we can find all kinds of libraries, frameworks, and dev tools to assist us in production
+          - things like react, angular, vue, lodash, jquery, express, electron, etc
+          - browser auto-reload, task automation, recompiling es6+ back to es5
+      - NPM (node package manager)
+        - npm is just a simple command line interface that allows us to do all the above
+      - Babel
+        - converts es6+ to es5 so all browsers are capable of understanding our code
+      - Webpack (bundles all modules together into a package for browsers to accept)
+        - es6 module bundler, makes everything more clean, modular, easy to work with, easier to maintain
+        - does this by helping separate different parts of our app into dif files
+        - basically most browsers don't support multi file handling, but webpack bundles our files into single file packages, palatable for browsers
+        - there are other file bundlers, but webpack is the most popular
+        - webpack can do a lot more than bundling
+          - decrease bundle size
+          - load different sass or css, etc
+      - npm scripts, allow us to run all these listed above very easily automatically together in our command line
+    - A Brief Introduction to the Command Line/Bash
+      - dir shows us the current dir contents
+      - cd FolderNameHere allows us to switch directories
+        - if you start writing the folder name, you can hit Tab to auto-complete
+      - move up one level (return to parent folder): cd .. (use double dot)
+      - use up and down arrow keys to run through previously entered commands
+      - 'clear' clears all the previous input and output and displays only a single line showing your current directory
+      - mkdir creates a new directory
+      - touch "fileNameHere.extension" will create a new file (I wrote touch test.js and it created the file
+      - copy file: cp filename.ext targetdir 
+        - (I wrote cp test.js ..) to copy it to the parent folder using double dots
+      - move file: mv filename.ext targetdir 
+      - delete file: rm filename.ext
+      - delete folder: rm -r foldername
+        - -r means a flag for command prompt to recursively remove all the folder files, then the folder itself
+      - open file: explorer filename.ext
+        - alternatively, start filename.ext works too
+    - A Modern Setup: Installing Node.js and NPM
+      - IMPORTANT: dev dependancies are dev tools, useful in assisting the developer, but not required for distribution, whereas other dependances are packages needed to actually run the production (distribution) code
+      - in bash, type node -v to check node version
+      - in bash, type npm -v to check npm version
+      - Create a package.json file for our project
+        - change dir to the correct directory
+        - type npm init
+        - go through the steps, naming each property as you see see
+      - Install npm bundles locally
+        - webpack
+          - npm install webpack --save-dev
+            - --save-dev means it saves webpack as a development dependancy of our project
+        - jquery
+          - npm install jquery --save
+            - --save means it's a dependancy only, but not a dev dependancy
+        - --save command is used to update the package.json file
+        - whatever we npm, like jquery or react, we create a dev dependancy in our code. some bundles are libraries, or frameworks, or just simply dev tools to speed up workflow
+        - dev dependancies are tools simply to help the dev create the project
+        - dependancies are important because if you want to move the project to another computer, or work on it with other people, then you can check if you have all the dependancies installed
+        - Package.json file is basically the Table of Contents required to continue developing this project, or the cookbook recipe of ingredients required to work on this project
+        - also, the package file is helpful because it will automatically add these bundles if it's missing any, and t
+        - the node-modules folder is where all the packages go
+        - also, packages like webpack or jquery also themselves have dependancies on smaller packages inside the node-modules folder, so those cannot be removed
+        - also if we wanted to share our project with others, we only need to share the package.json file, not the huge node-modules folder
+        - RESTORE NODE-MODULES FOLDER
+          - you could remove the node-m folder, go to Bash, type npm install, and it will restore all the required packages based on our pacjage.json file
+      - Uninstall npm bundles
+        - Bash: npm uninstall packagename --save
+          - e1:  npm uninstall jquery --save
+      - install npm globally available everywhere on our computer
+        - the --save and -dev are only saved locally for the project,
+          - e1
+            - npm install live-server --global
+              - (live-server is Jonas fave package for creating a live local server)
+        - you can use -g instead of -global
+      - liveserver
+        - cd to whatever dir you want to display in browser
+        - live-server opens the file in a browser as a live server
+        - ^C quits the server
+    - Note Tooling Changes (use if you're having errors due to package versions changing)\
+      - https://www.udemy.com/the-complete-javascript-course/learn/v4/t/lecture/13621430?start=0
+      - Note: Tooling ChangesSection 9, Lecture 133[PLEASE READ BEFORE YOU MOVE ON!]Modern tools like Webpack and Babel change all the time, which is great for the development community, but difficult for course creators.So please understand that I cannot re-record these videos each time a new change is introduced to one of the tools. Instead, I will keep this lecture updated with instructions to make your tooling setup work as it should.There are two ways of approaching this: you either just want tools to work like in the videos, or you want to use the latest versions of the tools. Choose the one that works best 😉1. If you just want it to work, follow this (RECOMMENDED) 👇Tools don't add that much functionality in new versions, so you're just fine using this method.You will have to install the same package versions that I install in my videos. So instead of the npm install commands I use in the videos, use the following (we use @ to specify the version number)
+      - For webpack:
+      - npm install --save-dev webpack@4 webpack-cli@2 webpack-dev-server@3
+      - For babel:
+      - npm install --save-dev babel-core@6 babel-preset-env@1 babel-loader@7
+      - npm install --save babel-polyfill@6
+      - 2. If you want the latest versions, follow this 👇
+      - This method requires a little more work, as babel has recently changed how the configuration works.
+      - For webpack, just follow the videos.
+      - For babel, instead of installing babel-core, babel-preset-env and babel-polyfill in the babel lecture, please install @babel/core, @babel/preset-env and @babel/polyfill like this:
+      - npm install --save-dev @babel/core @babel/preset-env babel-loader
+      - npm install --save @babel/polyfill
+      - You will also need to change the entry in webpack.config.js from this:
+      - entry: ['babel-polyfill', './src/js/index.js'],
+      - to this:
+      - entry: ['@babel/polyfill', './src/js/index.js'],
+      - and the the code in .babelrc from this:
+      - {
+      - "presets": [
+      - ["env", {
+      - "targets": {
+      - "browsers": [
+      - "last 5 versions",
+      - "ie >= 8"
+      - ]
+      - }
+      - }]
+      - ]
+      - }
+      - to this:
+      - {
+      - "presets": [
+      - ["@babel/env", {
+      - "targets": {
+      - "browsers": [
+      - "last 5 versions",
+      - "ie >= 8"
+      - ]
+      - }
+      - }]
+      - ]
+      - }
+    - A Modern Setup: Configuring Webpack (revisit this, webpack repacks everything into a dev or production build, usually bundle.js & its html file)
+      - webpack is the most commonly used module bundler
+      - it doesn't just bundle js with html files, but it bundles all asset types, like js, images, css, etc 
+      - webpack.config.js
+        - create a file called webpack.config.js in same folder as your package.json file
+        - this config file contains 1 object, create it 
+          - entry point
+          - output
+          - loaders
+          - plugins
+      - config file contains 4 important things
+        - entry point:
+          - basically where webpack will start the bundling, 
+            - we can specify more than one entry point file, but for this project, index.js in the src dir is the one we want
+            - you must specify the filepath, you can use
+            - ./filename to use current dir
+            - ../filename to use parent dir
+            - OR full filepath, but there's no reason to every use this, you wouldn't have a million project directories spread out
+          - basically this is the file where webpack will start looking for all the dependancies which it will bundle together
+          - we can specify more than 1 entry file, but in this simple app we will specifcy just one, the index.js file
+          - entry: './src/js/index.js';
+            - here we use ./ one dot to indicate to look in the current folder
+        - output
+          - tells webpack where to save our bundled file
+          - we want  a js file in our dist folder
+            - so we use the path module to determine directory name, folder name, and combine them with path.resolve()
+          - for speed, we can also add the property of 'development
+        - loaders
+        - plugins
+      - then to run
+      - SUMMARY (READ AGAIN)
+        - it reads the package.json
+        - executes the scrips property, which we specify as dev - webpack (run webpack)
+        - it then goes through the webpack config file
+          - it finds that the entry is our index.js file
+          - which imports x from test/js, so it runs test.js, grabs whatever it is exporting, then returns to index js
+        - lastly, it outputs a bundle to our specified path
+      - LASTLY TO RUN THIS
+        - we need webpack command line interface, so cd to our dir, npm install webpack-cli --save-dev
+        - then npm  run dev (this run the package.json "dev" script
+          - so basically we can name it anything, like dev1 or production, or whatever, but it will
+          - we could say npm run blah, and it would check if blah is contained in our goddamn package scripts properties
+        - it then does everything in the summary above, and creates our bundle js file, which also contains anything we imported/exported whatever
+      - To check it, create an index.html in the dist/js folder, !tab to create quick html, add a script with src of the bundle.js
+        - open the index.html file however you wish, but to open from CLI:
+      - To toggle between development and production modes, remove mode: 'development' from the webpack config file
+        - go to in package file
+          - "scripts": {
+            - "dev": "webpack"
+            - },
+          - change to 
+            - "scripts": {
+              - "dev": "webpack --mode development",
+                - "build": "webpack --mode production"
+              - },
+        - Then to use in CLI, use npm run build to create the minified production version
+    - A Modern Setup: The Webpack Dev Server
+      - basically the whole point of all these things were doing is to separate the 2 stages of development, dev side, and whatever gets pushed to server/production side. 
+      - bash CLI:
+        - npm install webpack-dev-server --save-dev
+      - webpack config file:
+        - devServer: {
+          - contentBase: './dist', //what dir to serve our content from
+          - }
+      - package file:
+        - add a script called start (this is an npm script that will always be running in the background and update our browser as soon as we push a new version of the build code
+        - "start" is basically a chosen standard name, just like "dev" and "build"
+        - "start": "webpack-dev-server --mode development --open"
+          - npm run start will run our dev server, in dev mode, and it will also open it in our browser
+      - Opens simulated served page on local server (port 8080 or whatever)
+      - This is awesome so whatever we change on our src side, the dist side is updated live in our browser, no reloads, no refreshes no nothing
+      - Plugins
+        - they allow us to do complex processing of our input files, aka complex processing of how we process our src files, like index.html or whatever
+        - npm install html-webpack-plugin --save-dev^C                                                                                                                          
+          - this allows to do something with our html
+        - with html-webpack-plugin, everytime we run the bundle js process, we also want to copy our new index.html from the src into the dist folder
+        - everytime we run the dev-server, we basically copy the src html file into the dist folder, 
+    - A Modern Setup: Babel (converts ESnext to ES5) (lord almighty)
+      - npm install multiple packages in one line:
+        - npm install babel-core babel-preset-env babel-loader --save-dev
+      - Loaders in webpack
+        - loaders allow us to load or import all kinds of different files, more importantly they allow us to process them, ie:
+          - convert sass to css
+          - convert es6 to es5, etc
+      - Some things we cant convert back to es5 because they were not present in es5 at the time, so these need to be polyfilled, things like promises, array.from
+      - polyfilling is basically adding them to our code
+      - babel is a 4step process
+        - npm install
+        - webpack config rule
+        - .babelrc file with preset to tell it what we want to convert back to es5
+        - lastly, add an entry point in our webpack config to tell it to polyfill anytthing we cant convert back to es5
+    - Planning our Project Architecture with MVC (use this as often as you want for hi level)
+      - model view controller
+      - an advantage to the MVC architecture is it nicely de-couples the presentation logic from the application logic, with a "bridge" controller between them that handles them both
+      - Controller (bridge module)
+        - index.js, it's own file
+        - brings the model and view modules together, so they never actually directly communicate
+      - Model
+        - where we do AJAX calls for search queries from an API
+          - Search.js
+          - Recipe.js
+          - List.js
+          - Likes.js
+      - View
+        - where we get the search query string (input)
+        - where we print the results (output/response to input)
+          - searchView.js
+          - recipeView.js
+          - listView.js
+          - likesView.js
+    - How ES6 Modules Work
+      - How to use ES6 modules
+        - So we created 2 new folders in our src/js folder, called models and views, and created a new file called Search.js
+        - normally we name things in camelcase, lowercase, but in the models structure its conventional to name them capitalized, ie Search.js
+        - now we have index.js, the controller
+        - searchView.js and Search.js, so the View and Model (API, AJAX) etc models
+      - Default and named exports and imports
+        - single export, we use default exp/imp
+        - multiple exports, we use named exports/imports
+    - Making our First API Calls
+      - how to use a real world API
+      -  what API keys are and why we need them
+        - keys are passwords, generated and given to each user, to allow limited access per day (50 calls a day for example)
+    - Building the Search Model
+      - how to build a simple data model using es6 classes
+      - data model is:
+        - query
+        - search results
+    - Building the Search Controller
+      - this lecture involes the concept of application state
+      - a simple way of implementing state
+      - State of our app in any given moment
+        - things like:
+          - current searched item
+          - selected recipe
+          - recipe ingredient calculation
+          - things in our shopping list
+      - We want our state of our app to be saved in one central location, one hub object that gets read/updated with every interaction
+    - Building the Search View - Part 1
+      - ADvanced DOM manip techniques
+      - how to use es6 template strings to render entire HTML components
+      - how to create a loading spinner
+    - Building the Search View - Part 2
+      - how to use the .closest method for easier event handling
+      - how and why to use data-* attributes in HTML5
+    - Rendering an AJAX Loading Spinner
+    - Implementing Search Results Pagination (review)
+      - the prev and next buttons are a little confusing my first run through, try and run through this again
+    - Building the Recipe Model - Part 1
+      - how to read data from the page URL
+      - how to respond to hashchange event
+      - how to add the same event listener to multiple events
+    - Building the Recipe Controller
+    - Building the Recipe Model - Part 2
+      - use array methods like map, slice, findindex, and includes
+      - how and why to use eval()
+      - regular expressions, regex
+        - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+        - always start/end w forward slashes /regex pattern here/
+    - Building the Recipe View - Part 1
+    - Building the Recipe View - Part 2
+      - we just installed fractional as a dependancy, then imported it recipeView.js for use there in converting our ingredient decimals back to fractions, but it was import to convert them to decimals for internal use for adjusting the quantity up/down as required by user servings input
+    - Updating Recipe Servings
+      - Yet another way of implementing event delegation: .matches
+    - Building the Shopping List Model
+      - how and why to create unique IDs using an external package
+      - difference between Array.slice and Array.splice
+      - More use cases for Array.findIndex and Array.find
+      - also npm uniqid package used here, very simple, should use this for Warp
+    - Building the Shopping List View
+    - Building the Shopping List Controller
+    - Building the Likes Model
+    - Building the Likes Controller
+    - Building the Likes View
+    - Implementing Persistent Data with localStorage
+      - how to use localstorage API
+      - how to set, get and delete items from local storage
+      - local storage actually easily allows us to store key value pairs right in the browser
+    - Wrapping up: Final Considerations
+      - he terminates the dev mode live server in bash Ctrl C
+      - then npm run build
+      - checks dist/js/bundle.js to make sure its complete, minified etc
+      - Some improvements he suggest doing on own time
+        - Implement button to delete all shopping list items
+        - Implement functionality to manually add items to shopping list
+        - Save shopping list data in local storage
+        - Improve the ingredient parsing algo
+        - Come up with an algo for calculating the amount of servings
+        - Improve error handling
+  - Final Course Exam: 30 Questions to Test Your JavaScript Knowledge
+    - Some Considerations Before You Start
+    - 30 Questions to Test Your JavaScript Knowledge
+  - Conclusion
+    - Where to Go from Here
+    - Be the First to Know About New Course Launches!
+  - BONUS: A Node.js Crash Course
+    - A Quick Overview of Node.js
+    - The Laptop Store Project, Part 1
+    - The Laptop Store Project, Part 2
