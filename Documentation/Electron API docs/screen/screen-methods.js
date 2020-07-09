@@ -1,4 +1,5 @@
-# <https://www.electronjs.org/docs/api/screen#methods>
+# < https://www.electronjs.org/docs/api/screen#methods>
+// Retrieve information about screen size, displays, cursor position, etc.
 // The screen module has the following methods:
 
 screen.getCursorScreenPoint() //, Returns Point The current absolute position of the mouse pointer.

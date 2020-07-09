@@ -2,7 +2,7 @@
 // Methods
 // The clipboard module has the following methods:
 
-clipboard.readText([type]) //, Returns String - The content in the clipboard as plain text.
+clipboard.readText([type]) //, Returns String - The content in the clipboard as plain text. 
 clipboard.writeText(text[, type]) //, Writes the text into the clipboard as plain text.
 clipboard.readHTML([type]) //,Returns String - The content in the clipboard as markup.
 clipboard.writeHTML(markup[, type]) //,Writes markup to the clipboard.

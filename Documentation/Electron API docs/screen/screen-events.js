@@ -1,4 +1,5 @@
 # <https://www.electronjs.org/docs/api/screen#events>
+// Retrieve information about screen size, displays, cursor position, etc.
 
 'display-added' // Returns::  event Event newDisplay Display  Emitted when newDisplay has been added.
 'display-removed' // Returns:  event Event oldDisplay Display  Emitted when oldDisplay has been removed.

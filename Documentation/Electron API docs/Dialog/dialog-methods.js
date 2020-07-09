@@ -1,5 +1,5 @@
 https://www.electronjs.org/docs/api/dialog#methods
-its a stand alone module, so require it from electron
+// its a stand alone module, so require it from electron
 
 dialog.showOpenDialogSync([browserWindow, ]options) //
 dialog.showOpenDialog([browserWindow, ]options) //

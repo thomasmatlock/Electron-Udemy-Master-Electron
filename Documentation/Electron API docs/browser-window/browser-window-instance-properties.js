@@ -1,7 +1,6 @@
 # <https://www.electronjs.org/docs/api/browser-window#instance-properties>
 
-Objects created with new BrowserWindow have the following properties:
-
+// Objects created with new BrowserWindow have the following properties:
 win.webContents // Readonly A WebContents object this window owns.All web page related events and operations will be done via it.See the webContents documentation for its methods and events.
 win.id // Readonly A Integer property representing the unique ID of the window.Each ID is unique among all BrowserWindow instances of the entire Electron application.
 win.autoHideMenuBar // A Boolean property that determines whether the window menu bar should hide itself automatically.Once set, the menu bar will only show when users press the single Alt key.If the menu bar is already visible, setting this property to true won't hide it immediately.

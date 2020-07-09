@@ -59,7 +59,55 @@ function createWindow() {
 
     const wc = mainWindow.webContents;
     // wc.openDevTools(); // Open DevTools - Remove for PRODUCTION!
-    wc.on('did-finish-load', () => {});
+
+    // to make a dialiag window as its own standalone window, simply specify the window as arg1. otherwise, its a child to the parent window
+    // IMPORTANT, course has a callback? but its a then/catch block
+    // please note all the stuff in course DOES NOT  work without then/catch blocks. he uses callbacks, but none of them worked
+    wc.on('did-finish-load', () => {
+        //
+        // dialog
+        //     .showOpenDialog(
+        //         // mainWindow, // attached to window/app
+        //         {
+        //             defaultPath: app.getPath('desktop'),
+        //             buttonLabel: 'Select a photo',
+        //             properties: [
+        //                 'multiSelections',
+        //                 'createDirectory',
+        //                 'openFile'
+        //                 // 'openDirectory'
+        //             ]
+        //         }
+        //     )
+        //     .then(result => {
+        //         if (result.canceled) {
+        //             console.log('Dialog canceled');
+        //         } else {
+        //             console.log(result.filePaths);
+        //             // console.log(result.canceled);
+        //         }
+        //     })
+        //     .catch(err => console.log(err));
+        //
+        // dialog.showSaveDialog({}, filename => {
+        //     console.log(filename);
+        // });
+        //
+        const answers = ['Yeah', 'Naw', 'Maybe'];
+        dialog
+            .showMessageBox({
+                title: 'The Big Message Box Title',
+                message: 'This is a message',
+                detail: 'Message details',
+                buttons: answers
+            })
+            .then(response => {
+                const res = answers[response.response];
+                console.log(res);
+            })
+            .catch(err => console.log(err));
+    });
+
     wc.on('dom-ready', () => {
         // console.log('MainWindow finished loading'); //  listening for webContents events firing
     });
