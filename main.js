@@ -8,13 +8,40 @@ const {
     screen,
     webContents,
     DownloadItem,
-    dialog
+    dialog,
+    globalShortcut,
+    Menu,
+    MenuItem
 } = require('electron');
 const windowStateKeeper = require('electron-window-state'); // our browser-window always reopens in same position/size unless we manage it by this simple package, we can save past positions or sizes and use them. it applies only for active sessions, unless you persist elsewhere through local storage
 
 // let mainWindow, secWindow; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+const mainMenu = new Menu(); // create new menu with Menu class
+const menuItem1 = new MenuItem({
+    label: 'Electron test menu item',
+    submenu: [
+        {
+            label: 'Item 1'
+        },
+        {
+            label: 'Item 2',
+            submenu: [
+                {
+                    label: 'Sub-item A'
+                },
+                {
+                    label: 'Sub-item B'
+                }
+            ]
+        },
+        {
+            label: 'Item 3'
+        }
+    ]
+}); // create new menu item
+mainMenu.append(menuItem1); // add new menu item to newly created menu
 function createWindow() {
     const displays = screen.getAllDisplays();
     const screenArr = [displays[0], displays[1], displays[2]];
@@ -39,6 +66,7 @@ function createWindow() {
         // x: winState.x,
         // y: winState.y,
         darkTheme: true,
+        // autoHideMenuBar: false,
         // frame: false, // this eliminates frame around window, like min,max,close etc. however, this makes it difficult to drag the window arouind. however putting         <body style="user-select: none; -webkit-app-region: drag;"> in the html, makes nothing in the html selectable. before you just tried to drag and the stuff got highlighted
         // titleBarStyle: 'hidden', // if we dont want to remove everything of the window frame, we could just remove the titlebar
         // backgroundColor: '#ff8500' // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
@@ -59,6 +87,8 @@ function createWindow() {
 
     const wc = mainWindow.webContents;
     // wc.openDevTools(); // Open DevTools - Remove for PRODUCTION!
+
+    Menu.setApplicationMenu(mainMenu); // set the menu boject we created to the menu
 
     wc.on('dom-ready', () => {
         // console.log('MainWindow finished loading'); //  listening for webContents events firing
@@ -352,4 +382,12 @@ app.on('activate', () => {
 //             console.log(res);
 //         })
 //         .catch(err => console.log(err));
+// });
+
+// globalShortcut + accelerator
+// // 2 args, arg1 is kb combo shortcut (the accelerator), and then the callback function to run on pressdown
+// const shortcut = 'CommandOrControl+G';
+// globalShortcut.register(shortcut, () => {
+//     console.log(`You pressed a global shortcut, ${shortcut}`);
+//     globalShortcut.unregisterAll(); // clears all global shortcuts
 // });

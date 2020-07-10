@@ -17,4 +17,6 @@ https://code.visualstudio.com/docs/getstarted/keybindings
 - Ctrl Alt + Up || Down // insert cursor above or below
 - Ctrl Shift Left || Right // increase selection to left or right
 
+- Ctrl + Up || Down // move page up and down
+
 - Ctrl Alt b // bookmark current line
