@@ -1,6 +1,8 @@
 /* eslint-disable one-var */
 // Modules
 // pull some modules off the electron package: app is the app itself(nodejs main process, and BrowserWindow is the Renderer)
+const electron = require('electron');
+
 const {
     app,
     BrowserWindow,
@@ -11,37 +13,32 @@ const {
     dialog,
     globalShortcut,
     Menu,
-    MenuItem
-} = require('electron');
+    MenuItem,
+    Tray,
+    powerMonitor
+} = electron; // we have to do this weird require electron twice if we use powerMonitor, then we can use powerMonitor directly from the electron module/ object
 const windowStateKeeper = require('electron-window-state'); // our browser-window always reopens in same position/size unless we manage it by this simple package, we can save past positions or sizes and use them. it applies only for active sessions, unless you persist elsewhere through local storage
+const mainMenu = require('./mainMenu');
 
 // let mainWindow, secWindow; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
-
-const mainMenu = new Menu(); // create new menu with Menu class
-const menuItem1 = new MenuItem({
-    label: 'Electron test menu item',
-    submenu: [
-        {
-            label: 'Item 1'
-        },
-        {
-            label: 'Item 2',
-            submenu: [
-                {
-                    label: 'Sub-item A'
-                },
-                {
-                    label: 'Sub-item B'
-                }
-            ]
-        },
-        {
-            label: 'Item 3'
+let mainWindow, tray;
+const trayMenu = Menu.buildFromTemplate([
+    { label: 'Item 1' },
+    { role: 'quit' }
+]);
+function createTray() {
+    tray = new Tray('./build/favicon2_blue_1024x1024.png'); // you can prefix Template (mac only) or suffix @2x/@3x for icons, see docs
+    tray.setToolTip('Tray details'); // hover toolTip
+    tray.on('click', e => {
+        if (e.shiftKey) {
+            app.quit();
+        } else {
+            mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
         }
-    ]
-}); // create new menu item
-mainMenu.append(menuItem1); // add new menu item to newly created menu
+    });
+    tray.setContextMenu(trayMenu);
+}
+
 function createWindow() {
     const displays = screen.getAllDisplays();
     const screenArr = [displays[0], displays[1], displays[2]];
@@ -52,6 +49,8 @@ function createWindow() {
         widthSec: 800,
         widthByScreen: screenR.bounds.width * 0.6
     };
+
+    createTray();
 
     mainWindow = new BrowserWindow({
         // width: winState.width,
@@ -84,11 +83,23 @@ function createWindow() {
     mainWindow.on('ready-to-show', () => {
         // console.log('mainWindow ready');
     });
+    mainWindow.on('closed', () => {
+        mainWindow = null;
+    });
+    electron.powerMonitor.on('resume', e => {
+        if (!mainWindow) {
+            console.log('Resume');
+            createWindow();
+        }
+    });
+    electron.powerMonitor.on('suspend', e => {
+        console.log('Saving some data before computer suspends operation....');
+    });
 
     const wc = mainWindow.webContents;
     // wc.openDevTools(); // Open DevTools - Remove for PRODUCTION!
 
-    Menu.setApplicationMenu(mainMenu); // set the menu boject we created to the menu
+    Menu.setApplicationMenu(mainMenu); // set the menu object we created to the menu
 
     wc.on('dom-ready', () => {
         // console.log('MainWindow finished loading'); //  listening for webContents events firing
@@ -100,8 +111,9 @@ function createWindow() {
         // console.log(params.mediaFlags.isPaused); // damn, super cool
         // console.log(`User selected text: ${params.selectionText}`);
         // console.log(`Selection can be copied: ${params.editFlags.canCopy}`);
-        const selectedText = params.selectionText;
-        wc.executeJavaScript(`alert("${selectedText}")`); // executeJavaScript is actually super useful. you can use any frontend/browser javascript with this
+        contextMenu.popup({}); // for right clicks
+        // const selectedText = params.selectionText;
+        // wc.executeJavaScript(`alert("${selectedText}")`); // executeJavaScript is actually super useful. you can use any frontend/browser javascript with this
     });
 }
 
@@ -391,3 +403,14 @@ app.on('activate', () => {
 //     console.log(`You pressed a global shortcut, ${shortcut}`);
 //     globalShortcut.unregisterAll(); // clears all global shortcuts
 // });
+
+// CONTEXT MENU
+// const contextMenu = Menu.buildFromTemplate([
+//     { label: 'item 1' },
+//     { role: 'editMenu' }
+// ]);
+// wc.on('context-menu', (e) => {
+//     contextMenu.popup({}); // for right clicks
+// });
+
+// TRAY
