@@ -20,3 +20,4 @@ https://code.visualstudio.com/docs/getstarted/keybindings
 - Ctrl + Up || Down // move page up and down
 
 - Ctrl Alt b // bookmark current line
+- Ctrl+K, Left | Right // move panels left or right

@@ -1,3 +1,7 @@
+/* eslint-disable no-console */
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-unused-vars */
 /* eslint-disable one-var */
 // Modules
 // pull some modules off the electron package: app is the app itself(nodejs main process, and BrowserWindow is the Renderer)
@@ -24,8 +28,10 @@ const mainMenu = require('./mainMenu');
 let mainWindow, tray;
 const trayMenu = Menu.buildFromTemplate([
     { label: 'Item 1' },
+    { role: 'quit' },
     { role: 'quit' }
 ]);
+
 function createTray() {
     tray = new Tray('./build/favicon2_blue_1024x1024.png'); // you can prefix Template (mac only) or suffix @2x/@3x for icons, see docs
     tray.setToolTip('Tray details'); // hover toolTip
@@ -66,7 +72,7 @@ function createWindow() {
         // y: winState.y,
         darkTheme: true,
         // autoHideMenuBar: false,
-        // frame: false, // this eliminates frame around window, like min,max,close etc. however, this makes it difficult to drag the window arouind. however putting         <body style="user-select: none; -webkit-app-region: drag;"> in the html, makes nothing in the html selectable. before you just tried to drag and the stuff got highlighted
+        // frame: false, // this eliminates frame around window, like min,max,close etc. however, this makes it difficult to drag the window around. however putting         <body style="user-select: none; -webkit-app-region: drag;"> in the html, makes nothing in the html selectable. before you just tried to drag and the stuff got highlighted
         // titleBarStyle: 'hidden', // if we dont want to remove everything of the window frame, we could just remove the titlebar
         // backgroundColor: '#ff8500' // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
         // show: false // this holds showing the window instance until the html file is loaded and ready-to-show event fires
@@ -74,7 +80,8 @@ function createWindow() {
             nodeIntegration: true
         }
     });
-    mainWindow.loadFile('index.html'); // Load index.html into the new BrowserWindow
+
+    mainWindow.loadFile('main.html'); // Load index.html into the new BrowserWindow
     // mainWindow.loadURL('https://warpdownload.com'); //alternate: 'https://httpbin.org/basic-auth/user/passwd'
     // mainWindow.loadURL('https://particle-love.com/'); //alternate: 'https://httpbin.org/basic-auth/user/passwd'
 
@@ -178,7 +185,7 @@ app.on('activate', () => {
 // }, 2000);
 
 // see https://www.electronjs.org/docs/api/browser-window#new-browserwindowoptions for all the options you can add to the window
-// some of the frame stuff needed for dragging window around, while still retaining input element interactivity and so, you need to add <style=" -webkit-app-region: no-drag;"> into the html to each element to prevent them being included in the dragibility
+// some of the frame stuff needed for dragging window around, while still retaining input element interactivity and so, you need to add <style=" -webkit-app-region: no-drag;"> into the html to each element to prevent them being included in the draggability
 
 // Create a new BrowserWindow when `app` is ready // nodeIntegration set to true allows us to access nodejs process in renderer
 // with node integration, we can also set node js to run in the browser window, through scripts, using nodes require function in the html document
@@ -221,7 +228,7 @@ app.on('activate', () => {
 //     console.log('App unfocused');
 // });
 
-// mainWindow.once('ready-to-show', mainWindow.show); // displays window once html loads and is ready to show. prevents any blank jutter displaying before html is fully loaded
+// mainWindow.once('ready-to-show', mainWindow.show); // displays window once html loads and is ready to show. prevents any blank judder displaying before html is fully loaded
 
 // secondary window playing around
 // secWindow.on('focus', () => {
@@ -260,7 +267,7 @@ app.on('activate', () => {
 // wc.on('login', (e, request, authInfo, callback) => {
 //     console.log('Logging in...');
 //     // this is great for basic auth if you want it, refer back to section 14, timestamp 13:35
-//     callback('user', 'passwd'); // invoke callback and pass 2 basic strings to login
+//     callback('user', 'password'); // invoke callback and pass 2 basic strings to login
 // });
 
 // wc.on('did-navigate', (e, url, statusCode, message) => {
@@ -336,7 +343,7 @@ app.on('activate', () => {
 //         // console.log(received);
 //         if (state === 'progressing' && received) {
 //             // if received is true AND state is 'progressing' it will log the download progress
-//             const progress = Math.round((received / fileSize) * 100); // received / fileSize is percentage, rounded, multipled
+//             const progress = Math.round((received / fileSize) * 100); // received / fileSize is percentage, rounded, multiplied
 //             // here we make make a progress visual, so cool!
 //             webContents.executeJavaScript(
 //                 `window.progress.value = ${progress}`
@@ -348,7 +355,7 @@ app.on('activate', () => {
 // ses = session.defaultSession;
 
 // DIALOG
-// // to make a dialiag window as its own standalone window, simply specify the window as arg1. otherwise, its a child to the parent window
+// // to make a dialog window as its own standalone window, simply specify the window as arg1. otherwise, its a child to the parent window
 // // IMPORTANT, course has a callback? but its a then/catch block
 // // please note all the stuff in course DOES NOT  work without then/catch blocks. he uses callbacks, but none of them worked
 // wc.on('did-finish-load', () => {

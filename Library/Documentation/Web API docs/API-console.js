@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable node/no-unsupported-features/node-builtins */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
 //https://www.w3schools.com/jsref/api_console.asp
