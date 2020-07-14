@@ -1,5 +1,5 @@
 <https://www.electronjs.org/docs/api/auto-updater#events>
-The autoUpdater object emits the following events:
+// The autoUpdater object emits the following events:
 
 'error' // Emitted when there is an error while updating.
 'checking-for-update' // Emitted when checking if an update has started.
