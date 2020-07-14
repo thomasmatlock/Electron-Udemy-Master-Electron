@@ -21,3 +21,4 @@ https://code.visualstudio.com/docs/getstarted/keybindings
 
 - Ctrl Alt b // bookmark current line
 - Ctrl+K, Left | Right // move panels left or right
+- Ctrl+, // open settings
