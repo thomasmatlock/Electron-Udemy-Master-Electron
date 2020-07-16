@@ -104,7 +104,7 @@ function createWindow() {
     });
 
     const wc = mainWindow.webContents;
-    // wc.openDevTools(); // Open DevTools - Remove for PRODUCTION!
+    wc.openDevTools(); // Open DevTools - Remove for PRODUCTION!
 
     Menu.setApplicationMenu(mainMenu); // set the menu object we created to the menu
 

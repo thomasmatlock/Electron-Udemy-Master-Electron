@@ -1,9 +1,9 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
-https://www.w3schools.com/css/default.asp
+https: //www.w3schools.com/css/default.asp
 
-Link // URL
+    Link // URL
 CSS HOME // https://www.w3schools.com/css/default.asp
 CSS Introduction // https://www.w3schools.com/css/css_intro.asp
 CSS Syntax // https://www.w3schools.com/css/css_syntax.asp
@@ -33,7 +33,7 @@ CSS Inline - block // https://www.w3schools.com/css/css_inline-block.asp
 CSS Align // https://www.w3schools.com/css/css_align.asp
 CSS Combinators // https://www.w3schools.com/css/css_combinators.asp
 CSS Pseudo - class // https://www.w3schools.com/css/css_pseudo_classes.asp
-    CSS Pseudo - element // https://www.w3schools.com/css/css_pseudo_elements.asp
+CSS Pseudo - element // https://www.w3schools.com/css/css_pseudo_elements.asp
 CSS Opacity // https://www.w3schools.com/css/css_image_transparency.asp
 CSS Navigation Bar // https://www.w3schools.com/css/css_navbar.asp
 CSS Dropdowns // https://www.w3schools.com/css/css_dropdowns.asp
@@ -53,8 +53,8 @@ CSS Gradients // https://www.w3schools.com/css/css3_gradients.asp
 CSS Shadows // https://www.w3schools.com/css/css3_shadows.asp
 CSS Text Effects // https://www.w3schools.com/css/css3_text_effects.asp
 CSS Web Fonts // https://www.w3schools.com/css/css3_fonts.asp
-CSS 2D Transforms // https://www.w3schools.com/css/css3_2dtransforms.asp
-CSS 3D Transforms // https://www.w3schools.com/css/css3_3dtransforms.asp
+CSS 2 D Transforms // https://www.w3schools.com/css/css3_2dtransforms.asp
+CSS 3 D Transforms // https://www.w3schools.com/css/css3_3dtransforms.asp
 CSS Transitions // https://www.w3schools.com/css/css3_transitions.asp
 CSS Animations // https://www.w3schools.com/css/css3_animations.asp
 CSS Tooltips // https://www.w3schools.com/css/css_tooltip.asp
