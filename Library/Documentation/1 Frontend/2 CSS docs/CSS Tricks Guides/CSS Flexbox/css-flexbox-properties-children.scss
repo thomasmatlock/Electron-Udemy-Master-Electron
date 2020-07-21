@@ -1,0 +1,30 @@
+// Properties for the Children(flex items)
+.item {
+    //
+    order: 0; // default order. // By default, flex items are laid out in the source order.
+    order: 1; // if this child element is second or third, eg, you could use this to make it appkear 1st, or whatever
+    order: 2; // if this child element is first, eg, you could use this to make it appear second
+    order: 5; //  this item will try to appear as the 5th item in the flex container // the order property controls the order in which they appear in the flex container.
+    //
+    flex-grow: 0; // (default) // This defines the ability for a flex item to grow if necessary.
+    flex-grow: 1; // If all items have flex-grow set to 1, the remaining space in the container will be distributed equally to all children.
+    flex-grow: 2; // will try to take up 2x the spaces as other items.  If one of the children has a value of 2, the remaining space would take up twice as much space as the others (or it will try to, at least).
+    flex-grow: 4; // will try to take up 4x the spaces as other items
+    //
+    flex-shrink: 1 // default; //  Items shrink when the width of the parent container is smaller than the combined widths of all the flex items within it.
+    flex-shrink: 3; // shrinks 3 times as much if one item has a flex-shrink value of 1 and the other has a flex-shrink value of 3, the one with the value of 3 will shrink three times as much as the other.
+    flex-shrink: 2; // will shrink 2x as much as the other items shrink
+    //
+    flex-grow: 0; // default; flex-grow controls the size of items when the parent container expands.
+    flex-grow: 1; // this does nothing except grow item 50%, or 100% if other child item flex-grow values are left unspecified
+    flex-grow: 2; // this item will grow 2x as much as the others if parent container expands
+    // 
+    flex-basis: auto ||10em || 20rem || 75px; // auto = default; specifies the initial size of the item before CSS makes adjustments with flex-shrink or flex-grow.
+    //
+    flex: 0 1 auto; //  default; // flex-grow: 0; flex-shrink: 1; and flex-basis: auto; // (set flex values all at once on child items)
+    flex: 2 1 auto; // flex-grow: 2, flex-shrink: 1, and flex-basis: auto
+    //
+    // align-self is useful since other common adjustment techniques using the CSS properties float, clear, and vertical-align do not work on flex items.
+    // align-self accepts the same values as align-items and will override any value set by the align-items property.
+    align-self: auto | flex-start | flex-end | center | baseline | stretch; // center manually aligns  item at: center of row or center of column || flex-end manually aligns items at bottom of row, or whatever in a column.
+}

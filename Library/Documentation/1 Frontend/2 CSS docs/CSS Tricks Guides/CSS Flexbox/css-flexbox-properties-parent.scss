@@ -1,0 +1,24 @@
+//  https: //www.w3schools.com/cssref
+//  https: //developer.mozilla.org/en-US/docs/Web/CSS/flex
+// Properties for the Parent(flex container) // (all properties apply to parent container, except flex-shrink and beyond apply to child items of flex containers)
+.container {
+    // turn an element into a flex container.
+    display: flex || inline-flex; // This makes it possible to align any children of that element into rows or columns. You do this by adding the flex-direction property to the parent item and setting it to row or column.
+    /// SPECIFY direction of flex items, row or column
+    flex-direction: row | row-reverse | column | column-reverse; // align the children: horizontally | horizontally in reverse order | vertically | vertically in reverse order
+    // ALIGN items along main axis (from left to right, how items are distributed)
+    justify-content: flex-start | flex-end | center | space-between | space-around | space-evenly | start | end | left | right; // Pack items: from start | from end | around center | from start | from end | from left | from right
+    // ALIGN items along cross axis (top to bottom, how high or low items sit in the flex container)
+    align-items: stretch | flex-start | flex-end | center | baseline | first baseline | last baseline | start | end | self-start | self-end;
+    align-items: flex-start; // aligns items to the start of the flex container. For rows, this aligns items to the top of the container. For columns, this aligns items to the left of the container.
+    align-items: flex-end; // aligns items to the end of the flex container. For rows, this aligns items to the bottom of the container. For columns, this aligns items to the right of the container.
+    align-items: center; // align items to the center. For rows, this vertically aligns items (equal space above and below the items). For columns, this horizontally aligns them (equal space to the left and right of the items).
+    align-items: stretch; // stretch the items to fill the flex container. For example, rows items are stretched to fill the flex container top-to-bottom. This is the default value if no align-items value is specified.
+    align-items: baseline; // align items to their baselines. Baseline is a text concept, think of it as the line that the letters sit on.
+    // CSS flexbox has a feature to split a flex item into multiple rows (or columns).
+    // By default, a flex container will fit all flex items together. For example, a row will all be on one line.
+    // However, using the flex-wrap property tells CSS to wrap items. This means extra items move into a new row or column.
+    // The break point of where the wrapping happens depends on the size of the items and the size of the container.
+    // CSS also has options for the direction of the wrap:
+    flex-wrap: nowrap | wrap | wrap-reverse; // default, all flex items will be on one line,  does not wrap items| flex items will wrap onto multiple lines, from top to bottom. | flex items will wrap onto multiple lines from bottom to top.
+}

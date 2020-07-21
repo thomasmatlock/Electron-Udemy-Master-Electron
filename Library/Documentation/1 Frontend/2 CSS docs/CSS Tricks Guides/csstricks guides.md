@@ -1,4 +1,3 @@
- A Complete Guide to Flexbox 	https://css-tricks.com/snippets/css/a-guide-to-flexbox/
  Media Queries for Standard Devices 	https://css-tricks.com/snippets/css/media-queries-for-standard-devices/
  A Complete Guide to Grid 	https://css-tricks.com/snippets/css/complete-guide-grid/
  A Complete Guide to the Table Element 	https://css-tricks.com/complete-guide-table-element/
