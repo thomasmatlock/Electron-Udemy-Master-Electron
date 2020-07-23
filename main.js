@@ -77,12 +77,13 @@ function createWindow() {
         // backgroundColor: '#ff8500' // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
         // show: false // this holds showing the window instance until the html file is loaded and ready-to-show event fires
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true // this allows us to use node commands, regardless of being in a browser environment
         }
     });
 
     mainWindow.loadFile('main.html'); // Load index.html into the new BrowserWindow
     // mainWindow.loadURL('https://warpdownload.com'); //alternate: 'https://httpbin.org/basic-auth/user/passwd'
+    // mainWindow.loadURL('https://soundcloud.com'); //alternate: 'https://httpbin.org/basic-auth/user/passwd'
     // mainWindow.loadURL('https://particle-love.com/'); //alternate: 'https://httpbin.org/basic-auth/user/passwd'
 
     ////////////////////////////////////////////////////////////////////
@@ -113,6 +114,16 @@ function createWindow() {
     });
     wc.on('before-input-event', (e, input) => {
         // console.log(`${input.key} : ${input.type}`); // e.preventDefault();
+    });
+    wc.on('did-start-navigation', e => {
+        // console.log(`${input.key} : ${input.type}`); // e.preventDefault();
+        console.log('User navigated...');
+
+        setTimeout(function() {
+            const url = wc.getURL();
+            // alert('Hello');
+            console.log(url);
+        }, 1500);
     });
     wc.on('context-menu', (e, params) => {
         // console.log(params.mediaFlags.isPaused); // damn, super cool
