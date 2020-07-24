@@ -49,7 +49,6 @@ function setupDisplays() {
     const displays = screen.getAllDisplays();
     if (displays.length == 1) {
         devScreen = displays[0];
-        console.log(devScreen);
     } else {
         devScreen = displays[1];
     }
@@ -57,12 +56,13 @@ function setupDisplays() {
 
 function createWindow() {
     const winDefaults = {
-        height: 800,
-        widthMain: 1000,
-        widthSec: 800,
-        widthByScreen: Math.round(devScreen.bounds.width * 0.8)
+        height: Math.round(devScreen.bounds.height * 0.8),
+        // widthMain: 1000,
+        // widthSec: 800,
+        widthByScreen: Math.round(devScreen.bounds.width * 0.7),
+        x: Math.round(devScreen.bounds.width * 0.3),
+        y: Math.round(devScreen.bounds.height * 0.1)
     };
-    console.log(winDefaults.widthByScreen);
     createTray();
 
     mainWindow = new BrowserWindow({
@@ -73,9 +73,9 @@ function createWindow() {
         height: winDefaults.height,
         minWidth: 640, // min width so you cant shrink window too small
         minHeight: 480,
-        // x: 3200,
-        // y: 400,
-        // x: winState.x,
+        x: winDefaults.x,
+        y: winDefaults.y,
+        // x: winDefaults.x,
         // y: winState.y,
         darkTheme: true,
         // autoHideMenuBar: false,
@@ -88,10 +88,14 @@ function createWindow() {
         }
     });
 
-    mainWindow.loadFile('main.html'); // Load index.html into the new BrowserWindow
+    // mainWindow.loadFile('main.html'); // Load index.html into the new BrowserWindow
     // mainWindow.loadURL('https://warpdownload.com'); //alternate: 'https://httpbin.org/basic-auth/user/passwd'
-    // mainWindow.loadURL('https://soundcloud.com'); //alternate: 'https://httpbin.org/basic-auth/user/passwd'
-    // mainWindow.loadURL('https://particle-love.com/'); //alternate: 'https://httpbin.org/basic-auth/user/passwd'
+    // mainWindow.loadURL('https://youtube.com');
+    // mainWindow.loadURL('https://instagram.com/tomtacular');
+    mainWindow.loadURL('https://www.instagram.com/p/CC2HgNqjzW5/');
+    // mainWindow.loadURL('https://instagram.com/realdonaldtrump');
+    // mainWindow.loadURL('https://soundcloud.com');
+    // mainWindow.loadURL('https://particle-love.com/');
 
     ////////////////////////////////////////////////////////////////////
     //  browser-window-instance LISTENERS
@@ -119,18 +123,20 @@ function createWindow() {
     wc.on('dom-ready', () => {
         // console.log('MainWindow finished loading'); //  listening for webContents events firing
     });
+    wc.on('page-title-updated', () => {
+        const url = wc.getURL();
+        console.log(`${url}`);
+        if (!url) {
+            setTimeout(() => {
+                const url = wc.getURL();
+            }, 1500);
+        }
+    });
     wc.on('before-input-event', (e, input) => {
         // console.log(`${input.key} : ${input.type}`); // e.preventDefault();
     });
     wc.on('did-start-navigation', e => {
         // console.log(`${input.key} : ${input.type}`); // e.preventDefault();
-        console.log('User navigated...');
-
-        setTimeout(function() {
-            const url = wc.getURL();
-            // alert('Hello');
-            console.log(url);
-        }, 1500);
     });
     wc.on('context-menu', (e, params) => {
         // console.log(params.mediaFlags.isPaused); // damn, super cool
