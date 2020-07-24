@@ -25,7 +25,7 @@ const windowStateKeeper = require('electron-window-state'); // our browser-windo
 const mainMenu = require('./mainMenu');
 
 // let mainWindow, secWindow; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
-let mainWindow, tray;
+let mainWindow, devScreen, tray;
 const trayMenu = Menu.buildFromTemplate([
     { label: 'Item 1' },
     { role: 'quit' },
@@ -45,17 +45,24 @@ function createTray() {
     tray.setContextMenu(trayMenu);
 }
 
-function createWindow() {
+function setupDisplays() {
     const displays = screen.getAllDisplays();
-    const screenArr = [displays[0], displays[1], displays[2]];
-    const [screenC, screenR, screenL] = screenArr; // destructure screens pulled off screenArr
+    if (displays.length == 1) {
+        devScreen = displays[0];
+        console.log(devScreen);
+    } else {
+        devScreen = displays[1];
+    }
+}
+
+function createWindow() {
     const winDefaults = {
         height: 800,
         widthMain: 1000,
         widthSec: 800,
-        widthByScreen: screenR.bounds.width * 0.6
+        widthByScreen: Math.round(devScreen.bounds.width * 0.8)
     };
-
+    console.log(winDefaults.widthByScreen);
     createTray();
 
     mainWindow = new BrowserWindow({
@@ -66,8 +73,8 @@ function createWindow() {
         height: winDefaults.height,
         minWidth: 640, // min width so you cant shrink window too small
         minHeight: 480,
-        x: 3200,
-        y: 400,
+        // x: 3200,
+        // y: 400,
         // x: winState.x,
         // y: winState.y,
         darkTheme: true,
@@ -105,7 +112,7 @@ function createWindow() {
     });
 
     const wc = mainWindow.webContents;
-    wc.openDevTools(); // Open DevTools - Remove for PRODUCTION!
+    // wc.openDevTools(); // Open DevTools - Remove for PRODUCTION!
 
     Menu.setApplicationMenu(mainMenu); // set the menu object we created to the menu
 
@@ -141,6 +148,8 @@ app.on('ready', () => {
     // console.log('App is ready'); // Electron `app` is ready
     // console.log(app.getPath('home')); // https://www.electronjs.org/docs/api/app#appgetpathname for more
     // console.log(app.getPath('userData')); // default storage location for all user stored data, json files, etc. you have a consistent path and wont run into permission issues
+    setupDisplays();
+
     createWindow();
 }); // this is app/nodejs main process listening for the app to ready event, then creates a window (renderer) instance
 app.on('before-quit', event => {
