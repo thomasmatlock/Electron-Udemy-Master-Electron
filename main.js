@@ -92,7 +92,7 @@ function createWindow() {
     // mainWindow.loadURL('https://warpdownload.com'); //alternate: 'https://httpbin.org/basic-auth/user/passwd'
     // mainWindow.loadURL('https://youtube.com');
     // mainWindow.loadURL('https://instagram.com/tomtacular');
-    mainWindow.loadURL('https://www.instagram.com/p/CC2HgNqjzW5/');
+    mainWindow.loadURL('https://www.instagram.com/p/CC2HgNqjzW5/ ');
     // mainWindow.loadURL('https://instagram.com/realdonaldtrump');
     // mainWindow.loadURL('https://soundcloud.com');
     // mainWindow.loadURL('https://particle-love.com/');
