@@ -25,7 +25,7 @@ const windowStateKeeper = require('electron-window-state'); // our browser-windo
 const mainMenu = require('./mainMenu');
 
 // let mainWindow, secWindow; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
-let mainWindow, devScreen, tray;
+let mainWindow, displays, devScreen, tray, test;
 const trayMenu = Menu.buildFromTemplate([
     { label: 'Item 1' },
     { role: 'quit' },
@@ -46,7 +46,9 @@ function createTray() {
 }
 
 function setupDisplays() {
-    const displays = screen.getAllDisplays();
+    displays = screen.getAllDisplays();
+    // console.log(displays);
+    test = 1;
     if (displays.length == 1) {
         devScreen = displays[0];
     } else {
@@ -54,7 +56,13 @@ function setupDisplays() {
     }
 }
 
+// console.log(devScreen);
+
 function createWindow() {
+    console.log(devScreen.bounds.height);
+    devScreen.bounds.height < 1200 ?
+        console.log('You are on the desktop') :
+        console.log('You are on the laptop');
     const winDefaults = {
         height: Math.round(devScreen.bounds.height * 0.8),
         // widthMain: 1000,
@@ -63,6 +71,7 @@ function createWindow() {
         x: Math.round(devScreen.bounds.width * 0.3),
         y: Math.round(devScreen.bounds.height * 0.1)
     };
+    console.log(devScreen);
     createTray();
 
     mainWindow = new BrowserWindow({
@@ -92,8 +101,8 @@ function createWindow() {
     // mainWindow.loadURL('https://warpdownload.com'); //alternate: 'https://httpbin.org/basic-auth/user/passwd'
     // mainWindow.loadURL('https://youtube.com');
     // mainWindow.loadURL('https://instagram.com/tomtacular');
-    mainWindow.loadURL('https://www.instagram.com/p/CC2HgNqjzW5/ ');
-    // mainWindow.loadURL('https://instagram.com/realdonaldtrump');
+    // mainWindow.loadURL('https://www.instagram.com/p/CC2HgNqjzW5/ ');
+    mainWindow.loadURL('https://instagram.com/realdonaldtrump');
     // mainWindow.loadURL('https://soundcloud.com');
     // mainWindow.loadURL('https://particle-love.com/');
 
@@ -125,7 +134,7 @@ function createWindow() {
     });
     wc.on('page-title-updated', () => {
         const url = wc.getURL();
-        console.log(`${url}`);
+        console.log(`Navigated to ${url}`);
         if (!url) {
             setTimeout(() => {
                 const url = wc.getURL();
@@ -155,9 +164,13 @@ app.on('ready', () => {
     // console.log(app.getPath('home')); // https://www.electronjs.org/docs/api/app#appgetpathname for more
     // console.log(app.getPath('userData')); // default storage location for all user stored data, json files, etc. you have a consistent path and wont run into permission issues
     setupDisplays();
-
+    // console.log(test);
+    // console.log(devScreen.);
     createWindow();
 }); // this is app/nodejs main process listening for the app to ready event, then creates a window (renderer) instance
+// console.log(displays);
+// console.log(devScreen); //
+
 app.on('before-quit', event => {
     // console.log('Preventing app from quitting');
     // event.preventDefault(); // if you wanna save a users work, check out section 8 of class. this is supposed to make the thing not close but Ctrl Q doesn't seem to work
