@@ -60,7 +60,7 @@ function setupDisplays() {
 
 function createWindow() {
     console.log(devScreen.bounds.height);
-    devScreen.bounds.height < 1200 ?
+    devScreen.size.height < 1200 ?
         console.log('You are on the desktop') :
         console.log('You are on the laptop');
     const winDefaults = {
