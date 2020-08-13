@@ -59,20 +59,14 @@ function setupDisplays() {
 // console.log(devScreen);
 
 function createWindow() {
-    // console.log(devScreen.bounds.height);
     let usePrimaryMonitor;
     devScreen.size.height >= 1080 ?
         (usePrimaryMonitor = false) :
         (usePrimaryMonitor = true);
-    // console.log(`Using primary: ${usePrimaryMonitor}`);
-    // console.log('You are on the desktop') :
-    // console.log('You are on the laptop');
     const xAdditive = usePrimaryMonitor ? 0 : 2500;
     const yAdditive = usePrimaryMonitor ? 0 : 250;
     const winDefaults = {
         height: Math.round(devScreen.bounds.height * 0.8),
-        // widthMain: 1000,
-        // widthSec: 800,
         widthByScreen: Math.round(devScreen.bounds.width * 0.7),
         x: Math.round(devScreen.bounds.width * 0.3) + xAdditive,
         y: Math.round(devScreen.bounds.height * 0.1) + yAdditive
