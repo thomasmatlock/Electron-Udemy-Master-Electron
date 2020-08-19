@@ -71,7 +71,7 @@ function createWindow() {
         x: Math.round(devScreen.bounds.width * 0.3) + xAdditive,
         y: Math.round(devScreen.bounds.height * 0.1) + yAdditive
     };
-    console.log(devScreen);
+    // console.log(devScreen );
     createTray();
 
     mainWindow = new BrowserWindow({
@@ -97,12 +97,12 @@ function createWindow() {
         }
     });
 
-    // mainWindow.loadFile('main.html'); // Load index.html into the new BrowserWindow
+    mainWindow.loadFile('main.html'); // Load index.html into the new BrowserWindow
     // mainWindow.loadURL('https://warpdownload.com'); //alternate: 'https://httpbin.org/basic-auth/user/passwd'
     // mainWindow.loadURL('https://youtube.com');
     // mainWindow.loadURL('https://instagram.com/tomtacular');
     // mainWindow.loadURL('https://www.instagram.com/p/CC2HgNqjzW5/ ');
-    mainWindow.loadURL('https://instagram.com/realdonaldtrump');
+    // mainWindow.loadURL('https://instagram.com/realdonaldtrump');
     // mainWindow.loadURL('https://soundcloud.com');
     // mainWindow.loadURL('https://particle-love.com/');
 
@@ -125,7 +125,7 @@ function createWindow() {
     });
 
     const wc = mainWindow.webContents;
-    // wc.openDevTools(); // Open DevTools - Remove for PRODUCTION!
+    wc.openDevTools(); // Open DevTools - Remove for PRODUCTION!
 
     Menu.setApplicationMenu(mainMenu); // set the menu object we created to the menu
 

@@ -36,6 +36,13 @@ Section 3: Main Process API
         - in our createWindow
 
 Section 4: Renderer Process API
+    - having nodeIntegration set to true, means that we can use require statements, and any nodejs commands
+        - in the html file, we have the renderer file required rather than linked in the standard way. Actually that solves a problem I had for a long time, to get Warp to work with electron, now I understand
+        - we coiuld have used the regular link script method in the html, but require is useful for imports/exports
+        - renderer process is just a standard browsing window, which you can enable nodeIntegration for to use nodejs code 
+    - there are 2 ways to open a new browser window
+        - anchor element with href="/new.html"
+        - or, window.open("/new.html")
 Section 5: IPC Communication
 Section 6: Shared API
 Section 7: Features & Techniques

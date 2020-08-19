@@ -22,6 +22,9 @@
     <input type="text" autofocus>
     <a href="https://www.soundcloud.com">go here</a>
     <!-- <a href="https://www.google.com"> -->
+    <h3>
+        <a href="#" onclick="newWindow()" target="_blank">New Window</a>
+    </h3>
 
     <!-- <h3>click here</h3> -->
     <!-- </a> -->
@@ -31,9 +34,12 @@
                 download>Download image</a></h2> -->
     <!-- <progress value="0" max="100" id="progress" height="10"></progress> -->
     <script>
-        window.progress = document.getElementById('progress')
-            // You can also require other files to run in this process
-        require('./renderer.js');
+        // window.progress = document.getElementById('progress')
+        // You can also require other files to run in this process
+        // require('./renderer.js');
+        const newWindow = () => {
+            window.open("https://www.google.com")
+        }
     </script>
 </body>
 
