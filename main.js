@@ -125,10 +125,17 @@ function createWindow() {
     });
 
     const wc = mainWindow.webContents;
-    wc.openDevTools(); // Open DevTools - Remove for PRODUCTION!
+    // wc.openDevTools(); // Open DevTools - Remove for PRODUCTION!
 
-    Menu.setApplicationMenu(mainMenu); // set the menu object we created to the menu
-
+    // Menu.setApplicationMenu(mainMenu); // set the menu object we created to the menu
+    // webframe:
+    // this is easy browserWindow is the browser window instance, webContents are the contents displayed within it
+    // webFrame is the "frame" in which the browser loads its web contents
+    // browserWindow is the instance itself, the renderer process itself, and is responsbile for everything we see when opening the window, and is controlled by the main process
+    // everything inside the browserWindow, like the webFrame and webContents, are controlled by the browserWindow instance
+    // meaning the browserWindow instance creates the webFrame in wihch to load its webContents
+    // webFrame is less used than webContents, but nonetheless can be used to affect the user experience
+    // some webFrame methods are webFrame.setZoomLevel, setZoomFactor, insert || remove CSS, etc
     wc.on('dom-ready', () => {
         // console.log('MainWindow finished loading'); //  listening for webContents events firing
     });
@@ -136,9 +143,7 @@ function createWindow() {
         const url = wc.getURL();
         console.log(`Navigated to ${url}`);
         if (!url) {
-            setTimeout(() => {
-                const url = wc.getURL();
-            }, 1500);
+            asd;
         }
     });
     wc.on('before-input-event', (e, input) => {

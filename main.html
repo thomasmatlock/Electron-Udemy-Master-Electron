@@ -18,13 +18,16 @@
 
 <body style=" -webkit-app-region: drag; padding-top: 20px;">
 
-    <h1 style="color: rgba(128, 57, 57, 0.685) ">Hello World!</h1>
-    <input type="text" autofocus>
-    <a href="https://www.soundcloud.com">go here</a>
+    <!-- <h1 style="color: rgba(128, 57, 57, 0.685) ">Hello World!</h1> -->
+    <!-- <input type="text" autofocus> -->
+    <!-- <a href="https://www.soundcloud.com">go here</a> -->
     <!-- <a href="https://www.google.com"> -->
-    <h3>
-        <a href="#" onclick="newWindow()" target="_blank">New Window</a>
-    </h3>
+    <h3><a href="#" onclick="newWin()">New Window</a></h3>
+    <h3><a href="#" onclick="closeWin()">Close Window</a></h3>
+    <h3><a href="#" onclick="styleWin()">Bad Fonts</a></h3>
+    <img src="https://placekitten.com/450/300" alt="">
+    <button onclick="ZoomUp()">Increase Zoom</button>
+    <button onclick="ZoomDown()">Decrease Zoom</button>
 
     <!-- <h3>click here</h3> -->
     <!-- </a> -->
@@ -34,12 +37,46 @@
                 download>Download image</a></h2> -->
     <!-- <progress value="0" max="100" id="progress" height="10"></progress> -->
     <script>
+        /////////////////////////////////////////////////
         // window.progress = document.getElementById('progress')
         // You can also require other files to run in this process
-        // require('./renderer.js');
-        const newWindow = () => {
-            window.open("https://www.google.com")
+        require('./renderer.js');
+        /////////////////////////////////////////////////
+        // browserWindowProxy is essentially a limted version of the browserWindow
+        // so is browserWindowProxy just a child of its parent BrowserWindow
+        // let win; // we could just open this new window in code above, but we want a reference to it to control it, so we make a variable of it here
+        // const newWin = () => {
+        //     win = window.open("https://www.w3schools.com/js/default.asp", '_blank', 'width=500, height=400, x=200, y=300') // you can use all the browser window options here
+        //     setTimeout(() => {
+        //         win.close();
+        //     }, 15000);
+        // }
+        // const closeWin = () => {
+        //     win = win.close();
+        // }
+        // const styleWin = () => {
+        //     win.eval("document.getElementsByTagName('h1')[0].style.fontFamily = 'Comic Sans MS'") //  this is actually pretty cool, you can change shit in another websites browser
+        // }
+        /////////////////////////////////////////////////
+        // webFrame
+        const {
+            webFrame
+        } = require('electron')
+        const ZoomUp = () => {
+            // let currZoomlvl = webFrame.getZoomLevel()
+            // webFrame.setZoomLevel(currZoomlvl * 2)
+            webFrame.setZoomFactor(webFrame.getZoomFactor() + 1)
         }
+        const ZoomDown = () => {
+                // let currZoomlvl = webFrame.getZoomLevel()
+                // webFrame.setZoomLevel(currZoomlvl / 2)
+                webFrame.setZoomFactor(webFrame.getZoomFactor - 1)
+            }
+            // console.log(webFrame.getResourceUsage());
+            /////////////////////////////////////////////////
+            // desktopCapture
+            // this allows us to access screens/monitors, and application windows
+            /////////////////////////////////////////////////
     </script>
 </body>
 
