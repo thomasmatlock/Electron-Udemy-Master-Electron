@@ -14,6 +14,7 @@ const {
     screen,
     webContents,
     DownloadItem,
+    ipcMain,
     dialog,
     globalShortcut,
     Menu,
@@ -87,7 +88,7 @@ function createWindow() {
         // x: winDefaults.x,
         // y: winState.y,
         darkTheme: true,
-        // autoHideMenuBar: false,
+        skipTaskbar: true, // PRODUCTION ONLY
         // frame: false, // this eliminates frame around window, like min,max,close etc. however, this makes it difficult to drag the window around. however putting         <body style="user-select: none; -webkit-app-region: drag;"> in the html, makes nothing in the html selectable. before you just tried to drag and the stuff got highlighted
         // titleBarStyle: 'hidden', // if we dont want to remove everything of the window frame, we could just remove the titlebar
         // backgroundColor: '#ff8500' // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
@@ -136,6 +137,19 @@ function createWindow() {
     // meaning the browserWindow instance creates the webFrame in wihch to load its webContents
     // webFrame is less used than webContents, but nonetheless can be used to affect the user experience
     // some webFrame methods are webFrame.setZoomLevel, setZoomFactor, insert || remove CSS, etc
+
+    // ipcMain and ipcRenderer
+    // here we can send a message to our webContents instance, but just make it finishes loading first
+    wc.on('did-finish-load', e => {
+        console.log();
+        wc.send('mailbox', {
+            first: 'Tom',
+            money: 100,
+            list: ['bed', 'chair', 'couch']
+        });
+    });
+    // ipcMain and ipcRenderer
+
     wc.on('dom-ready', () => {
         // console.log('MainWindow finished loading'); //  listening for webContents events firing
     });
@@ -187,6 +201,22 @@ app.on('activate', () => {
     if (mainWindow === null) createWindow(); // When app icon is clicked and app is running, (macOS) recreate the BrowserWindow
 });
 
+////////////////////////////////////////////////////////////////////
+// ipc LISTENERS (main node process)
+// async messages
+ipcMain.on('channel1', (e, args) => {
+    console.log(args);
+    // send a response back. the sender here is the webContents instance of the sending renderer process.
+    e.sender.send(
+        'channel1-response',
+        'Message received on channel1, thank you.'
+    ); // the sender is attached to the event. you can respond with this, and pick the channel to send through
+});
+// sync messages (sync messages block the entire renderer process until its it receives a response)
+ipcMain.on('sync-message', (e, args) => {
+    console.log(args);
+    e.returnValue = 'A sync response from the main process';
+});
 ////////////////////////////////////////////////////////////////////
 // DEACTIVATED
 

@@ -44,6 +44,7 @@ Section 4: Renderer Process API
         - anchor element with href="/new.html"
         - or, window.open("/new.html")
 Section 5: IPC Communication
+    - we have ipcMain and ipcRenderer, that communicate back and forth
 Section 6: Shared API
 Section 7: Features & Techniques
 Section 8: Project
