@@ -37,11 +37,20 @@
 <!-- Process -->
 
 <!-- Shell -->
-<br><button onclick="showSite()">Show Electron.js site</button><br>
-<br><button onclick="openSplash()">Open splash.png</button><br>
-<br><button onclick="showSplashFile()">Show splash.png</button><br>
-<br><button onclick="deleteSplashFile()">Delete splash.png</button><br>
+<!-- <br><button onclick="showSite()">Show Electron.js site</button><br> -->
+<!-- <br><button onclick="openSplash()">Open splash.png</button><br> -->
+<!-- <br><button onclick="showSplashFile()">Show splash.png</button><br> -->
+<!-- <br><button onclick="deleteSplashFile()">Delete splash.png</button><br> -->
 <!-- Shell -->
+
+<!-- nativeImage -->
+<h1>Convert Png</h1>
+<br><button onclick="toPng()">Convert to PNG</button>
+<br><button onclick="toJpg()">Convert to JPG</button>
+<br><button onclick="toTag()">Show</button>
+<br>
+<img src="" id="preview">
+<!-- nativeImage -->
 
 <script>
     /////////////////////////////////////////////////
@@ -69,30 +78,69 @@
 
     /////////////////////////////////////////////////
     // Shell
-    const {
-        shell
-    } = require('electron')
 
-    const showSite = e => {
-        shell.openExternal('https://www.electronjs.org/docs/api') // this opens urls
-    }
-    const splashPath = `${__dirname}\\splash.png`
+    // const {
+    //     shell
+    // } = require('electron')
 
-    const openSplash = e => {
-        shell.beep()
-        shell.openPath(splashPath); // this open local files 
-    }
+    // const showSite = e => {
+    //     shell.openExternal('https://www.electronjs.org/docs/api') // this opens urls
+    // }
+    // const splashPath = `${__dirname}\\splash.png`
 
-    const showSplashFile = e => {
-        shell.beep()
-        shell.showItemInFolder(splashPath); // show file in folder (doesnt seem to ) 
-    }
-    const deleteSplashFile = e => {
-        shell.beep()
-        shell.moveItemToTrash(splashPath); // this open local files 
-    }
+    // const openSplash = e => {
+    //     shell.beep()
+    //     shell.openPath(splashPath); // this open local files 
+    // }
+
+    // const showSplashFile = e => {
+    //     shell.beep()
+    //     shell.showItemInFolder(splashPath); // show file in folder (doesnt seem to ) 
+    // }
+    // const deleteSplashFile = e => {
+    //     shell.beep()
+    //     shell.moveItemToTrash(splashPath); // this open local files 
+    // }
 
     // Shell
+    /////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////
+    // nativeImage
+
+    const {
+        nativeImage,
+        ipcRenderer
+    } = require('electron')
+    const fs = require('fs')
+
+    const splash = nativeImage.createFromPath(`${__dirname}\\splash.png`)
+    console.log(splash.getSize()); // this is cool
+
+    const saveToDesktop = async(data, extension) => {
+        let desktopPath = await ipcRenderer.invoke('app-path')
+        fs.writeFile(`${desktopPath}\\splash.${extension}`, data, console.log)
+    }
+
+    const toPng = e => {
+        let pngSplash = splash.toPNG()
+        saveToDesktop(pngSplash, 'png')
+    }
+    const toJpg = e => {
+        let jpgSplash = splash.toJPEG(90) // jpg requires an argument specify image quality
+        saveToDesktop(jpgSplash, 'jpg')
+    }
+    const toTag = e => {
+        let size = splash.getSize()
+
+        let splashURL = splash.resize({
+                width: Math.round(size.width / 4),
+                height: Math.round(size.height / 4)
+            }).toDataURL() // jpg requires an argument specify image quality
+        document.getElementById('preview').src = splashURL
+    }
+
+    // nativeImage
     /////////////////////////////////////////////////
 
     /////////////////////////////////////////////////

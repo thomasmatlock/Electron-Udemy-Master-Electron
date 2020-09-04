@@ -125,7 +125,12 @@
 /////////////////////////////////////////////////
 
 /////////////////////////////////////////////////
-// Shell
+// nativeImage
 
-// Shell
+// weve used nativeImage before, making tray icons, and screenCapture module taking screenshots of the screen and applications
+// nativeImage is an instance of electrons nativeImage class
+// nativeImage allows us to better work w images inside of our application
+// each nativeImage instance represents a single image
+
+// nativeImage
 /////////////////////////////////////////////////

@@ -24,6 +24,17 @@ const {
 } = electron; // we have to do this weird require electron twice if we use powerMonitor, then we can use powerMonitor directly from the electron module/ object
 const windowStateKeeper = require('electron-window-state'); // our browser-window always reopens in same position/size unless we manage it by this simple package, we can save past positions or sizes and use them. it applies only for active sessions, unless you persist elsewhere through local storage
 const mainMenu = require('./mainMenu');
+////////////////////////////////////
+// nativeImage
+
+ipcMain.handle('app-path', () => {
+    // let path = app.getPath('desktop');
+    // console.log(path);
+    return app.getPath('desktop');
+});
+
+// nativeImage
+////////////////////////////////////
 
 // let mainWindow, secWindow; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
 let mainWindow, displays, devScreen, tray, test;
