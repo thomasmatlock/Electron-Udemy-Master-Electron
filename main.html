@@ -23,17 +23,77 @@
 <!-- desktopCapture -->
 
 <!-- ipcMain and ipcRenderer -->
-<input type="text" id="user-text" autofocus>
-<button id="talk">Talk to main process</button><br>
+<!-- <input type="text" id="user-text" autofocus> -->
+<!-- <button id="talk">Talk to main process</button><br> -->
 <!-- ipcMain and ipcRenderer -->
+
+<!-- ipcInvoke & Handle -->
+<!-- <br><button id="ask">Pick a fruit </button> -->
+<!-- ipcInvoke & Handle -->
+
+<!-- Process -->
+<!-- <br><button id="hang-process" onclick="process.hang()">Hang process</button> -->
+<!-- <br><button id="crash-process" onclick="process.crash()">Crash process</button> -->
+<!-- Process -->
+
+<!-- Shell -->
+<br><button onclick="showSite()">Show Electron.js site</button><br>
+<br><button onclick="openSplash()">Open splash.png</button><br>
+<br><button onclick="showSplashFile()">Show splash.png</button><br>
+<br><button onclick="deleteSplashFile()">Delete splash.png</button><br>
+<!-- Shell -->
 
 <script>
     /////////////////////////////////////////////////
-    require('./renderer.js'); // You can also require other files to run in this process
+    // require('./renderer.js'); // You can also require other files to run in this process
     // progress bar
     // window.progress = document.getElementById('progress')
     // progress bar
 
+
+    // process
+
+    // console.log(process.versions); // this logs the main node process, as well as the electron methods and properties attached to the node process object
+    // it shows us in the object the versions of node, electron, and even the chrome v8 engine that everything is running on
+    // console.log(process.type);
+    // console.log(process.getCPUUsage());
+
+    // let i = 1;
+    // // here we log the interval every half second
+    // setInterval(() => {
+    //         console.log(i);
+    //         i++;
+    //     }, 500)
+
+    // process
+
+    /////////////////////////////////////////////////
+    // Shell
+    const {
+        shell
+    } = require('electron')
+
+    const showSite = e => {
+        shell.openExternal('https://www.electronjs.org/docs/api') // this opens urls
+    }
+    const splashPath = `${__dirname}/splash.png`
+
+    const openSplash = e => {
+        shell.beep()
+        shell.openPath(splashPath); // this open local files 
+    }
+
+    const showSplashFile = e => {
+        shell.beep()
+        shell.showItemInFolder(splashPath); // show file in folder (doesnt seem to ) 
+    }
+    const deleteSplashFile = e => {
+        shell.beep()
+        shell.moveItemToTrash(splashPath); // this open local files 
+    }
+
+    // Shell
+    /////////////////////////////////////////////////
 
     /////////////////////////////////////////////////
     // start browserWindowProxy 

@@ -27,6 +27,39 @@ const mainMenu = require('./mainMenu');
 
 // let mainWindow, secWindow; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
 let mainWindow, displays, devScreen, tray, test;
+////////////////////////////////////////////////////////////////////
+// ipcInvoke & Handle
+// async function askFruit() {
+//     let fruits = ['apple', 'banana', 'orange'];
+//     let choice = await dialog.showMessageBox({
+//         message: 'Pick a fruit',
+//         buttons: fruits
+//     });
+//     return fruits[choice.response];
+// }
+
+// ipcMain.handle('ask-fruit', e => {
+// dont use
+//     // listener method
+//     // askFruit().then(answer => {
+//     //     e.reply('answer-fruit', answer);
+//     // });
+
+// use
+//     // handler method
+//     // return askFruit(); // returns a promise  to the renderer, so we handle the promise in the renderer side of things
+// });
+// ipcInvoke & Handle
+////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////
+// Process
+// console.log(process.type);
+// console.log(process.getCPUUsage());
+
+// Process
+/////////////////////////////////////////////////
+
 const trayMenu = Menu.buildFromTemplate([
     { label: 'Item 1' },
     { role: 'quit' },
@@ -57,8 +90,6 @@ function setupDisplays() {
     }
 }
 
-// console.log(devScreen);
-
 function createWindow() {
     let usePrimaryMonitor;
     devScreen.size.height >= 1080 ?
@@ -74,6 +105,28 @@ function createWindow() {
     };
     // console.log(devScreen );
     createTray();
+
+    ////////////////////////////
+    // ipcInvoke & Handle
+    // allows similar communication to remote without actually using remote
+    // lets say we want to invoke a dialog from the browser instance , but we have a strict policy to not use the remote module
+    // remember only stuff from the renderer.js logged from console actually logs to the application, everything else we log is logged to node node console
+    // setTimeout(() => {
+    //     askFruit().then(answer => {
+    //         console.log(answer);
+    //     });
+    // }, 2000);
+    // ipcInvoke & Handle
+    ////////////////////////////
+
+    /////////////////////////////////////////////////
+    // Shell
+
+    // shell allows the application to open resources on a users machine with the default application for that type of resource
+    // resources are files or URL's
+
+    // Shell
+    /////////////////////////////////////////////////
 
     mainWindow = new BrowserWindow({
         // width: winState.width,
@@ -94,7 +147,10 @@ function createWindow() {
         // backgroundColor: '#ff8500' // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
         // show: false // this holds showing the window instance until the html file is loaded and ready-to-show event fires
         webPreferences: {
-            nodeIntegration: true // this allows us to use node commands, regardless of being in a browser environment
+            nodeIntegration: true, // this allows us to use node commands, regardless of being in a browser environment
+            enableRemoteModule: false, //
+            // worldSafeExecuteJavaScript: true, // removes Electron Security Warning (Insecure Content-Security-Policy)
+            enableRemoteModule: true // this allows us an insecure, yet handy method to talk between node and browser instances. it mimics ipcMain/renderer without all the channels
         }
     });
 
@@ -126,7 +182,21 @@ function createWindow() {
     });
 
     const wc = mainWindow.webContents;
-    // wc.openDevTools(); // Open DevTools - Remove for PRODUCTION!
+
+    // process
+
+    // here are able to listen for a crash then reboot the webContents
+    // wow this is actually really useful. This basically prevents us ever having a crashing app. Allthough its better to debug, cuz method is crude and last resort, good code is still important
+
+    // wc.on('crashed', () => {
+    //     setTimeout(() => {
+    //         mainWindow.reload();
+    //     }, 1000);
+    // });
+
+    // process
+
+    wc.openDevTools(); // Open DevTools - Remove for PRODUCTION!
 
     // Menu.setApplicationMenu(mainMenu); // set the menu object we created to the menu
     // webframe:
@@ -187,8 +257,6 @@ app.on('ready', () => {
     // console.log(devScreen.);
     createWindow();
 }); // this is app/nodejs main process listening for the app to ready event, then creates a window (renderer) instance
-// console.log(displays);
-// console.log(devScreen); //
 
 app.on('before-quit', event => {
     // console.log('Preventing app from quitting');

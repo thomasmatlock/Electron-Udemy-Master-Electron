@@ -2,6 +2,7 @@
 
 /////////////////////////////////////////////////
 // desktopCapture allows us to access screens/monitors, and application windows
+
 // const { desktopCapturer } = require('electron');
 
 // here we add a button with an id, add event listener, then call the desktopCapturer when its clicked, which then inserts the thumbnail into our page directly
@@ -35,32 +36,96 @@
 //         })
 //         .catch(err => console.log(err));
 // });
+// desktopCapturer
+/////////////////////////////////////////////////
 
 /////////////////////////////////////////////////
 // ipcMain and ipcRenderer
-const { ipcRenderer } = require('electron');
 
-document.getElementById('talk').addEventListener('click', e => {
-    // async send
-    // ipcRenderer.send('channel1', 'Hello from main window'); // async send
-    //sync send
-    let response = ipcRenderer.sendSync(
-        'sync-message',
-        'Waiting for response...'
-    ); // sync send
-    console.log(response);
-});
-// ipcRenderer listener for communications from main process
-ipcRenderer.on('channel1-response', (e, args) => {
-    console.log(args);
-});
-ipcRenderer.on('mailbox', (e, args) => {
-    console.log(args);
-    // console.log(Object.getOwnPropertyNames(args));
-});
+// const { ipcRenderer } = require('electron');
+
+// document.getElementById('talk').addEventListener('click', e => {
+//     // async send
+//     // ipcRenderer.send('channel1', 'Hello from main window'); // async send
+//     //sync send
+//     let response = ipcRenderer.sendSync(
+//         'sync-message',
+//         'Waiting for response...'
+//     ); // sync send
+//     console.log(response);
+// });
+// // ipcRenderer listener for communications from main process
+// ipcRenderer.on('channel1-response', (e, args) => {
+//     console.log(args);
+// });
+// ipcRenderer.on('mailbox', (e, args) => {
+//     console.log(args);
+//     // console.log(Object.getOwnPropertyNames(args));
+// });
 // ipcMain and ipcRenderer
 /////////////////////////////////////////////////
 
+/////////////////////////////////////////////////
+// remote module
+
+// const { remote } = require('electron'); // require remote module which has a ton of get methods
+// const { dialog, BrowserWindow } = remote; // pull the dialog module (object ) off the remote module
+
+// setTimeout(() => {
+// user dialog
+// dialog
+//     .showMessageBox({
+//         message: 'Dialog from renderer',
+//         buttons: ['Download Audio', 'Download video', 'Three']
+//     })
+//     .then(res => {
+//         console.log(res.response); // the response seems to be an array, and will log it accordingly
+//     });
+// user dialog
+
+// new window stuff
+// let win = new BrowserWindow({ x: 50, y: 50, width: 300, height: 300 });
+// win.loadFile('main.html');
+// setTimeout(() => {
+//     // remote.app.quit(); // here we call the remote instance app to quit
+// }, 1500);
+// new window stuff
+
+//getCurrentWindow and manipulate it
+//     let mainWindow = remote.getCurrentWindow();
+//     mainWindow.maximize();
+// }, 2000);
+// console.log(remote);
+
+// remote module
 /////////////////////////////////////////////////
 
 // console.log('hello from renderer.js'); // this is integrated into the browser window via html doc, and runs this JS there in the browser. I think NodeIntegration is important here
+
+/////////////////////////////////////////////////
+//  ipcInvoke & Handle;
+// THE IDEAL METHOD to talk between the browser and main processes.
+
+// USE below
+// const { ipcRenderer } = require('electron');
+// document.getElementById('ask').addEventListener('click', e => {
+//     // ipcRenderer.send('ask-fruit');
+//     ipcRenderer.invoke('ask-fruit').then(answer => {
+//         console.log(answer);
+//     }); // this invokes the handler on the main process, rather than listening on a channel and sending back and forth
+// });
+
+// old below
+// ipcRenderer.on('answer-fruit', (e, args) => {
+//     console.log(args);
+// });
+// old above
+
+//  ipcInvoke & Handle;
+/////////////////////////////////////////////////
+
+/////////////////////////////////////////////////
+// Shell
+
+// Shell
+/////////////////////////////////////////////////
