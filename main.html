@@ -44,13 +44,20 @@
 <!-- Shell -->
 
 <!-- nativeImage -->
-<h1>Convert Png</h1>
+<!-- <h1>Convert Png</h1>
 <br><button onclick="toPng()">Convert to PNG</button>
 <br><button onclick="toJpg()">Convert to JPG</button>
 <br><button onclick="toTag()">Show</button>
 <br>
-<img src="" id="preview">
+<img src="" id="preview"> -->
 <!-- nativeImage -->
+
+<!-- clipboard -->
+<br><button onclick="makeUpper()">Make clipboard uppercase</button>
+<br><button onclick="showImage()">Show clipboard image</button>
+<br><img src="" id="cbImage" alt="">
+<!-- clipboard -->
+
 
 <script>
     /////////////////////////////////////////////////
@@ -108,37 +115,37 @@
     /////////////////////////////////////////////////
     // nativeImage
 
-    const {
-        nativeImage,
-        ipcRenderer
-    } = require('electron')
-    const fs = require('fs')
+    // const {
+    //     nativeImage,
+    //     ipcRenderer
+    // } = require('electron')
+    // const fs = require('fs')
 
-    const splash = nativeImage.createFromPath(`${__dirname}\\splash.png`)
-    console.log(splash.getSize()); // this is cool
+    // const splash = nativeImage.createFromPath(`${__dirname}\\splash.png`)
+    // console.log(splash.getSize()); // this is cool
 
-    const saveToDesktop = async(data, extension) => {
-        let desktopPath = await ipcRenderer.invoke('app-path')
-        fs.writeFile(`${desktopPath}\\splash.${extension}`, data, console.log)
-    }
+    // const saveToDesktop = async(data, extension) => {
+    //     let desktopPath = await ipcRenderer.invoke('app-path')
+    //     fs.writeFile(`${desktopPath}\\splash.${extension}`, data, console.log)
+    // }
 
-    const toPng = e => {
-        let pngSplash = splash.toPNG()
-        saveToDesktop(pngSplash, 'png')
-    }
-    const toJpg = e => {
-        let jpgSplash = splash.toJPEG(90) // jpg requires an argument specify image quality
-        saveToDesktop(jpgSplash, 'jpg')
-    }
-    const toTag = e => {
-        let size = splash.getSize()
+    // const toPng = e => {
+    //     let pngSplash = splash.toPNG()
+    //     saveToDesktop(pngSplash, 'png')
+    // }
+    // const toJpg = e => {
+    //     let jpgSplash = splash.toJPEG(90) // jpg requires an argument specify image quality
+    //     saveToDesktop(jpgSplash, 'jpg')
+    // }
+    // const toTag = e => {
+    //     let size = splash.getSize()
 
-        let splashURL = splash.resize({
-                width: Math.round(size.width / 4),
-                height: Math.round(size.height / 4)
-            }).toDataURL() // jpg requires an argument specify image quality
-        document.getElementById('preview').src = splashURL
-    }
+    //     let splashURL = splash.resize({
+    //             width: Math.round(size.width / 4),
+    //             height: Math.round(size.height / 4)
+    //         }).toDataURL() // jpg requires an argument specify image quality
+    //     document.getElementById('preview').src = splashURL
+    // }
 
     // nativeImage
     /////////////////////////////////////////////////
@@ -163,7 +170,8 @@
     /////////////////////////////////////////////////
 
     /////////////////////////////////////////////////
-    // start webFrame
+    //  webFrame
+
     // const {
     //     webFrame
     // } = require('electron')
@@ -178,13 +186,39 @@
     //         webFrame.setZoomFactor(webFrame.getZoomFactor - 1)
     //     }
     // console.log(webFrame.getResourceUsage());
-    // end webFrame
+
+    //  webFrame
     /////////////////////////////////////////////////
 
     /////////////////////////////////////////////////
     // start desktopCapture
     // require('./renderer.js');
     // end desktopCapture
+    /////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////
+    // clipboard
+
+    const {
+        clipboard
+    } = require('electron')
+        // console.log(clipboard.readText());
+        // sample text that system will read
+
+    const makeUpper = e => {
+        let cbText = clipboard.readText()
+        clipboard.writeText(cbText.toUpperCase());
+        setTimeout(() => {
+            console.log(clipboard.readText());
+        }, 500)
+    }
+
+    const showImage = e => {
+        let image = clipboard.readImage();
+        document.getElementById('cbImage').src = image.toDataURL()
+    }
+
+    // clipboard
     /////////////////////////////////////////////////
 </script>
 </body>

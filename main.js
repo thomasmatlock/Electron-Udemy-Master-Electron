@@ -12,6 +12,7 @@ const {
     BrowserWindow,
     session,
     screen,
+    clipboard,
     webContents,
     DownloadItem,
     ipcMain,
@@ -34,6 +35,14 @@ ipcMain.handle('app-path', () => {
 });
 
 // nativeImage
+////////////////////////////////////
+
+////////////////////////////////////
+// clipboard
+
+clipboard.writeText('Hello from the main process');
+
+// clipboard
 ////////////////////////////////////
 
 // let mainWindow, secWindow; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
