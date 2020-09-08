@@ -53,10 +53,30 @@
 <!-- nativeImage -->
 
 <!-- clipboard -->
-<br><button onclick="makeUpper()">Make clipboard uppercase</button>
-<br><button onclick="showImage()">Show clipboard image</button>
-<br><img src="" id="cbImage" alt="">
+<!-- <br><button onclick="makeUpper()">Make clipboard uppercase</button> -->
+<!-- <br><button onclick="showImage()">Show clipboard image</button> -->
+<!-- <br><img src="" id="cbImage" alt=""> -->
 <!-- clipboard -->
+
+<!-- Features & Techniques: Network detection -->
+<!-- <h1>App is: <u id="status"></u></h1> -->
+<!-- Features & Techniques: Network detection -->
+
+<!-- Features & Techniques: Preload Scripts -->
+<!-- the following scripts only work when nodeIntegration is enabled -->
+<!-- <p>Using Node.js
+    <script>
+        document.write(versions.node)
+    </script>
+    and Electron
+    <script>
+        document.write(versions.electron)
+    </script>
+</p>
+<br><textarea id="content" width="100%"></textarea>
+<br><button id="save" onclick="saveText()">Save content</button> -->
+<!-- Features & Techniques: Preload Scripts -->
+
 
 
 <script>
@@ -67,8 +87,9 @@
     // progress bar
 
 
+    /////////////////////////////////////////////////
     // process
-
+    // ---
     // console.log(process.versions); // this logs the main node process, as well as the electron methods and properties attached to the node process object
     // it shows us in the object the versions of node, electron, and even the chrome v8 engine that everything is running on
     // console.log(process.type);
@@ -80,8 +101,9 @@
     //         console.log(i);
     //         i++;
     //     }, 500)
-
+    // ---
     // process
+    /////////////////////////////////////////////////
 
     /////////////////////////////////////////////////
     // Shell
@@ -199,26 +221,96 @@
     /////////////////////////////////////////////////
     // clipboard
 
-    const {
-        clipboard
-    } = require('electron')
-        // console.log(clipboard.readText());
-        // sample text that system will read
+    // const {
+    //     clipboard
+    // } = require('electron')
+    //     // console.log(clipboard.readText());
+    //     // sample text that system will read
 
-    const makeUpper = e => {
-        let cbText = clipboard.readText()
-        clipboard.writeText(cbText.toUpperCase());
-        setTimeout(() => {
-            console.log(clipboard.readText());
-        }, 500)
-    }
+    // const makeUpper = e => {
+    //     let cbText = clipboard.readText()
+    //     clipboard.writeText(cbText.toUpperCase());
+    //     setTimeout(() => {
+    //         console.log(clipboard.readText());
+    //     }, 500)
+    // }
 
-    const showImage = e => {
-        let image = clipboard.readImage();
-        document.getElementById('cbImage').src = image.toDataURL()
-    }
+    // const showImage = e => {
+    //     let image = clipboard.readImage();
+    //     document.getElementById('cbImage').src = image.toDataURL()
+    // }
 
     // clipboard
+    /////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////
+    // Features & Techniques: Network detection
+    // https://developer.mozilla.org/en-US/docs/Web/API/Navigator
+    // window.navigator.onLine, navigator is part of the global window object
+    // ---
+    // function to update status text
+    // const setStatus = status => {
+    //     const statusNode = document.getElementById('status')
+    //     statusNode.innerText = status ? 'Online' : 'Offline'; // use browser dev tools network > offline to simulate offline network
+    // }
+    // setStatus(navigator.onLine) // passes setStatus the online true or false
+    //     // listens for window online event
+    // window.addEventListener('online', e => {
+    //         setStatus(true)
+    //     })
+    //     // listens for window offline event
+    // window.addEventListener('offline', e => {
+    //     setStatus(false)
+    // })
+    // ---
+    // Features & Techniques: Network detection
+    /////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////
+    // Features & Techniques: Notifications
+    // additional resources for node notifications: 
+    // https://developers.google.com/web/fundamentals/codelabs/push-notifications/
+    // https://github.com/web-push-libs/web-push
+    // https://pushjs.org/#
+    // https://www.electronjs.org/docs/tutorial/notifications
+
+    // we are working the simple HTML5 notifications
+    // https://developer.mozilla.org/en-US/docs/Web/API/notification
+
+    //note: the remote and self variables dont work here
+    //---
+    // const remote = require('electron')
+    // const self = remote.getCurrentWindow() // saves reference to current window
+    // // console.log(remote);
+
+    // setTimeout(() => {
+    //     let notification = new Notification('Warp App', {
+    //             body: 'Your download is complete!' // 256byte limit on Mac/200 characters on Win
+    //         }) // arg1 title, arg2 options object
+    //         // default behavior for clicking notification is focus browser window
+    //         // the event provides us w some useful properties like timestamp, or preventDefault, which is set to true to focus the browser window
+    //     notification.onclick = e => {
+    //         if (!self.isVisible) self.show()
+    //             // console.log(e);
+    //     }
+    // }, 3000);
+    //---
+
+    // Features & Techniques: Notifications
+    /////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////
+    // Features & Techniques: Preload Scripts
+    // settings nodeIntegration to true allows us to require electron stuff in our renderers
+    // local html files are perfectly safe for nodeIntegration
+    // this is something to consider, maybe Warp should block all non approved sites.
+    // ---
+    // const saveText = e => {
+    //         const text = document.getElementById('content').value
+    //         writeToFile(text)
+    //     }
+    // ---
+    // Features & Techniques: Preload Scripts
     /////////////////////////////////////////////////
 </script>
 </body>

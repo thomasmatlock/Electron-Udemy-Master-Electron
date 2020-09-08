@@ -134,3 +134,16 @@
 
 // nativeImage
 /////////////////////////////////////////////////
+
+/////////////////////////////////////////////////
+// Features & Techniques: Offscreen rendering
+
+// means to load and render content into a browser on a separate thread.
+// this means because it happens while not visible, it is faster and uses less resources
+// perfect solution for rendering a page onto a canvas element or even a 3d context
+// 2 modes to run offscreen rendering:
+// default, using GPU, or 2) using CPU only
+// if your css doesnt have any 3d elements, disabling GPU to be CPU rendered only is the faster option
+
+// Features & Techniques: Offscreen rendering
+/////////////////////////////////////////////////

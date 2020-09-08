@@ -6,6 +6,7 @@
 // Modules
 // pull some modules off the electron package: app is the app itself(nodejs main process, and BrowserWindow is the Renderer)
 const electron = require('electron');
+const fs = require('fs');
 
 const {
     app,
@@ -21,7 +22,8 @@ const {
     Menu,
     MenuItem,
     Tray,
-    powerMonitor
+    powerMonitor,
+    remote
 } = electron; // we have to do this weird require electron twice if we use powerMonitor, then we can use powerMonitor directly from the electron module/ object
 const windowStateKeeper = require('electron-window-state'); // our browser-window always reopens in same position/size unless we manage it by this simple package, we can save past positions or sizes and use them. it applies only for active sessions, unless you persist elsewhere through local storage
 const mainMenu = require('./mainMenu');
@@ -47,6 +49,25 @@ clipboard.writeText('Hello from the main process');
 
 // let mainWindow, secWindow; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
 let mainWindow, displays, devScreen, tray, test;
+
+app.setAppUserModelId(process.execPath);
+
+////////////////////////////////////////////////////////////////////
+// Features & Techniques: Offscreen rendering
+
+// app.disableHardwareAcceleration();
+// also set offscreen: true in webPreferences
+// also use loadURL instead of a local file
+// set show: false in mainWindow
+// mainWindow.close() on 'did-finish-load'
+
+// this way we retrieve the windowTitle, without ever showing the window. This is essentially a method for doing something invisibly
+// But 99% of use cases of offscreen rendering is to get rendered versions of the content
+// listen for 'paint' event to do this
+
+// Features & Techniques: Offscreen rendering
+////////////////////////////////////////////////////////////////////
+
 ////////////////////////////////////////////////////////////////////
 // ipcInvoke & Handle
 // async function askFruit() {
@@ -124,7 +145,7 @@ function createWindow() {
         y: Math.round(devScreen.bounds.height * 0.1) + yAdditive
     };
     // console.log(devScreen );
-    createTray();
+    // createTray(); PRODUCTION ONLY
 
     ////////////////////////////
     // ipcInvoke & Handle
@@ -161,21 +182,43 @@ function createWindow() {
         // x: winDefaults.x,
         // y: winState.y,
         darkTheme: true,
-        skipTaskbar: true, // PRODUCTION ONLY
+        // show: false, // use for offscreen rendering
+        // skipTaskbar: true, // REMOVE FOR PRODUCTION (DEV MODE ONLY)
         // frame: false, // this eliminates frame around window, like min,max,close etc. however, this makes it difficult to drag the window around. however putting         <body style="user-select: none; -webkit-app-region: drag;"> in the html, makes nothing in the html selectable. before you just tried to drag and the stuff got highlighted
         // titleBarStyle: 'hidden', // if we dont want to remove everything of the window frame, we could just remove the titlebar
         // backgroundColor: '#ff8500' // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
         // show: false // this holds showing the window instance until the html file is loaded and ready-to-show event fires
         webPreferences: {
+            // offscreen: true, // this is only used in conjunction with app.disableHardwareAcceleration()
             nodeIntegration: true, // this allows us to use node commands, regardless of being in a browser environment
-            enableRemoteModule: false, //
+            // nodeIntegration: false, // false only for preload scripts section.
+            // preload: __dirname + '/preload.js', // this allows us to set nodeIntegration false but still run scripts from the preload file
             // worldSafeExecuteJavaScript: true, // removes Electron Security Warning (Insecure Content-Security-Policy)
             enableRemoteModule: true // this allows us an insecure, yet handy method to talk between node and browser instances. it mimics ipcMain/renderer without all the channels
         }
     });
+    /////////////////////////////////////////////////
+    // Progress Bar
+    // make sure skipTaskbar is false for this to work
+    // this is very useful for displaying to user the download progress on taskbar
+    // ---
+    let progress = 0.01;
+    let progressInterval = setInterval(() => {
+        mainWindow.setProgressBar(progress); // arg1 is 0-1
+        if (progress <= 1) {
+            progress += 0.01;
+        } else {
+            mainWindow.setProgressBar(-1); // arg1 if negative, removes the progress bar
+            clearInterval(progressInterval);
+        }
+    }, 15);
+    // ---
+    // Progress Bar
+    /////////////////////////////////////////////////
 
     mainWindow.loadFile('main.html'); // Load index.html into the new BrowserWindow
-    // mainWindow.loadURL('https://warpdownload.com'); //alternate: 'https://httpbin.org/basic-auth/user/passwd'
+    // mainWindow.loadURL('https://electronjs.org'); // use this to test offscreen rendering
+    // mainWindow.loadURL('https://warpdownload.com');
     // mainWindow.loadURL('https://youtube.com');
     // mainWindow.loadURL('https://instagram.com/tomtacular');
     // mainWindow.loadURL('https://www.instagram.com/p/CC2HgNqjzW5/ ');
@@ -189,7 +232,7 @@ function createWindow() {
         // console.log('mainWindow ready');
     });
     mainWindow.on('closed', () => {
-        mainWindow = null;
+        // mainWindow = null;
     });
     electron.powerMonitor.on('resume', e => {
         if (!mainWindow) {
@@ -202,6 +245,32 @@ function createWindow() {
     });
 
     const wc = mainWindow.webContents;
+
+    // offscreen rendering
+
+    // paint is an event that fires multiple times during a page load, each time the content rendering changes
+    // for exmaple, paint fires multiple times when loading content
+    // dirty is the size and bounds of the event that was rendered offscreen
+    // image is a nativeimage of the offscreen rendered content
+
+    // let i = 1; // counter set to 1
+    // wc.on('paint', (e, dirty, image) => {
+    // let screenshot = image.toPNG();
+    // fs.writeFile(
+    //     app.getPath('desktop') + `/screenshot_${i}.png`,
+    //     screenshot,
+    //     console.log
+    // ); // arg1 path, arg2 file, arg3 error callback (just pass it console.log, guess that works)
+    // i++; // increment each iteration
+    // });
+    // wc.on('did-finish-load', e => {
+    // console.log(mainWindow.getTitle());
+
+    // mainWindow.close();
+    // mainWindow = null;
+    // });
+
+    // offscreen rendering
 
     // process
 
@@ -263,6 +332,9 @@ function createWindow() {
         contextMenu.popup({}); // for right clicks
         // const selectedText = params.selectionText;
         // wc.executeJavaScript(`alert("${selectedText}")`); // executeJavaScript is actually super useful. you can use any frontend/browser javascript with this
+    });
+    wc.on('closed', () => {
+        mainWindow = null;
     });
 }
 
