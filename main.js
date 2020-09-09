@@ -6,8 +6,7 @@
 // Modules
 // pull some modules off the electron package: app is the app itself(nodejs main process, and BrowserWindow is the Renderer)
 const electron = require('electron');
-const fs = require('fs');
-const urls = require('./url-list');
+
 const {
     app,
     BrowserWindow,
@@ -25,8 +24,8 @@ const {
     powerMonitor,
     remote
 } = electron;
-const mainMenu = require('./mainMenu');
-const DisplayController = require('./displayController');
+const mainMenu = require('./js/mainMenu');
+const DisplayController = require('./js/system/displayController');
 
 let mainWindow, displays, tray, test; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
 
@@ -35,7 +34,7 @@ function createWindow() {
     // ipcInvoke & Handle
     // allows similar communication to remote without actually using remote
     // lets say we want to invoke a dialog from the browser instance , but we have a strict policy to not use the remote module
-    // remember only stuff from the renderer.js logged from console actually logs to the application, everything else we log is logged to node node console
+    // remember only stuff from the app.js logged from console actually logs to the application, everything else we log is logged to node node console
     // setTimeout(() => {
     //     askFruit().then(answer => {
     //         console.log(answer);
@@ -51,14 +50,17 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: displays.coords.width,
         height: displays.coords.height,
-        minWidth: 640, // min width so you cant shrink window too small
-        minHeight: 480,
+        // minWidth: 640, // min width so you cant shrink window too small
+        // minHeight: 480,
+        minWidth: 350,
+        maxWidth: 650,
+        minHeight: 300,
         x: displays.coords.x,
         y: displays.coords.y,
 
         darkTheme: true,
         // show: false, // use for offscreen rendering
-        // skipTaskbar: true, // REMOVE FOR PRODUCTION (DEV MODE ONLY)
+        skipTaskbar: true, // REMOVE FOR PRODUCTION (DEV MODE ONLY)
         // frame: false, // this eliminates frame around window, like min,max,close etc. however, this makes it difficult to drag the window around. however putting         <body style="user-select: none; -webkit-app-region: drag;"> in the html, makes nothing in the html selectable. before you just tried to drag and the stuff got highlighted
         // titleBarStyle: 'hidden', // if we dont want to remove everything of the window frame, we could just remove the titlebar
         // backgroundColor: '#ff8500' // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
@@ -67,7 +69,7 @@ function createWindow() {
             // offscreen: true, // this is only used in conjunction with app.disableHardwareAcceleration()
             nodeIntegration: true, // this allows us to use node commands, regardless of being in a browser environment
             // nodeIntegration: false, // false only for preload scripts section.
-            // preload: __dirname + '/preload.js', // this allows us to set nodeIntegration false but still run scripts from the preload file
+            // preload: __dirname + '/js/preload.js', // this allows us to set nodeIntegration false but still run scripts from the preload file
             // worldSafeExecuteJavaScript: true, // removes Electron Security Warning (Insecure Content-Security-Policy)
             enableRemoteModule: true // this allows us an insecure, yet handy method to talk between node and browser instances. it mimics ipcMain/renderer without all the channels
         }
@@ -89,7 +91,7 @@ function createWindow() {
         }
     }, 15);
 
-    mainWindow.loadFile('main.html'); // Load index.html into the new BrowserWindow
+    mainWindow.loadFile('./renderer/main.html'); // Load index.html into the new BrowserWindow
     // mainWindow.loadURL(urls[1]); // use this to test offscreen rendering
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
