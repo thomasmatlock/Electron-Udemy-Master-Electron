@@ -1,8 +1,8 @@
 // This file is required by the index.html file and will be executed in the renderer process for that window. All of the Node.js APIs are available in this process.
 
-/////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
 // desktopCapture allows us to access screens/monitors, and application windows
-
+// ---
 // const { desktopCapturer } = require('electron');
 
 // here we add a button with an id, add event listener, then call the desktopCapturer when its clicked, which then inserts the thumbnail into our page directly
@@ -36,12 +36,10 @@
 //         })
 //         .catch(err => console.log(err));
 // });
-// desktopCapturer
-/////////////////////////////////////////////////
 
-/////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
 // ipcMain and ipcRenderer
-
+// ---
 // const { ipcRenderer } = require('electron');
 
 // document.getElementById('talk').addEventListener('click', e => {
@@ -62,12 +60,10 @@
 //     console.log(args);
 //     // console.log(Object.getOwnPropertyNames(args));
 // });
-// ipcMain and ipcRenderer
-/////////////////////////////////////////////////
 
-/////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
 // remote module
-
+// ---
 // const { remote } = require('electron'); // require remote module which has a ton of get methods
 // const { dialog, BrowserWindow } = remote; // pull the dialog module (object ) off the remote module
 
@@ -97,16 +93,12 @@
 // }, 2000);
 // console.log(remote);
 
-// remote module
-/////////////////////////////////////////////////
-
 // console.log('hello from renderer.js'); // this is integrated into the browser window via html doc, and runs this JS there in the browser. I think NodeIntegration is important here
 
-/////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
 //  ipcInvoke & Handle;
 // THE IDEAL METHOD to talk between the browser and main processes.
-
-// USE below
+// ---
 // const { ipcRenderer } = require('electron');
 // document.getElementById('ask').addEventListener('click', e => {
 //     // ipcRenderer.send('ask-fruit');
@@ -114,36 +106,24 @@
 //         console.log(answer);
 //     }); // this invokes the handler on the main process, rather than listening on a channel and sending back and forth
 // });
-
 // old below
 // ipcRenderer.on('answer-fruit', (e, args) => {
 //     console.log(args);
 // });
 // old above
 
-//  ipcInvoke & Handle;
-/////////////////////////////////////////////////
-
-/////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
 // nativeImage
-
 // weve used nativeImage before, making tray icons, and screenCapture module taking screenshots of the screen and applications
 // nativeImage is an instance of electrons nativeImage class
 // nativeImage allows us to better work w images inside of our application
 // each nativeImage instance represents a single image
 
-// nativeImage
-/////////////////////////////////////////////////
-
-/////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
 // Features & Techniques: Offscreen rendering
-
 // means to load and render content into a browser on a separate thread.
 // this means because it happens while not visible, it is faster and uses less resources
 // perfect solution for rendering a page onto a canvas element or even a 3d context
 // 2 modes to run offscreen rendering:
 // default, using GPU, or 2) using CPU only
 // if your css doesnt have any 3d elements, disabling GPU to be CPU rendered only is the faster option
-
-// Features & Techniques: Offscreen rendering
-/////////////////////////////////////////////////

@@ -7,7 +7,7 @@
 // pull some modules off the electron package: app is the app itself(nodejs main process, and BrowserWindow is the Renderer)
 const electron = require('electron');
 const fs = require('fs');
-
+const urls = require('./url-list');
 const {
     app,
     BrowserWindow,
@@ -25,36 +25,34 @@ const {
     powerMonitor,
     remote
 } = electron; // we have to do this weird require electron twice if we use powerMonitor, then we can use powerMonitor directly from the electron module/ object
-const windowStateKeeper = require('electron-window-state'); // our browser-window always reopens in same position/size unless we manage it by this simple package, we can save past positions or sizes and use them. it applies only for active sessions, unless you persist elsewhere through local storage
+// const windowStateKeeper = require('electron-window-state'); // our browser-window always reopens in same position/size unless we manage it by this simple package, we can save past positions or sizes and use them. it applies only for active sessions, unless you persist elsewhere through local storage
 const mainMenu = require('./mainMenu');
-////////////////////////////////////
-// nativeImage
+const DisplayController = require('./displayController');
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// nativeImage
+// ---
 ipcMain.handle('app-path', () => {
     // let path = app.getPath('desktop');
     // console.log(path);
     return app.getPath('desktop');
 });
 
-// nativeImage
-////////////////////////////////////
-
-////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
 // clipboard
-
+// ---
 clipboard.writeText('Hello from the main process');
 
-// clipboard
-////////////////////////////////////
-
 // let mainWindow, secWindow; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
-let mainWindow, displays, devScreen, tray, test;
+// let mainWindow, displays, devScreen, tray, test;.
+let mainWindow, displays, tray, test;
+// let displays = null;
 
-app.setAppUserModelId(process.execPath);
+app.setAppUserModelId(process.execPath); // for notifications to work in dev mode
 
-////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Features & Techniques: Offscreen rendering
-
+// ---
 // app.disableHardwareAcceleration();
 // also set offscreen: true in webPreferences
 // also use loadURL instead of a local file
@@ -65,11 +63,9 @@ app.setAppUserModelId(process.execPath);
 // But 99% of use cases of offscreen rendering is to get rendered versions of the content
 // listen for 'paint' event to do this
 
-// Features & Techniques: Offscreen rendering
-////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ipcInvoke & Handle
+// ---
 // async function askFruit() {
 //     let fruits = ['apple', 'banana', 'orange'];
 //     let choice = await dialog.showMessageBox({
@@ -90,16 +86,12 @@ app.setAppUserModelId(process.execPath);
 //     // handler method
 //     // return askFruit(); // returns a promise  to the renderer, so we handle the promise in the renderer side of things
 // });
-// ipcInvoke & Handle
-////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Process
+// ---
 // console.log(process.type);
 // console.log(process.getCPUUsage());
-
-// Process
-/////////////////////////////////////////////////
 
 const trayMenu = Menu.buildFromTemplate([
     { label: 'Item 1' },
@@ -132,20 +124,22 @@ function setupDisplays() {
 }
 
 function createWindow() {
-    let usePrimaryMonitor;
-    devScreen.size.height >= 1080 ?
-        (usePrimaryMonitor = false) :
-        (usePrimaryMonitor = true);
-    const xAdditive = usePrimaryMonitor ? 0 : 2500;
-    const yAdditive = usePrimaryMonitor ? 0 : 250;
-    const winDefaults = {
-        height: Math.round(devScreen.bounds.height * 0.8),
-        widthByScreen: Math.round(devScreen.bounds.width * 0.7),
-        x: Math.round(devScreen.bounds.width * 0.3) + xAdditive,
-        y: Math.round(devScreen.bounds.height * 0.1) + yAdditive
-    };
+    // console.log(displays.winDefaults.widthByScreen);
+    console.log(displays.usePrimaryMonitor);
+
+    // let usePrimaryMonitor;
+    // devScreen.size.height >= 1080 ?
+    //     (usePrimaryMonitor = false) :
+    //     (usePrimaryMonitor = true);
+    // const xAdditive = usePrimaryMonitor ? 0 : 2500;
+    // const yAdditive = usePrimaryMonitor ? 0 : 250;
+    // const winDefaults = {
+    //     height: Math.round(devScreen.bounds.height * 0.8),
+    //     widthByScreen: Math.round(devScreen.bounds.width * 0.7),
+    //     x: Math.round(devScreen.bounds.width * 0.3) + xAdditive,
+    //     y: Math.round(devScreen.bounds.height * 0.1) + yAdditive
+    // };
     // console.log(devScreen );
-    // createTray(); PRODUCTION ONLY
 
     ////////////////////////////
     // ipcInvoke & Handle
@@ -157,28 +151,23 @@ function createWindow() {
     //         console.log(answer);
     //     });
     // }, 2000);
-    // ipcInvoke & Handle
-    ////////////////////////////
 
-    /////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Shell
-
+    // ---
     // shell allows the application to open resources on a users machine with the default application for that type of resource
     // resources are files or URL's
-
-    // Shell
-    /////////////////////////////////////////////////
 
     mainWindow = new BrowserWindow({
         // width: winState.width,
         // height: winState.height,
         // width: winDefaults.widthMain,
-        width: winDefaults.widthByScreen,
-        height: winDefaults.height,
+        width: displays.winDefaults.widthByScreen,
+        height: displays.winDefaults.height,
         minWidth: 640, // min width so you cant shrink window too small
         minHeight: 480,
-        x: winDefaults.x,
-        y: winDefaults.y,
+        x: displays.winDefaults.x,
+        y: displays.winDefaults.y,
         // x: winDefaults.x,
         // y: winState.y,
         darkTheme: true,
@@ -197,7 +186,8 @@ function createWindow() {
             enableRemoteModule: true // this allows us an insecure, yet handy method to talk between node and browser instances. it mimics ipcMain/renderer without all the channels
         }
     });
-    /////////////////////////////////////////////////
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Progress Bar
     // make sure skipTaskbar is false for this to work
     // this is very useful for displaying to user the download progress on taskbar
@@ -212,21 +202,11 @@ function createWindow() {
             clearInterval(progressInterval);
         }
     }, 15);
-    // ---
-    // Progress Bar
-    /////////////////////////////////////////////////
 
     mainWindow.loadFile('main.html'); // Load index.html into the new BrowserWindow
-    // mainWindow.loadURL('https://electronjs.org'); // use this to test offscreen rendering
-    // mainWindow.loadURL('https://warpdownload.com');
-    // mainWindow.loadURL('https://youtube.com');
-    // mainWindow.loadURL('https://instagram.com/tomtacular');
-    // mainWindow.loadURL('https://www.instagram.com/p/CC2HgNqjzW5/ ');
-    // mainWindow.loadURL('https://instagram.com/realdonaldtrump');
-    // mainWindow.loadURL('https://soundcloud.com');
-    // mainWindow.loadURL('https://particle-love.com/');
+    // mainWindow.loadURL(urls[1]); // use this to test offscreen rendering
 
-    ////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //  browser-window-instance LISTENERS
     mainWindow.on('ready-to-show', () => {
         // console.log('mainWindow ready');
@@ -234,6 +214,9 @@ function createWindow() {
     mainWindow.on('closed', () => {
         // mainWindow = null;
     });
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Main Process API, PowerMonitor
     electron.powerMonitor.on('resume', e => {
         if (!mainWindow) {
             console.log('Resume');
@@ -245,9 +228,11 @@ function createWindow() {
     });
 
     const wc = mainWindow.webContents;
+    wc.openDevTools(); // Open DevTools - Remove for PRODUCTION!
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // offscreen rendering
-
+    // ---
     // paint is an event that fires multiple times during a page load, each time the content rendering changes
     // for exmaple, paint fires multiple times when loading content
     // dirty is the size and bounds of the event that was rendered offscreen
@@ -270,22 +255,16 @@ function createWindow() {
     // mainWindow = null;
     // });
 
-    // offscreen rendering
-
-    // process
-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Shared API: Process
     // here are able to listen for a crash then reboot the webContents
     // wow this is actually really useful. This basically prevents us ever having a crashing app. Allthough its better to debug, cuz method is crude and last resort, good code is still important
-
+    // ---
     // wc.on('crashed', () => {
     //     setTimeout(() => {
     //         mainWindow.reload();
     //     }, 1000);
     // });
-
-    // process
-
-    wc.openDevTools(); // Open DevTools - Remove for PRODUCTION!
 
     // Menu.setApplicationMenu(mainMenu); // set the menu object we created to the menu
     // webframe:
@@ -297,8 +276,10 @@ function createWindow() {
     // webFrame is less used than webContents, but nonetheless can be used to affect the user experience
     // some webFrame methods are webFrame.setZoomLevel, setZoomFactor, insert || remove CSS, etc
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // ipcMain and ipcRenderer
     // here we can send a message to our webContents instance, but just make it finishes loading first
+    //---
     wc.on('did-finish-load', e => {
         console.log();
         wc.send('mailbox', {
@@ -307,7 +288,6 @@ function createWindow() {
             list: ['bed', 'chair', 'couch']
         });
     });
-    // ipcMain and ipcRenderer
 
     wc.on('dom-ready', () => {
         // console.log('MainWindow finished loading'); //  listening for webContents events firing
@@ -337,16 +317,14 @@ function createWindow() {
         mainWindow = null;
     });
 }
-
-////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // APP LISTENERS (main node process)
 app.on('ready', () => {
-    // console.log('App is ready'); // Electron `app` is ready
     // console.log(app.getPath('home')); // https://www.electronjs.org/docs/api/app#appgetpathname for more
     // console.log(app.getPath('userData')); // default storage location for all user stored data, json files, etc. you have a consistent path and wont run into permission issues
-    setupDisplays();
-    // console.log(test);
-    // console.log(devScreen.);
+    // setupDisplays();
+    displays = new DisplayController();
+    // console.log(displays.winDefaults.widthByScreen);
     createWindow();
 }); // this is app/nodejs main process listening for the app to ready event, then creates a window (renderer) instance
 
@@ -361,7 +339,7 @@ app.on('activate', () => {
     if (mainWindow === null) createWindow(); // When app icon is clicked and app is running, (macOS) recreate the BrowserWindow
 });
 
-////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ipc LISTENERS (main node process)
 // async messages
 ipcMain.on('channel1', (e, args) => {
@@ -377,27 +355,6 @@ ipcMain.on('sync-message', (e, args) => {
     console.log(args);
     e.returnValue = 'A sync response from the main process';
 });
-////////////////////////////////////////////////////////////////////
-// DEACTIVATED
-
-///////////////////////////
-// const test = require('./test');
-// const Nav = require('./renderer');
-// console.log(test.module.testName);
-// console.log(Nav.updateActiveNav_A);
-// const navController = new Nav();
-// console.log(navController);
-// navController.updateActiveNav_A(1);
-///////////////////////////
-
-// winState
-// const winState = windowStateKeeper({
-//     defaultWidth: 1600,
-//     defaultHeight: 900,
-//     x: 4000,
-//     y: 400
-// });
-// winState.manage(mainWindow); // manages user set location/size of window
 
 //  browser-window-instance LISTENERS
 // mainWindow.on('focus', () => {
@@ -456,7 +413,7 @@ ipcMain.on('sync-message', (e, args) => {
 //     }, 2000);
 // }, 1000);
 
-////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // APP LISTENERS (main node process)
 // app.on('browser-window-blur', () => {
 //     console.log('App unfocused');

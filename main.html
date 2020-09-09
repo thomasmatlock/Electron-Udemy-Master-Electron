@@ -1,3 +1,4 @@
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////// -->
 <!-- <h3 style="color: rgba(128, 57, 57, 0.685) ">Hello World!</h3> -->
 <!-- <input type="text" autofocus> -->
 <!-- progress bar -->
@@ -5,44 +6,45 @@
 <!-- <progress value="0" max="100" id="progress" height="10"></progress> -->
 <!-- progress bar -->
 
-<!--  start browserWindowProxy  -->
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<!--  browserWindowProxy  -->
 <!-- <img src="https://placekitten.com/450/300" alt=""> -->
 <!-- <button onclick="ZoomUp()">Increase Zoom</button> -->
 <!-- <button onclick="ZoomDown()">Decrease Zoom</button> -->
-<!-- end browserWindowProxy  -->
 
-<!--  start webFrame  -->
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<!--  webFrame  -->
 <!-- <h3><a href="#" onclick="newWin()">New Window</a></h3>
     <h3><a href="#" onclick="closeWin()">Close Window</a></h3>
     <h3><a href="#" onclick="styleWin()">Bad Fonts</a></h3> -->
-<!--  end webFrame  -->
 
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////// -->
 <!-- desktopCapture -->
 <!-- <img width="100%" id="screenshot"><br> -->
 <!-- <button id="screenshot-button">Get screenshot</button> -->
-<!-- desktopCapture -->
 
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////// -->
 <!-- ipcMain and ipcRenderer -->
 <!-- <input type="text" id="user-text" autofocus> -->
 <!-- <button id="talk">Talk to main process</button><br> -->
-<!-- ipcMain and ipcRenderer -->
 
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////// -->
 <!-- ipcInvoke & Handle -->
 <!-- <br><button id="ask">Pick a fruit </button> -->
-<!-- ipcInvoke & Handle -->
 
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////// -->
 <!-- Process -->
 <!-- <br><button id="hang-process" onclick="process.hang()">Hang process</button> -->
 <!-- <br><button id="crash-process" onclick="process.crash()">Crash process</button> -->
-<!-- Process -->
 
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////// -->
 <!-- Shell -->
 <!-- <br><button onclick="showSite()">Show Electron.js site</button><br> -->
 <!-- <br><button onclick="openSplash()">Open splash.png</button><br> -->
 <!-- <br><button onclick="showSplashFile()">Show splash.png</button><br> -->
 <!-- <br><button onclick="deleteSplashFile()">Delete splash.png</button><br> -->
-<!-- Shell -->
 
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////// -->
 <!-- nativeImage -->
 <!-- <h1>Convert Png</h1>
 <br><button onclick="toPng()">Convert to PNG</button>
@@ -50,18 +52,18 @@
 <br><button onclick="toTag()">Show</button>
 <br>
 <img src="" id="preview"> -->
-<!-- nativeImage -->
 
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////// -->
 <!-- clipboard -->
 <!-- <br><button onclick="makeUpper()">Make clipboard uppercase</button> -->
 <!-- <br><button onclick="showImage()">Show clipboard image</button> -->
 <!-- <br><img src="" id="cbImage" alt=""> -->
-<!-- clipboard -->
 
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////// -->
 <!-- Features & Techniques: Network detection -->
 <!-- <h1>App is: <u id="status"></u></h1> -->
-<!-- Features & Techniques: Network detection -->
 
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////// -->
 <!-- Features & Techniques: Preload Scripts -->
 <!-- the following scripts only work when nodeIntegration is enabled -->
 <!-- <p>Using Node.js
@@ -75,19 +77,20 @@
 </p>
 <br><textarea id="content" width="100%"></textarea>
 <br><button id="save" onclick="saveText()">Save content</button> -->
-<!-- Features & Techniques: Preload Scripts -->
 
-
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- test -->
+<h1>Testing....</h1>
 
 <script>
-    /////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////
     // require('./renderer.js'); // You can also require other files to run in this process
     // progress bar
     // window.progress = document.getElementById('progress')
     // progress bar
 
 
-    /////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////
     // process
     // ---
     // console.log(process.versions); // this logs the main node process, as well as the electron methods and properties attached to the node process object
@@ -101,13 +104,10 @@
     //         console.log(i);
     //         i++;
     //     }, 500)
-    // ---
-    // process
-    /////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////
     // Shell
-
+    // ---
     // const {
     //     shell
     // } = require('electron')
@@ -131,12 +131,10 @@
     //     shell.moveItemToTrash(splashPath); // this open local files 
     // }
 
-    // Shell
-    /////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////
     // nativeImage
-
+    // ---
     // const {
     //     nativeImage,
     //     ipcRenderer
@@ -169,13 +167,11 @@
     //     document.getElementById('preview').src = splashURL
     // }
 
-    // nativeImage
-    /////////////////////////////////////////////////
-
-    /////////////////////////////////////////////////
-    // start browserWindowProxy 
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    //  browserWindowProxy 
     // browserWindowProxy is essentially a limted version of the browserWindow, so is browserWindowProxy just a child of its parent BrowserWindow
     // let win; // we could just open this new window in code above, but we want a reference to it to control it, so we make a variable of it here
+    // ---
     // const newWin = () => {
     //     win = window.open("https://www.w3schools.com/js/default.asp", '_blank', 'width=500, height=400, x=200, y=300') // you can use all the browser window options here
     //     setTimeout(() => {
@@ -188,12 +184,11 @@
     // const styleWin = () => {
     //     win.eval("document.getElementsByTagName('h1')[0].style.fontFamily = 'Comic Sans MS'") //  this is actually pretty cool, you can change shit in another websites browser
     // }
-    // end browserWindowProxy 
-    /////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
     //  webFrame
-
+    // ---
     // const {
     //     webFrame
     // } = require('electron')
@@ -209,18 +204,15 @@
     //     }
     // console.log(webFrame.getResourceUsage());
 
-    //  webFrame
-    /////////////////////////////////////////////////
-
-    /////////////////////////////////////////////////
-    // start desktopCapture
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    //  desktopCapture
+    // ---
     // require('./renderer.js');
-    // end desktopCapture
-    /////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
     // clipboard
-
+    // ---
     // const {
     //     clipboard
     // } = require('electron')
@@ -240,10 +232,7 @@
     //     document.getElementById('cbImage').src = image.toDataURL()
     // }
 
-    // clipboard
-    /////////////////////////////////////////////////
-
-    /////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////
     // Features & Techniques: Network detection
     // https://developer.mozilla.org/en-US/docs/Web/API/Navigator
     // window.navigator.onLine, navigator is part of the global window object
@@ -262,21 +251,16 @@
     // window.addEventListener('offline', e => {
     //     setStatus(false)
     // })
-    // ---
-    // Features & Techniques: Network detection
-    /////////////////////////////////////////////////
 
-    /////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////
     // Features & Techniques: Notifications
     // additional resources for node notifications: 
     // https://developers.google.com/web/fundamentals/codelabs/push-notifications/
     // https://github.com/web-push-libs/web-push
     // https://pushjs.org/#
     // https://www.electronjs.org/docs/tutorial/notifications
-
     // we are working the simple HTML5 notifications
     // https://developer.mozilla.org/en-US/docs/Web/API/notification
-
     //note: the remote and self variables dont work here
     //---
     // const remote = require('electron')
@@ -294,12 +278,8 @@
     //             // console.log(e);
     //     }
     // }, 3000);
-    //---
 
-    // Features & Techniques: Notifications
-    /////////////////////////////////////////////////
-
-    /////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////
     // Features & Techniques: Preload Scripts
     // settings nodeIntegration to true allows us to require electron stuff in our renderers
     // local html files are perfectly safe for nodeIntegration
@@ -310,8 +290,6 @@
     //         writeToFile(text)
     //     }
     // ---
-    // Features & Techniques: Preload Scripts
-    /////////////////////////////////////////////////
 </script>
 </body>
 
