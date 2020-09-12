@@ -1,3 +1,8 @@
+# Vscode shortcuts
+(GO OVER THESE ITS SO AWESOME ALL THE HTML SHORTCUTS)
+https://dev.to/hannahgooding/vs-code-shortcuts-and-tricks-that-i-wish-i-knew-sooner-3mcj 
+# Browser shortcuts
+
 Tons of shortcuts for webbrowsers like Ctrl Tab to jump tabs
 
 Ctrl+F – Open the in-page search box to search on the current page.

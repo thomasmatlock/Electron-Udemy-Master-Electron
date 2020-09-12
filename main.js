@@ -26,8 +26,17 @@ const {
 } = electron;
 const mainMenu = require('./js/mainMenu');
 const DisplayController = require('./js/system/displayController');
+const readItem = require('./readItem');
 
 let mainWindow, displays, tray, test; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
+
+// Project: Listen for new item request
+ipcMain.on('new-item', (e, itemURL) => {
+    // console.log(itemURL);
+    readItem(itemURL, item => {
+        e.sender.send('new-item-success', item);
+    });
+});
 
 function createWindow() {
     ////////////////////////////
@@ -38,7 +47,7 @@ function createWindow() {
     // setTimeout(() => {
     //     askFruit().then(answer => {
     //         console.log(answer);
-    //     });
+    //      });
     // }, 2000);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,13 +61,13 @@ function createWindow() {
         height: displays.coords.height,
         // minWidth: 640, // min width so you cant shrink window too small
         // minHeight: 480,
-        minWidth: 350,
+        minWidth: 450,
         maxWidth: 650,
         minHeight: 300,
         x: displays.coords.x,
         y: displays.coords.y,
 
-        darkTheme: true,
+        darkTheme: false,
         // show: false, // use for offscreen rendering
         skipTaskbar: true, // REMOVE FOR PRODUCTION (DEV MODE ONLY)
         // frame: false, // this eliminates frame around window, like min,max,close etc. however, this makes it difficult to drag the window around. however putting         <body style="user-select: none; -webkit-app-region: drag;"> in the html, makes nothing in the html selectable. before you just tried to drag and the stuff got highlighted
