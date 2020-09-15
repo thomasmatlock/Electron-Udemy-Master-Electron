@@ -13,9 +13,13 @@ search = document.getElementById('search');
 // Filter items with "search"
 search.addEventListener('keyup', e => {
     // Loop items
+    // getElementsByClassName returns an object of type HTML collection, very similar to normal JS array
+    // we cant loop the object directly, but pass it to Array.from essentially converts its type to a standard array
+    // this obv means we can now loop it. The elements in this array stay the same, so we can still use them
     Array.from(document.getElementsByClassName('read-item')).forEach(item => {
         // Hide items that dont match the search value
-        let hasMatch = item.innerText.toLowerCase().includes(search.value);
+        let hasMatch = item.innerText.toLowerCase().includes(search.value); // hasMatch will now hold a boolean value based on whether the item text matches the search text
+        item.style.display = hasMatch ? 'flex' : 'none'; // if item text matches search text, display, else set display to none
     });
 });
 
@@ -23,6 +27,13 @@ search.addEventListener('keyup', e => {
 document.addEventListener('keyup', e => {
     if (e.key === 'Enter') {
         showModal.click();
+    }
+});
+
+// Navigate item selection with up/down arrows
+document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        items.changeSelection(e.key);
     }
 });
 

@@ -113,7 +113,7 @@ function createWindow() {
     });
 
     const wc = mainWindow.webContents;
-    wc.openDevTools(); // Open DevTools - Remove for PRODUCTION!
+    // wc.openDevTools(); // Open DevTools - Remove for PRODUCTION!
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // offscreen rendering
