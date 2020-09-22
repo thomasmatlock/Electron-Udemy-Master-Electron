@@ -26,5 +26,17 @@
     },
     "dependencies": {
         "electron-window-state": "^5.0.3"
+    },
+    "build": {
+        "appId": "com.warpdownload.warp",
+        "copyright": "Warp Inc",
+        "mac": {
+            "category": "public.app-category.productivity",
+            "target": "dmg"
+        },
+        "win": {
+            "target": "zip"
+        },
+        "linux": {}
     }
 }

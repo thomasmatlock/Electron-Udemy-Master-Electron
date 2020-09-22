@@ -22,7 +22,7 @@ const {
     session,
     Tray,
     remote,
-    webContents
+    webContents,
 } = electron;
 const mainMenu = require('./js/mainMenu');
 const DisplayController = require('./js/system/displayController');
@@ -34,7 +34,7 @@ let mainWindow, displays, tray, test; // Keep a global reference of the window o
 // Project: Listen for new item request
 ipcMain.on('new-item', (e, itemURL) => {
     // console.log(itemURL);
-    readItem(itemURL, item => {
+    readItem(itemURL, (item) => {
         e.sender.send('new-item-success', item);
     });
 });
@@ -70,7 +70,7 @@ function createWindow() {
 
         darkTheme: false,
         // show: false, // use for offscreen rendering
-        skipTaskbar: true, // REMOVE FOR PRODUCTION (DEV MODE ONLY)
+        // skipTaskbar: true, // REMOVE FOR PRODUCTION (DEV MODE ONLY)
         // frame: false, // this eliminates frame around window, like min,max,close etc. however, this makes it difficult to drag the window around. however putting         <body style="user-select: none; -webkit-app-region: drag;"> in the html, makes nothing in the html selectable. before you just tried to drag and the stuff got highlighted
         // titleBarStyle: 'hidden', // if we dont want to remove everything of the window frame, we could just remove the titlebar
         // backgroundColor: '#ff8500' // use the same color as your html file is, the main window will display this until html fully loads. This is a little better than making your app hang for a second until the html loads, then displaying the window
@@ -81,8 +81,8 @@ function createWindow() {
             // nodeIntegration: false, // false only for preload scripts section.
             // preload: __dirname + '/js/preload.js', // this allows us to set nodeIntegration false but still run scripts from the preload file
             // worldSafeExecuteJavaScript: true, // removes Electron Security Warning (Insecure Content-Security-Policy)
-            enableRemoteModule: true // this allows us an insecure, yet handy method to talk between node and browser instances. it mimics ipcMain/renderer without all the channels
-        }
+            enableRemoteModule: true, // this allows us an insecure, yet handy method to talk between node and browser instances. it mimics ipcMain/renderer without all the channels
+        },
     });
 
     // Create main app menu
@@ -169,12 +169,12 @@ function createWindow() {
     // ipcMain and ipcRenderer
     // here we can send a message to our webContents instance, but just make it finishes loading first
     //---
-    wc.on('did-finish-load', e => {
+    wc.on('did-finish-load', (e) => {
         console.log();
         wc.send('mailbox', {
             first: 'Tom',
             money: 100,
-            list: ['bed', 'chair', 'couch']
+            list: ['bed', 'chair', 'couch'],
         });
     });
 
@@ -191,7 +191,7 @@ function createWindow() {
     wc.on('before-input-event', (e, input) => {
         // console.log(`${input.key} : ${input.type}`); // e.preventDefault();
     });
-    wc.on('did-start-navigation', e => {
+    wc.on('did-start-navigation', (e) => {
         // console.log(`${input.key} : ${input.type}`); // e.preventDefault();
     });
     wc.on('context-menu', (e, params) => {
@@ -212,7 +212,7 @@ app.on('ready', () => {
     displays = new DisplayController();
     createWindow();
 });
-app.on('before-quit', event => {
+app.on('before-quit', (event) => {
     // console.log('Preventing app from quitting');
     // event.preventDefault(); // if you wanna save a users work, check out section 8 of class. this is supposed to make the thing not close but Ctrl Q doesn't seem to work
 });

@@ -1,0 +1,12 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.warpdownload.warp
+copyright: Warp Inc
+mac:
+  category: public.app-category.productivity
+  target: dmg
+win:
+  target: zip
+linux: {}
+electronVersion: 10.1.2

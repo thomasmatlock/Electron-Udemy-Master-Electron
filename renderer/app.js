@@ -50,13 +50,6 @@ search.addEventListener('keyup', e => {
     });
 });
 
-// listen for keyboard to showModal
-// document.addEventListener('keyup', e => {
-//     if (e.key === 'Enter') {
-//         showModal.click();
-//     }
-// });
-
 // Navigate item selection with up/down arrows
 document.addEventListener('keydown', e => {
     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
