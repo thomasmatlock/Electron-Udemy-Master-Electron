@@ -10,6 +10,33 @@ let showModal = document.getElementById('show-modal'),
     itemURL = document.getElementById('url');
 search = document.getElementById('search');
 
+// Open modal from menu
+ipcRenderer.on('menu-show-modal', () => {
+    showModal.click();
+});
+
+// Open selected item from menu
+ipcRenderer.on('menu-open-item', () => {
+    //    showModal.click();
+    items.open();
+});
+
+// Delete selected item from menu
+ipcRenderer.on('menu-delete-item', () => {
+    let selectedItem = items.getSelectedItem();
+    items.delete(selectedItem.index);
+});
+
+// Open selected item in native browser from menu
+ipcRenderer.on('menu-open-item-native', () => {
+    items.openNative();
+});
+
+// Focus search input from menu
+ipcRenderer.on('menu-focus-search', () => {
+    search.focus();
+});
+
 // Filter items with "search"
 search.addEventListener('keyup', e => {
     // Loop items
@@ -24,11 +51,11 @@ search.addEventListener('keyup', e => {
 });
 
 // listen for keyboard to showModal
-document.addEventListener('keyup', e => {
-    if (e.key === 'Enter') {
-        showModal.click();
-    }
-});
+// document.addEventListener('keyup', e => {
+//     if (e.key === 'Enter') {
+//         showModal.click();
+//     }
+// });
 
 // Navigate item selection with up/down arrows
 document.addEventListener('keydown', e => {

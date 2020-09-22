@@ -10,23 +10,24 @@ const electron = require('electron');
 const {
     app,
     BrowserWindow,
-    session,
-    screen,
     clipboard,
-    webContents,
-    DownloadItem,
-    ipcMain,
     dialog,
+    DownloadItem,
     globalShortcut,
+    ipcMain,
     Menu,
     MenuItem,
-    Tray,
     powerMonitor,
-    remote
+    screen,
+    session,
+    Tray,
+    remote,
+    webContents
 } = electron;
 const mainMenu = require('./js/mainMenu');
 const DisplayController = require('./js/system/displayController');
 const readItem = require('./readItem');
+const appMenu = require('./menu');
 
 let mainWindow, displays, tray, test; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
 
@@ -83,6 +84,9 @@ function createWindow() {
             enableRemoteModule: true // this allows us an insecure, yet handy method to talk between node and browser instances. it mimics ipcMain/renderer without all the channels
         }
     });
+
+    // Create main app menu
+    appMenu(mainWindow.webContents);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Progress Bar
