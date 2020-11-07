@@ -24,7 +24,7 @@ const {
     remote,
     webContents,
 } = electron;
-const mainMenu = require('./js/mainMenu');
+// const mainMenu = require('./js/mainMenu');
 const DisplayController = require('./js/system/displayController');
 const readItem = require('./readItem');
 const appMenu = require('./menu');
