@@ -7,3 +7,6 @@
 // https://cloudconvert.com/ does everything
 // there are a lot of config values for all 3 platforms, and you just make sure they are in the package.json "build" section
 // to build all 3, run: electron-builder -mwl (the mwl flag targets mac/win/linux)
+
+// Code signing
+// Gonna need to get them from here: https://comodosslstore.com/codesigning.aspx
