@@ -56,17 +56,17 @@ function createWindow() {
     // ---
     // shell allows the application to open resources on a users machine with the default application for that type of resource
     // resources are files or URL's
-
+    // hello again there
     mainWindow = new BrowserWindow({
-        width: displays.coords.width,
-        height: displays.coords.height,
+        width: 1600,
+        height: 900,
         // minWidth: 640, // min width so you cant shrink window too small
         // minHeight: 480,
         minWidth: 450,
         maxWidth: 650,
         minHeight: 300,
-        x: displays.coords.x,
-        y: displays.coords.y,
+        x: 1000,
+        y: 300,
 
         darkTheme: false,
         // show: false, // use for offscreen rendering
@@ -183,7 +183,7 @@ function createWindow() {
     });
     wc.on('page-title-updated', () => {
         const url = wc.getURL();
-        console.log(`Navigated to ${url}`);
+        // console.log(`Navigated to ${url}`);
         if (!url) {
             asd;
         }
