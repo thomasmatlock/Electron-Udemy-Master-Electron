@@ -28,6 +28,7 @@ const {
 const DisplayController = require('./js/system/displayController');
 const readItem = require('./readItem');
 const appMenu = require('./menu');
+const youtubedl = require('youtube-dl-exec');
 
 let mainWindow, displays, tray, test; // Keep a global reference of the window object, if you don't, the window will be closed automatically when the JavaScript object is garbage collected.
 
@@ -37,6 +38,25 @@ ipcMain.on('new-item', (e, itemURL) => {
     readItem(itemURL, (item) => {
         e.sender.send('new-item-success', item);
     });
+});
+
+// new youtube item
+ipcMain.on('new-youtube', (e, itemURL) => {
+    console.log(`you sent ${itemURL}`);
+
+    // YOUTUBE-DL
+    youtubedl(itemURL, {
+        dumpJson: true,
+        noWarnings: true,
+        noCallHome: true,
+        noCheckCertificate: true,
+        preferFreeFormats: true,
+        youtubeSkipDashManifest: true,
+        referer: itemURL,
+    }).then((output) => console.log(output));
+
+    let item = 'Tom';
+    e.sender.send('new-youtube-success', item);
 });
 
 function createWindow() {
@@ -65,7 +85,7 @@ function createWindow() {
         minWidth: 450,
         maxWidth: 650,
         minHeight: 300,
-        x: 1000,
+        x: 1500,
         y: 300,
 
         darkTheme: false,
@@ -106,7 +126,7 @@ function createWindow() {
 
     mainWindow.loadFile('./renderer/main.html'); // Load index.html into the new BrowserWindow
     // mainWindow.loadURL(urls[1]); // use this to test offscreen rendering
-
+    mainWindow.webContents.openDevTools(); // dev mode only
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //  browser-window-instance LISTENERS
     mainWindow.on('ready-to-show', () => {

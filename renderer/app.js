@@ -9,7 +9,7 @@ let showModal = document.getElementById('show-modal'),
     addItem = document.getElementById('add-item'),
     itemURL = document.getElementById('url');
 search = document.getElementById('search');
-
+testYoutube = document.getElementById('test-youtube');
 // Open modal from menu
 ipcRenderer.on('menu-show-modal', () => {
     showModal.click();
@@ -38,12 +38,12 @@ ipcRenderer.on('menu-focus-search', () => {
 });
 
 // Filter items with "search"
-search.addEventListener('keyup', e => {
+search.addEventListener('keyup', (e) => {
     // Loop items
     // getElementsByClassName returns an object of type HTML collection, very similar to normal JS array
     // we cant loop the object directly, but pass it to Array.from essentially converts its type to a standard array
     // this obv means we can now loop it. The elements in this array stay the same, so we can still use them
-    Array.from(document.getElementsByClassName('read-item')).forEach(item => {
+    Array.from(document.getElementsByClassName('read-item')).forEach((item) => {
         // Hide items that dont match the search value
         let hasMatch = item.innerText.toLowerCase().includes(search.value); // hasMatch will now hold a boolean value based on whether the item text matches the search text
         item.style.display = hasMatch ? 'flex' : 'none'; // if item text matches search text, display, else set display to none
@@ -51,7 +51,7 @@ search.addEventListener('keyup', e => {
 });
 
 // Navigate item selection with up/down arrows
-document.addEventListener('keydown', e => {
+document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
         items.changeSelection(e.key);
     }
@@ -74,18 +74,18 @@ const toggleModalButtons = () => {
 };
 
 // Show modal
-showModal.addEventListener('click', e => {
+showModal.addEventListener('click', (e) => {
     modal.style.display = 'flex';
     itemURL.focus();
 });
 
 // Hide modal
-closeModal.addEventListener('click', e => {
+closeModal.addEventListener('click', (e) => {
     modal.style.display = 'none';
 });
 
 // Handle new items
-addItem.addEventListener('click', e => {
+addItem.addEventListener('click', (e) => {
     // check a url exists
     if (itemURL.value) {
         // Send new item to main process
@@ -94,6 +94,19 @@ addItem.addEventListener('click', e => {
         // Disable buttons
         toggleModalButtons();
     }
+});
+
+// test youtube
+testYoutube.addEventListener('click', (e) => {
+    // console.log('you clicked');
+    ipcRenderer.send(
+        'new-youtube',
+        'https://www.youtube.com/watch?v=F9gEH2ilX1Q'
+    );
+});
+
+ipcRenderer.on('new-youtube-success', (e, item) => {
+    // console.log(item);
 });
 
 // listen for new item success from main process
@@ -111,7 +124,7 @@ ipcRenderer.on('new-item-success', (e, newItem) => {
 });
 
 // Listen for keyboard submit
-itemURL.addEventListener('keyup', e => {
+itemURL.addEventListener('keyup', (e) => {
     if (e.key === 'Enter') {
         addItem.click();
     }

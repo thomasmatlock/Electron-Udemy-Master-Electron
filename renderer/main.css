@@ -49,6 +49,13 @@ header {
     font-size: 30px;
 }
 
+#test-youtube {
+    padding: 0px 12px 5px;
+    margin-right: 10px;
+    font-size: 30px;
+    width: 50px;
+}
+
 #search {
     flex-grow: 1;
 }
