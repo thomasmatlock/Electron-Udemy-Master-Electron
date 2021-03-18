@@ -10,6 +10,8 @@ let showModal = document.getElementById('show-modal'),
     itemURL = document.getElementById('url');
 search = document.getElementById('search');
 testYoutube = document.getElementById('test-youtube');
+
+// IPCRENDERER LISTENERS
 // Open modal from menu
 ipcRenderer.on('menu-show-modal', () => {
     showModal.click();
@@ -37,6 +39,21 @@ ipcRenderer.on('menu-focus-search', () => {
     search.focus();
 });
 
+// listen for new item success from main process
+ipcRenderer.on('new-item-success', (e, newItem) => {
+    // console.log(newItem);
+    // add new item to "items" node
+    items.addItem(newItem, true);
+
+    // Enable buttons
+    toggleModalButtons();
+
+    // Hide modal and clear input value
+    modal.style.display = 'none';
+    itemURL.value = '';
+});
+
+// DOM EVENT LISTENERS
 // Filter items with "search"
 search.addEventListener('keyup', (e) => {
     // Loop items
@@ -96,36 +113,22 @@ addItem.addEventListener('click', (e) => {
     }
 });
 
-// test youtube
-testYoutube.addEventListener('click', (e) => {
-    // console.log('you clicked');
-    ipcRenderer.send(
-        'new-youtube',
-        'https://www.youtube.com/watch?v=F9gEH2ilX1Q'
-    );
-});
-
-ipcRenderer.on('new-youtube-success', (e, item) => {
-    // console.log(item);
-});
-
-// listen for new item success from main process
-ipcRenderer.on('new-item-success', (e, newItem) => {
-    // console.log(newItem);
-    // add new item to "items" node
-    items.addItem(newItem, true);
-
-    // Enable buttons
-    toggleModalButtons();
-
-    // Hide modal and clear input value
-    modal.style.display = 'none';
-    itemURL.value = '';
-});
-
 // Listen for keyboard submit
 itemURL.addEventListener('keyup', (e) => {
     if (e.key === 'Enter') {
         addItem.click();
     }
 });
+
+// // test youtube
+// testYoutube.addEventListener('click', (e) => {
+//     // console.log('you clicked');
+//     ipcRenderer.send(
+//         'new-youtube',
+//         'https://www.youtube.com/watch?v=F9gEH2ilX1Q'
+//     );
+// });
+
+// ipcRenderer.on('new-youtube-success', (e, item) => {
+//     // console.log(item);
+// });
