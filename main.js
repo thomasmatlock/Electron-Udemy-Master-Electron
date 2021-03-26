@@ -40,25 +40,6 @@ ipcMain.on('new-item', (e, itemURL) => {
     });
 });
 
-// new youtube item
-ipcMain.on('new-youtube', (e, itemURL) => {
-    console.log(`you sent ${itemURL}`);
-
-    // YOUTUBE-DL
-    youtubedl(itemURL, {
-        dumpJson: true,
-        noWarnings: true,
-        noCallHome: true,
-        noCheckCertificate: true,
-        preferFreeFormats: true,
-        youtubeSkipDashManifest: true,
-        referer: itemURL,
-    }).then((output) => console.log(output));
-
-    let item = 'Tom';
-    e.sender.send('new-youtube-success', item);
-});
-
 function createWindow() {
     ////////////////////////////
     // ipcInvoke & Handle

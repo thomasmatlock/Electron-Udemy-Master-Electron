@@ -11,7 +11,6 @@ Ctrl+Shift+G – Find the previous match of the searched text on the page.
 
 https://www.howtogeek.com/114518/47-keyboard-shortcuts-that-work-in-all-web-browsers/
 
-use Object.getOwnPropertyNames()  to display all properties of an object
 
 DUPLICATE CHROME TAB
 Just use the Alt+D shortcut key to put the focus into the address bar, and then use Alt+Enter to open that URL in a new tab. The trick is that you don't have to move your thumb off the Alt key—just push down Alt, then hit D and Enter in quick succession to duplicate the current tab in a new tab.

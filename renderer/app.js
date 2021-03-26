@@ -119,16 +119,3 @@ itemURL.addEventListener('keyup', (e) => {
         addItem.click();
     }
 });
-
-// // test youtube
-// testYoutube.addEventListener('click', (e) => {
-//     // console.log('you clicked');
-//     ipcRenderer.send(
-//         'new-youtube',
-//         'https://www.youtube.com/watch?v=F9gEH2ilX1Q'
-//     );
-// });
-
-// ipcRenderer.on('new-youtube-success', (e, item) => {
-//     // console.log(item);
-// });
