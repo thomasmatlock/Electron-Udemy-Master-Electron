@@ -14,7 +14,7 @@ fs.readFile(`${__dirname}/reader.js`, (err, data) => {
 exports.storage = JSON.parse(localStorage.getItem('readit-items')) || []; // loads this back into storage from localStorage // also JSON.parse converts strings back to array
 
 // Listen for 'done' message from reader window
-window.addEventListener('message', e => {
+window.addEventListener('message', (e) => {
     // Delete item at certain index
     if (e.data.action === 'delete-reader-item') {
         this.delete(e.data.itemIndex);
@@ -27,7 +27,7 @@ window.addEventListener('message', e => {
 });
 
 // Delete item
-exports.delete = itemIndex => {
+exports.delete = (itemIndex) => {
     // Remove item from DOM
     items.removeChild(items.childNodes[itemIndex]);
 
@@ -68,7 +68,7 @@ exports.save = () => {
 };
 
 // Set item as selected
-exports.select = e => {
+exports.select = (e) => {
     // Remove currently selected item class
     this.getSelectedItem().node.classList.remove('selected');
 
@@ -77,7 +77,7 @@ exports.select = e => {
 };
 
 // Move to newly selected item
-exports.changeSelection = direction => {
+exports.changeSelection = (direction) => {
     // Get currently selected item
     let currentItem = this.getSelectedItem();
 
@@ -175,6 +175,6 @@ exports.addItem = (item, isNew = false) => {
 };
 
 // Add items from storage when app loads
-this.storage.forEach(item => {
+this.storage.forEach((item) => {
     this.addItem(item);
 });
