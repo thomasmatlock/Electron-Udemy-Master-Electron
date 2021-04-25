@@ -90,5 +90,5 @@
                 -   Preferences
                 -   Help
             -   4kstogram
-                -   ssearch input form
+                -   search input form
                 -   submit 'subscribe 'button
